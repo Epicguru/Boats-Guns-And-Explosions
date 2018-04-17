@@ -166,7 +166,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 21130033}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 11.4, y: 9.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -456,7 +456,8 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 1759220013198738, guid: 31cf644229c964c498d04e6d3b5a17ad,
+    type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
@@ -765,6 +766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1784606873}
   - component: {fileID: 1784606876}
+  - component: {fileID: 1784606877}
   - component: {fileID: 1784606874}
   - component: {fileID: 1784606875}
   m_Layer: 0
@@ -854,3 +856,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseMass: 5
   GeneralSize: 0
+--- !u!114 &1784606877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784606872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6664aa28d0634694eac703c71ae27829, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseRigidbody2D: 1
+  UpdateRate: 15
+  LerpSpeed: 10

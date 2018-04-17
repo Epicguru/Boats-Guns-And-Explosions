@@ -1,36 +1,41 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetParent : MonoBehaviour
 {
-    public string ID
-    {
-        get
-        {
-            return _ID;
-        }
-        set
-        {
-            _ID = value;
-        }
-    }
     [SerializeField]
-    private string _ID = "Parent";
+    private byte ID;
 
     public NetworkIdentity NetID
     {
         get
         {
-            if (_NetID == null)
+            if(_netID == null)
             {
-                _NetID = GetComponentInParent<NetworkIdentity>();
-                if (_NetID == null)
-                {
-                    Debug.LogError("There is not network ID on this game object or any of its parents! Invalid setup! ({0})".Form(gameObject.name));
-                }
+                _netID = GetComponentInParent<NetworkIdentity>();
             }
-            return _NetID;
+            return _netID;
         }
     }
-    private NetworkIdentity _NetID;
+    private NetworkIdentity _netID;
+
+    public void Awake()
+    {
+        if (!IsValid())
+        {
+            Debug.LogError("Invalid NetParent! '{0}' is not configured correctly: it must have a parent with a NetworkIdentity.");
+            return;
+        }
+    }
+
+    public byte GetID()
+    {
+        return this.ID;
+    }
+
+    public bool IsValid()
+    {
+        return NetID != null;
+    }
 }
