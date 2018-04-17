@@ -22,6 +22,14 @@ public static class InputManager
     public static void Update()
     {
         ScreenMousePos = Input.mousePosition;
+        Camera c = Camera.main;
+        if(c == null)
+        {
+            Debug.LogWarning("Main camera is null, and it is used in the input manager to find world mouse pos.");
+            return;
+        }
+
+        MousePos = c.ScreenToWorldPoint(ScreenMousePos);
     }
 
     private static void LoadAndMerge()

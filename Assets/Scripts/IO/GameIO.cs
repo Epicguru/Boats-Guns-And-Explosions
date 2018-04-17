@@ -11,7 +11,7 @@ public static class GameIO
     {
         get
         {
-            return Path.Combine(PersistentDataPath, "My Games", "Takeover");
+            return Path.Combine(PersistentDataPath, "My Games", "Boats Guns And Explosions");
         }
     }
     public static string DefaultInputPath
