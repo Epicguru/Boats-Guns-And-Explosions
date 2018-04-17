@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(NetPosSync))]
 public abstract class Vehicle : NetworkBehaviour
 {
     // All vehicles are physics based moving objects.

@@ -766,6 +766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1784606873}
   - component: {fileID: 1784606876}
+  - component: {fileID: 1784606878}
   - component: {fileID: 1784606877}
   - component: {fileID: 1784606874}
   - component: {fileID: 1784606875}
@@ -870,3 +871,16 @@ MonoBehaviour:
   UseRigidbody2D: 1
   UpdateRate: 15
   LerpSpeed: 10
+--- !u!114 &1784606878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784606872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7861268f437743f4ab272494d2266fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxThrottle: 10
+  CurrentThrottle: 0

@@ -51,19 +51,23 @@ public class RigidbodyDrag : MonoBehaviour
         
         if(CurrentlySelected != null)
         {
-            if (InputManager.IsPressed("Select"))
-            {
-                Vector2 force = InputManager.MousePos - (Vector2)CurrentlySelected.transform.position;
-                force.Normalize();
-                float dst = Vector2.Distance((Vector2)CurrentlySelected.transform.position, InputManager.MousePos);
-                float strength = Mathf.Clamp(ForceCurve.Evaluate(1f - Mathf.Clamp(dst / MostForceDistance, 0f, 1f)), 0f, 1f);
-                force *= (Force * strength);
-                CurrentlySelected.velocity = force;
-            }
-            else
-            {
+            if (!InputManager.IsPressed("Select"))
+            {                
                 CurrentlySelected = null;
             }
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        if(CurrentlySelected != null)
+        {
+            Vector2 force = InputManager.MousePos - (Vector2)CurrentlySelected.transform.position;
+            force.Normalize();
+            float dst = Vector2.Distance((Vector2)CurrentlySelected.transform.position, InputManager.MousePos);
+            float strength = Mathf.Clamp(ForceCurve.Evaluate(1f - Mathf.Clamp(dst / MostForceDistance, 0f, 1f)), 0f, 1f);
+            force *= (Force * strength);
+            CurrentlySelected.velocity = force;
         }
     }
 
@@ -80,10 +84,5 @@ public class RigidbodyDrag : MonoBehaviour
         Ray r = Camera.ScreenPointToRay(InputManager.ScreenMousePos);
 
         return r;
-    }
-
-    public void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(MakeRay());
     }
 }

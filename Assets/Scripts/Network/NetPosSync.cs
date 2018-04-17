@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class NetPosSync : NetworkBehaviour
 {
-    public bool UseRigidbody2D = false;
+    public bool UseRigidbody2D = true;
     public Rigidbody2D Rigidbody
     {
         get
@@ -19,7 +19,7 @@ public class NetPosSync : NetworkBehaviour
     private Rigidbody2D _rigidbody;
 
     [Range(0f, 60f)]
-    public float UpdateRate = 40f;
+    public float UpdateRate = 15f;
 
     public float LerpSpeed = 10f;
 

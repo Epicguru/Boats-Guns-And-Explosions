@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 
+[RequireComponent(typeof(ShipLocomotion))]
 public class Ship : Vehicle
 {
     [Range(0f, 1f)]
