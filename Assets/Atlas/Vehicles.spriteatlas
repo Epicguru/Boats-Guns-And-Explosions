@@ -29,15 +29,18 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: b51c3fbff149c4e4f910e3f704b02b58, type: 3}
+    - {fileID: 102900000, guid: 29c1d777dc9207e419f681987e39d7ad, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: cb5fed197ab78e1408ab3067db8e153c, type: 3}
   - {fileID: 21300000, guid: 4e8fadfd132050345b4a485f942851cb, type: 3}
   - {fileID: 21300000, guid: 87b0fb30fd2b06b419bf61a1b1e1f6c9, type: 3}
+  - {fileID: 21300000, guid: 036366aa50a79b34eb2961aae5dee854, type: 3}
   m_PackedSpriteNamesToIndex:
   - Hull
   - Control
   - Pivot Mount
+  - Bubble
   m_Tag: Vehicles
   m_IsVariant: 0
