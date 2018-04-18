@@ -1,14 +1,48 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class Ocean : MonoBehaviour
+public class Ocean : NetworkBehaviour
 {
-	public void Start()
-	{
-		
-	}
-	
-	public void Update()
-	{
-		
-	}
+    public MeshRenderer Renderer;
+
+    public Color WaterColour;
+    public int Size = 500;
+    public float WaveFrequency;
+    [Range(0f, 1f)]
+    public float WaveAmplitude;
+    public float WaveOffX;
+    public float WaveOffY;
+
+    public float WaveVelocityX;
+    public float WaveVelocityY;
+
+    public void Update()
+    {
+        if (Renderer == null)
+            return;
+
+        UpdateWaveOffset();
+
+        // Physical size.
+        transform.localScale = new Vector3(Size, Size, 1);
+        transform.localPosition = Vector3.zero;
+
+        // Shader properties.
+        Material m = Renderer.material;
+        m.SetColor("_WaterColour", WaterColour);
+        m.SetFloat("_WaveFrequency", WaveFrequency);
+        m.SetFloat("_WaveAmplitude", WaveAmplitude);
+        m.SetFloat("_WaveOffsetX", WaveOffX);
+        m.SetFloat("_WaveOffsetY", WaveOffY);
+
+        float tiling;
+        tiling = Mathf.Clamp(20f * (Size / 500f), 1f, 1000f);
+        m.SetFloat("_Tiling", tiling);
+    }
+
+    private void UpdateWaveOffset()
+    {
+        WaveOffX += Time.deltaTime * WaveVelocityX;
+        WaveOffY += Time.deltaTime * WaveVelocityY;
+    }
 }

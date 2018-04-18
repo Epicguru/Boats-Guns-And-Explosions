@@ -56,7 +56,7 @@
 				float2 uv = i.uv * _Tiling;
 
 				uv.x += sin(uv.x * _WaveFrequency + _WaveOffsetX) * _WaveAmplitude;
-				uv.y += cos(uv.y * _WaveFrequency + _WaveOffsetY) * _WaveAmplitude;
+				uv.y += sin(uv.y * _WaveFrequency + _WaveOffsetY) * _WaveAmplitude;
 
 				fixed4 sand = tex2D(_MainTex, uv);				
 				return sand * _WaterColour;

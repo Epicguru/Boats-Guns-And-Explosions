@@ -40,7 +40,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 353bba169aec79c41a0abbe61411ba66, type: 3}
-        m_Scale: {x: 10.04, y: 1}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -73,7 +73,7 @@ Material:
     - _UVSec: 0
     - _WaveAmplitude: 0.011
     - _WaveFrequency: 8.4
-    - _WaveOffsetX: 102.5
+    - _WaveOffsetX: 0
     - _WaveOffsetY: 0
     - _ZWrite: 1
     m_Colors:
