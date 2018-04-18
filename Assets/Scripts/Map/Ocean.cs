@@ -25,7 +25,7 @@ public class Ocean : NetworkBehaviour
 
         // Physical size.
         transform.localScale = new Vector3(Size, Size, 1);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = new Vector3(0, 0, 1);
 
         // Shader properties.
         Material m = Renderer.material;

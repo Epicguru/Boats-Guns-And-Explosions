@@ -46,12 +46,15 @@ public class ShipLocomotion : NetworkBehaviour
     [Server]
     public void ApplyThrottle()
     {
-        Ship.Rigidbody.AddRelativeForce(new Vector2(0f, 1f) * CurrentThrottle, ForceMode2D.Force);
+        Ship.Rigidbody.AddRelativeForce(new Vector2(1f, 0f) * CurrentThrottle, ForceMode2D.Force);
     }
 
     [Server]
     public void ApplyTurn()
     {
+        // Turn speed should be based on forward speed, realistically.
+        // But where is the run in realistic?
+
         Ship.Rigidbody.AddTorque(CurrentTurn, ForceMode2D.Force);
     }
 }
