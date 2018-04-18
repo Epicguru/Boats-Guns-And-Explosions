@@ -45,6 +45,16 @@ public class NetPosSync : NetworkBehaviour
         }
     }
 
+    public Vector2 GetLastVelocity()
+    {
+        if (!UseRigidbody2D)
+        {
+            Debug.LogWarning("This NetPosSync ({0}) does not use Rigidbody2D, so does not sync velocity!".Form(name));
+            return Vector2.zero;
+        }
+        return Velocity;
+    }
+
     public override void OnStartClient()
     {
         // Set initial state, unless on server.

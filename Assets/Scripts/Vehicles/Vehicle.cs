@@ -25,6 +25,23 @@ public abstract class Vehicle : NetworkBehaviour
     }
     private Rigidbody2D _rigidbody;
 
+    public NetPosSync NetPosSync
+    {
+        get
+        {
+            if (_netPosSync == null)
+            {
+                _netPosSync = GetComponent<NetPosSync>();
+                if (_netPosSync == null)
+                {
+                    Debug.LogError("Tried to access the NetPosSync on this vehicle, but it is missing!");
+                }
+            }
+            return _netPosSync;
+        }
+    }
+    private NetPosSync _netPosSync;
+
     public float BaseMass = 1f;
 
     public void Awake()

@@ -2,10 +2,37 @@
 using UnityEngine;
 
 [RequireComponent(typeof(ShipLocomotion))]
+[RequireComponent(typeof(ShipNavigation))]
 public class Ship : Vehicle
 {
     [Range(0f, 1f)]
     public float GeneralSize = 0.5f;
+
+    public ShipLocomotion ShipLocomotion
+    {
+        get
+        {
+            if (_shipLocomotion == null)
+            {
+                _shipLocomotion = GetComponent<ShipLocomotion>();
+            }
+            return _shipLocomotion;
+        }
+    }
+    private ShipLocomotion _shipLocomotion;
+
+    public ShipNavigation ShipNavigation
+    {
+        get
+        {
+            if (_shipNavigation == null)
+            {
+                _shipNavigation = GetComponent<ShipNavigation>();
+            }
+            return _shipNavigation;
+        }
+    }
+    private ShipNavigation _shipNavigation;
 
     public override void ApplyPhysicsSettings()
     {

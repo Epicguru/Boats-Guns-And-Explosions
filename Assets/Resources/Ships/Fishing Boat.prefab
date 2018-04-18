@@ -362,10 +362,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7861268f437743f4ab272494d2266fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxThrottle: 200
+  MaxThrottle: 250
   CurrentThrottle: 0
   MaxTurn: 15
   CurrentTurn: 0
+  Bubbles: {fileID: 198538375596863204}
+  MaxBubbles: 350
+  MaxBubblesVelocity: 10
+  CurrentSpeed: 0
 --- !u!114 &114610151026024638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -957,7 +961,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 2000
+    maxNumParticles: 4000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -4958,8 +4962,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1939414363
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
