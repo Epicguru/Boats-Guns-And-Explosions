@@ -1027,5 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7861268f437743f4ab272494d2266fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxThrottle: 10
+  MaxThrottle: 400
   CurrentThrottle: 0
+  MaxTurn: 200
+  CurrentTurn: 0

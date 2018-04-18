@@ -21,25 +21,37 @@ public class ShipLocomotion : NetworkBehaviour
     public float MaxThrottle = 10f;
     public float CurrentThrottle = 0f;
 
+    public float MaxTurn = 10f;
+    public float CurrentTurn = 0f;
+
     public void FixedUpdate()
     {
-        ClampThrottles();
+        ClampValues();
 
         if (!isServer)
             return;
 
         ApplyThrottle();
+        ApplyTurn();
     }
 
-    private void ClampThrottles()
+    private void ClampValues()
     {
         MaxThrottle = Mathf.Max(MaxThrottle, 0f);
+        MaxTurn = Mathf.Max(MaxTurn, 0f);
         CurrentThrottle = Mathf.Clamp(CurrentThrottle, 0f, MaxThrottle);
+        CurrentTurn = Mathf.Clamp(CurrentTurn, -MaxTurn, MaxTurn);
     }
 
     [Server]
     public void ApplyThrottle()
     {
         Ship.Rigidbody.AddRelativeForce(new Vector2(0f, 1f) * CurrentThrottle, ForceMode2D.Force);
+    }
+
+    [Server]
+    public void ApplyTurn()
+    {
+        Ship.Rigidbody.AddTorque(CurrentTurn, ForceMode2D.Force);
     }
 }
