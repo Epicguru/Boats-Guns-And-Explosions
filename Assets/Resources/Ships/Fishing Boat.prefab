@@ -175,7 +175,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1560373461334954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.49, y: -2.01, z: 0}
+  m_LocalPosition: {x: 8.190001, y: 3.7899997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4416053593745588}
@@ -369,6 +369,9 @@ MonoBehaviour:
   Bubbles: {fileID: 198538375596863204}
   MaxBubbles: 350
   MaxBubblesVelocity: 10
+  AntiGroupingEnabled: 1
+  MaxDetectionDistance: 1
+  ForceStrength: 75
   CurrentSpeed: 0
 --- !u!114 &114610151026024638
 MonoBehaviour:

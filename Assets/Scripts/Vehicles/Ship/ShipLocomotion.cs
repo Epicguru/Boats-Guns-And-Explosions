@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Ship))]
 public class ShipLocomotion : NetworkBehaviour
 {
+    private const int MAX_HIT_ITTERATIONS = 10;
+    private static RaycastHit2D[] hits = new RaycastHit2D[MAX_HIT_ITTERATIONS];
+
     public Ship Ship
     {
         get
@@ -29,6 +32,11 @@ public class ShipLocomotion : NetworkBehaviour
     public ParticleSystem Bubbles;
     public float MaxBubbles = 350f;
     public float MaxBubblesVelocity = 10f;
+
+    [Header("Anti-Grouping")]
+    public bool AntiGroupingEnabled = true;
+    public float MaxDetectionDistance = 2f;
+    public float ForceStrength = 500f;
 
     [Header("Debug")]
     [ReadOnly]
@@ -73,6 +81,7 @@ public class ShipLocomotion : NetworkBehaviour
 
         ApplyThrottle();
         ApplyTurn();
+        DoAntiGrouping();
     }
 
     private void ClampValues()
@@ -100,5 +109,47 @@ public class ShipLocomotion : NetworkBehaviour
         // But where is the run in realistic?
 
         Ship.Rigidbody.AddTorque(CurrentTurn, ForceMode2D.Force);
+    }
+
+    [Server]
+    public void DoAntiGrouping()
+    {
+        if (!AntiGroupingEnabled)
+            return;
+
+        int hitCount = Physics2D.CircleCastNonAlloc(transform.position, MaxDetectionDistance, Vector2.zero, hits);
+        if(hitCount > hits.Length)
+        {
+            Debug.LogWarning("This '{0}' is within {1} units of {2} colliders, but only capacity for {3} hits. May result in slightly incorrect anti-bunching.".Form(name, MaxDetectionDistance, hitCount, hits.Length));
+            // Limit to the max posible hits.
+            hitCount = hits.Length;
+        }
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            // Get hit.
+            var hit = hits[i];
+
+            // Check that it is a ship.
+            Ship ship = hit.transform.GetComponentInParent<Ship>();
+            if (ship == null)
+                return;
+
+            // Calculate force.
+            Vector2 force = transform.position - ship.transform.position;
+            force.Normalize();
+
+            // Add force directly away from the other ship.
+            Ship.Rigidbody.AddForce(force * ForceStrength, ForceMode2D.Force);
+        }
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (AntiGroupingEnabled)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, MaxDetectionDistance);
+        }
     }
 }
