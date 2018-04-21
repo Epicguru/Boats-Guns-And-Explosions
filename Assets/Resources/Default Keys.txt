@@ -1,5 +1,21 @@
 {
   "Select": [
     323
+  ],
+  "Camera Right": [
+    100,
+    275
+  ],
+  "Camera Left": [
+    97,
+    276
+  ],
+  "Camera Up": [
+    119,
+    273
+  ],
+  "Camera Down": [
+    115,
+    274
   ]
 }

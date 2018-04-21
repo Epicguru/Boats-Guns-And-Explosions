@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 21130034}
   - component: {fileID: 21130038}
   - component: {fileID: 21130039}
+  - component: {fileID: 21130040}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -195,7 +196,7 @@ Transform:
   m_Children:
   - {fileID: 1630708553}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &21130038
 MonoBehaviour:
@@ -254,6 +255,23 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+--- !u!114 &21130040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 21130033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6a5bf523472c943ac3353ea581cd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 21130036}
+  Target: {fileID: 0}
+  CameraSizeToZ: -1
+  TargetSize: 30
+  LerpSpeed: 5
+  UseLocalInput: 1
 --- !u!1 &57705636
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,14 +302,22 @@ MonoBehaviour:
   Bindings:
   - Name: Select
     Keys: 43010000
+  - Name: Camera Right
+    Keys: 6400000013010000
+  - Name: Camera Left
+    Keys: 6100000014010000
+  - Name: Camera Up
+    Keys: 7700000011010000
+  - Name: Camera Down
+    Keys: 7300000012010000
 --- !u!4 &57705638
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 57705636}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8809859, y: 0.42920363, z: -0.24760638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1718369318}
@@ -434,13 +460,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 626858405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1447432188}
   - {fileID: 1452782291}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &729324934
 Prefab:
@@ -479,7 +505,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
@@ -627,7 +653,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1210434000
 MonoBehaviour:
