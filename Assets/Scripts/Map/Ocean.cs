@@ -32,7 +32,8 @@ public class Ocean : NetworkBehaviour
 
         // Shader properties.
         Material m = Renderer.material;
-        m.SetColor("_WaterColour", ShallowWater);
+        m.SetColor("_ShallowWaterColour", ShallowWater);
+        m.SetColor("_DeepWaterColour", DeepWater);
         m.SetFloat("_WaveFrequency", WaveFrequency);
         m.SetFloat("_WaveAmplitude", WaveAmplitude);
         m.SetFloat("_WaveOffsetX", WaveOffX);

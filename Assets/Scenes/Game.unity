@@ -551,8 +551,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1447432189}
-  WaterColour: {r: 0.18614271, g: 0.8217188, b: 0.8396226, a: 1}
   Size: 500
+  ShallowWater: {r: 0.46698105, g: 0.9872331, b: 1, a: 1}
+  DeepWater: {r: 0.06092024, g: 0.124829985, b: 0.34905657, a: 1}
   WaveFrequency: 22.07
   WaveAmplitude: 0.008
   WaveOffX: 0
