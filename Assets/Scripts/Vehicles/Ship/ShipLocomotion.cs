@@ -23,6 +23,7 @@ public class ShipLocomotion : NetworkBehaviour
 
     [Header("Controls")]
     public float MaxThrottle = 10f;
+    [SyncVar]
     public float CurrentThrottle = 0f;
 
     public float MaxTurn = 10f;
@@ -38,14 +39,28 @@ public class ShipLocomotion : NetworkBehaviour
     public float MaxDetectionDistance = 2f;
     public float ForceStrength = 500f;
 
+    [Header("Audio")]
+    public AudioSource AudioSource;
+
     [Header("Debug")]
     [ReadOnly]
     public float CurrentSpeed;
+
+    public float ThrottleAmount
+    {
+        get
+        {
+            return (float)CurrentThrottle / MaxThrottle;
+        }
+    }
 
     public void Update()
     {
         if (Bubbles == null)
             return;
+
+        // Audio, on both client and server.
+        UpdateAudio();
 
         Vector2 velocity = GetVelocity();
 
@@ -86,6 +101,9 @@ public class ShipLocomotion : NetworkBehaviour
 
     private void ClampValues()
     {
+        if (!isServer)
+            return;
+
         MaxThrottle = Mathf.Max(MaxThrottle, 0f);
         MaxTurn = Mathf.Max(MaxTurn, 0f);
 
@@ -142,6 +160,26 @@ public class ShipLocomotion : NetworkBehaviour
             // Add force directly away from the other ship.
             Ship.Rigidbody.AddForce(force * ForceStrength, ForceMode2D.Force);
         }
+    }
+
+    public void UpdateAudio()
+    {
+        if (AudioSource == null)
+            return;
+        if (AudioSource.clip == null)
+            return;
+
+        AudioSource.loop = true;
+        if (!AudioSource.isPlaying)
+        {
+            AudioSource.Play();
+        }
+
+        // Get current throttle.
+        float t = ThrottleAmount;
+
+        AudioSource.volume = Mathf.Clamp(t, 0.1f, 1f);
+        AudioSource.pitch = Mathf.Clamp(t * 1.4f, 0.7f, 1.4f);
     }
 
     public void OnDrawGizmos()

@@ -160,6 +160,7 @@ public class ShipNavigation : NetworkBehaviour
         MaxThrottleDistance = Mathf.Max(MaxThrottleDistance, 0f);
     }
 
+    [Server]
     public void Activate()
     {
         if (Active)
@@ -168,6 +169,7 @@ public class ShipNavigation : NetworkBehaviour
         Active = true;
     }
 
+    [Server]
     public void Deactivate()
     {
         if (!Active)
