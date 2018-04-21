@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1447432189}
-  WaterColour: {r: 0.22761658, g: 0.7195995, b: 0.8773585, a: 1}
+  WaterColour: {r: 0.18614271, g: 0.8217188, b: 0.8396226, a: 1}
   Size: 500
   WaveFrequency: 22.07
   WaveAmplitude: 0.008
