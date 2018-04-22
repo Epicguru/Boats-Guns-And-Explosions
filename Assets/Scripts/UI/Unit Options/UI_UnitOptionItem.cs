@@ -14,17 +14,18 @@ public class UI_UnitOptionItem : MonoBehaviour, IPoolable
     public Image IconImage;
     public Text TitleText;
     public Text CountText;
+    public UI_UnitOptions Options;
 
     public void UpdateVisuals()
     {
         IconImage.sprite = Icon;
         TitleText.text = Title.Trim() + " [{0}]".Form(Key.ToString());
-        CountText.text = Count.ToString();
+        CountText.text = "x" + Count.ToString();
     }
 
     public void Clicked()
     {
-        Debug.Log("Clicked on {0}".Form(Option.ToString()));
+        Options.Selected(this);
     }
 
     public void Begin(Transform pool)

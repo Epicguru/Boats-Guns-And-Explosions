@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class UnitSelection : MonoBehaviour
+public class UnitSelection : NetworkBehaviour
 {
+    // A player script that manages selecting and manipulating units.
+
     public bool CanSelect = true;
     public Color SelectionColour = Color.white;
 
@@ -9,6 +12,16 @@ public class UnitSelection : MonoBehaviour
     private SpriteRenderer sel;
 
     public void Update()
+    {
+        if (isClient)
+        {
+            UpdateSelection();
+            UpdatePlayerOptions();
+        }
+    }
+
+    [Client]
+    private void UpdateSelection()
     {
         if (InputManager.IsDown("Select"))
         {
@@ -29,20 +42,26 @@ public class UnitSelection : MonoBehaviour
                 sel.size = InputManager.MousePos - start;
             }
         }
-        
-        if(InputManager.IsUp("Select"))
+
+        if (InputManager.IsUp("Select"))
         {
-            if(sel != null)
+            if (sel != null)
             {
                 SelectionBoundsPool.Instance.ReturnToPool(sel.GetComponent<SelectionBounds>());
                 sel = null;
             }
 
-            if(!InputManager.IsPressed("Select Multiple"))
+            if (!InputManager.IsPressed("Select Multiple"))
             {
                 Unit.DeselectPermanent();
             }
             Unit.SelectPermanent(new Rect(start, InputManager.MousePos - start));
         }
+    }
+
+    [Client]
+    private void UpdatePlayerOptions()
+    {
+        // Request player options from server for selected objects.
     }
 }
