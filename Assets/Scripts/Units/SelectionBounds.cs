@@ -4,9 +4,10 @@ public class SelectionBounds : MonoBehaviour, IPoolable
 {
     public SpriteRenderer Renderer;
 
-    public void Begin()
+    public void Begin(Transform pool)
     {
         gameObject.SetActive(true);
+        transform.SetParent(pool);
     }
 
     public void End(Transform pool)

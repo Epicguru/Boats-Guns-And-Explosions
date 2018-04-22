@@ -27,7 +27,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T: IPoolable
             T fromPool = Pooled.Dequeue();
             OnLease++;
 
-            fromPool.Begin();
+            fromPool.Begin(this.transform);
 
             return fromPool;
         }
@@ -43,7 +43,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T: IPoolable
             Total++;
             OnLease++;
 
-            newObj.Begin();
+            newObj.Begin(this.transform);
 
             return newObj;
         }

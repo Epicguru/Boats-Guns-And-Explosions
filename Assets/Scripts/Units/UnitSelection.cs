@@ -24,6 +24,7 @@ public class UnitSelection : MonoBehaviour
 
             if (sel != null)
             {
+                sel.color = Color.white;
                 sel.transform.position = start;
                 sel.size = InputManager.MousePos - start;
             }

@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 
+[RequireComponent(typeof(ShipUnit))]
 [RequireComponent(typeof(ShipLocomotion))]
 [RequireComponent(typeof(ShipNavigation))]
 public class Ship : Vehicle
@@ -33,6 +34,19 @@ public class Ship : Vehicle
         }
     }
     private ShipNavigation _shipNavigation;
+
+    public ShipUnit ShipUnit
+    {
+        get
+        {
+            if(_shipUnit == null)
+            {
+                _shipUnit = GetComponent<ShipUnit>();
+            }
+            return _shipUnit;
+        }
+    }
+    private ShipUnit _shipUnit;
 
     public override void ApplyPhysicsSettings()
     {

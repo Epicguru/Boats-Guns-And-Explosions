@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Unit : NetworkBehaviour
+public abstract class Unit : NetworkBehaviour
 {
     public static List<Unit> CurrentlySelected = new List<Unit>();
     private static List<Unit> selected;
@@ -89,6 +89,9 @@ public class Unit : NetworkBehaviour
         }
     }
 
+    [Server]
+    public abstract void SetMovementTarget(Vector2 target);
+
     public static List<Unit> Select(Rect r)
     {
         // Looping through all units and querying bounds is faster than using a box raycast.
@@ -127,5 +130,26 @@ public class Unit : NetworkBehaviour
     {
         // De-select all...
         CurrentlySelected.Clear();
+    }
+
+    public static void MoveUnitsTo(Unit[] units, Vector2 target)
+    {
+        if (units == null || units.Length == 0)
+            return;
+
+        foreach (var unit in units)
+        {
+            if (unit == null)
+                continue;
+
+            if (unit.isServer)
+            {
+                unit.SetMovementTarget(target);
+            }
+            else
+            {
+                Debug.LogError("Called MoveUnitsTo and passed a non-server unit! This method can only be called on server!");
+            }
+        }
     }
 }
