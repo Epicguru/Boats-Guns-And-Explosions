@@ -477,11 +477,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 272b0c5d47e888c42ba0ad9c3c3371f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _active: 1
+  _active: 0
   TargetPos: {x: 0, y: 0}
-  DistanceDeadzone: 2
-  RotationDeadzone: 5
-  MaxThrottleDistance: 10
+  DistanceDeadzone: 5
+  RotationDeadzone: 3
+  MaxThrottleDistance: 15
   ThrottleCurve:
     serializedVersion: 2
     m_Curve:
@@ -576,6 +576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Fishing Boat
   _id: 0
+  _faction: 0
   Bounds: {fileID: 212044665485431880}
 --- !u!114 &114610151026024638
 MonoBehaviour:

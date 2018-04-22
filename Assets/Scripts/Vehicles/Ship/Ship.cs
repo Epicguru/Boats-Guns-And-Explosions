@@ -61,11 +61,6 @@ public class Ship : Vehicle
     }
     private ShipUnit _unit;
 
-    public override void OnStartServer()
-    {
-        Unit.Faction = (Faction)(byte)Random.Range(0, 3);
-    }
-
     public override void ApplyPhysicsSettings()
     {
         base.ApplyPhysicsSettings();
