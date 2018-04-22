@@ -214,10 +214,16 @@ public abstract class Unit : NetworkBehaviour
             for (int j = 0; j < tempOps.Count; j++)
             {
                 var uo = tempOps[j];
-                options[uo] += 1;                
+                if (!options.ContainsKey(uo))
+                {
+                    options.Add(uo, 1);
+                }
+                else
+                {
+                    options[uo] += 1;                
+                }
             }
         }
-
         tempOps.Clear();
         return options;
     }

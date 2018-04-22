@@ -78,7 +78,7 @@ public class UI_UnitOptions : MonoBehaviour
     {
         foreach (var item in Spawned)
         {
-            Destroy(item.gameObject);
+            UnitOptionItemPool.Instance.ReturnToPool(item);
         }
         Spawned.Clear();
     }
