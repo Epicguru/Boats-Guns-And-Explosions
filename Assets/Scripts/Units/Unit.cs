@@ -8,6 +8,8 @@ public abstract class Unit : NetworkBehaviour
     public static List<Unit> CurrentlySelected = new List<Unit>();
     private static List<Unit> selected;
     private static List<Unit> all = new List<Unit>();
+    private static Dictionary<UnitOption, int> options = new Dictionary<UnitOption, int>();
+    private static List<UnitOption> tempOps = new List<UnitOption>();
 
     [Tooltip("Display name.")]
     public string Name;
@@ -70,28 +72,34 @@ public abstract class Unit : NetworkBehaviour
 
     public void Update()
     {
-        renderBounds = CurrentlySelected.Contains(this);        
+        // Both client and server:
+        UpdateSelectionBounds();
+    }
+
+    private void UpdateSelectionBounds()
+    {
+        renderBounds = CurrentlySelected.Contains(this);
 
         // Completely local and client sided. Just visual.
         if (renderBounds)
         {
-            if(Bounds == null)
+            if (Bounds == null)
             {
                 Bounds = GetComponentInChildren<SpriteRenderer>();
-                if(Bounds == null)
+                if (Bounds == null)
                 {
                     Debug.LogWarning("No Bounds sprite renderer assigned in editor, and no SpriteRenderers were found at runtime on children. The bounds are not rendererd. ({0})".Form(name));
                     return;
                 }
             }
-            if(selBounds == null)
+            if (selBounds == null)
             {
                 // Create selection bounds...
                 var sel = SelectionBoundsPool.Instance.GetFromPool();
                 selBounds = sel.Renderer;
             }
-            
-            if(selBounds != null)
+
+            if (selBounds != null)
             {
                 // Set position of selection bounds.
                 selBounds.color = Faction.GetColour();
@@ -101,12 +109,23 @@ public abstract class Unit : NetworkBehaviour
         }
         else
         {
-            if(selBounds != null)
+            if (selBounds != null)
             {
                 SelectionBoundsPool.Instance.ReturnToPool(selBounds.GetComponent<SelectionBounds>());
                 selBounds = null;
             }
         }
+    }
+
+    [Server]
+    public virtual void GetOptions(List<UnitOption> options)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+
+        BroadcastMessage("GetUnitOptions", options, SendMessageOptions.DontRequireReceiver);
     }
 
     [Server]
@@ -154,6 +173,7 @@ public abstract class Unit : NetworkBehaviour
         CurrentlySelected.Clear();
     }
 
+    [Server]
     public static void MoveUnitsTo(Unit[] units, Vector2 target)
     {
         if (units == null || units.Length == 0)
@@ -164,14 +184,53 @@ public abstract class Unit : NetworkBehaviour
             if (unit == null)
                 continue;
 
-            if (unit.isServer)
+            unit.SetMovementTarget(target);
+        }
+    }
+
+    [Server]
+    public static Dictionary<UnitOption, int> GetAllOptions(Unit[] units)
+    {
+        // Gets all options for an array of units.
+        // Records what options are avaiable and how many units requested them.
+
+        options.Clear();
+        tempOps.Clear();
+        if (units == null)
+            return options;
+        if (units.Length == 0)
+            return options;
+
+        for (int i = 0; i < units.Length; i++)
+        {
+            var unit = units[i];
+
+            if (unit == null)
+                continue;
+
+            tempOps.Clear();
+            unit.GetOptions(tempOps);
+
+            for (int j = 0; j < tempOps.Count; j++)
             {
-                unit.SetMovementTarget(target);
-            }
-            else
-            {
-                Debug.LogError("Called MoveUnitsTo and passed a non-server unit! This method can only be called on server!");
+                var uo = tempOps[j];
+                options[uo] += 1;                
             }
         }
+
+        tempOps.Clear();
+        return options;
+    }
+
+    public static void Dispose()
+    {
+        // Looks strange, but this is best way to dispose and reset.
+        // TODO implement.
+
+        CurrentlySelected = new List<Unit>();
+        all = new List<Unit>();
+        selected = null;
+        options = new Dictionary<UnitOption, int>();
+        tempOps = new List<UnitOption>();
     }
 }

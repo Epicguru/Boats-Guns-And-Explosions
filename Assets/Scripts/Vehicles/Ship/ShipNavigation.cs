@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(ShipLocomotion))]
@@ -44,7 +45,30 @@ public class ShipNavigation : NetworkBehaviour
     }
     [SerializeField]
     private bool _active;
-    public Vector2 TargetPos;
+
+    public Vector2 TargetPos
+    {
+        get
+        {
+            return _targetPos;
+        }
+        set
+        {
+            if (!isServer)
+            {
+                Debug.LogError("Cannot set target position outside of server!");
+            }
+            else
+            {
+                _targetPos = value;
+            }
+        }
+    }
+    [SyncVar]
+    [SerializeField]
+    [ReadOnly]
+    private Vector2 _targetPos;
+
     public float DistanceDeadzone = 1f;
     public float RotationDeadzone = 5f;
     public float MaxThrottleDistance = 20f;
@@ -83,6 +107,15 @@ public class ShipNavigation : NetworkBehaviour
 
         AngleToTarget = GetAngleToTarget();
         CurrentAngle = GetCurrentAngle();
+    }
+
+    public void GetUnitOptions(List<UnitOption> options)
+    {
+        // Stop engine if active.
+        if (Active)
+        {
+            options.Add(UnitOption.STOP_ENGINE);
+        }
     }
 
     public float GetCurrentAngle()
