@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public interface IPoolable
 {
     /// <summary>
@@ -12,5 +14,5 @@ public interface IPoolable
     /// to have Begin() called again.
     /// Here you should deactiveate/hide the game object, unparent/parent it etc.
     /// </summary>
-    void End();
+    void End(Transform pool);
 }

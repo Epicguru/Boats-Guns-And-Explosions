@@ -57,7 +57,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T: IPoolable
         }
 
         OnLease--;
-        obj.End();
+        obj.End(this.transform);
 
         Pooled.Enqueue(obj);
     }
