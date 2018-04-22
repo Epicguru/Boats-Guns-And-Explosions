@@ -11,9 +11,12 @@ public class CameraControls : MonoBehaviour
     public float TargetSize = 30f;
     public float LerpSpeed = 5f;
 
+    private Vector2 mousePanStart;
+
     public bool UseLocalInput = true;
 
     private Vector2 oldMousePos;
+    private bool inDrag = false;
 
     public void Update()
     {
@@ -34,29 +37,8 @@ public class CameraControls : MonoBehaviour
         {
             if (UseLocalInput)
             {
-                Vector2 direction = Vector2.zero;
-
-                if(InputManager.IsPressed("Camera Right"))
-                {
-                    direction.x += 1;
-                }
-                if (InputManager.IsPressed("Camera Left"))
-                {
-                    direction.x -= 1;
-                }
-
-                if (InputManager.IsPressed("Camera Up"))
-                {
-                    direction.y += 1;
-                }
-                if (InputManager.IsPressed("Camera Down"))
-                {
-                    direction.y -= 1;
-                }
-                direction.Normalize();
-                direction *= 20f; // General speed.
-                direction *= Camera.orthographicSize / 50f;
-                Camera.transform.Translate(direction * Time.unscaledDeltaTime);
+                // Recieve movement input.
+                DoPanInput();
 
                 if (Input.mouseScrollDelta != Vector2.zero)
                 {
@@ -72,5 +54,27 @@ public class CameraControls : MonoBehaviour
             }
         }
         oldMousePos = InputManager.ScreenMousePos;
+    }
+
+    private bool DoPanInput()
+    {
+        if(InputManager.IsDown("Camera Pan"))
+        {
+            inDrag = true;
+            mousePanStart = InputManager.MousePos;
+        }
+        if(InputManager.IsUp("Camera Pan"))
+        {
+            inDrag = false;
+        }
+        if (inDrag)
+        {
+            Camera.transform.Translate(mousePanStart - InputManager.MousePos);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

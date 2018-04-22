@@ -17,5 +17,8 @@
   "Camera Down": [
     115,
     274
+  ],
+  "Camera Pan": [
+    325
   ]
 }
