@@ -16,6 +16,8 @@ public class RigidbodyDrag : MonoBehaviour
     {
         if (Camera == null)
             return;
+        if (!Application.isEditor)
+            return;
 
         if(CurrentlySelected == null && InputManager.IsDown("Select"))
         {
