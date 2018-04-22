@@ -44,7 +44,7 @@ public abstract class Vehicle : NetworkBehaviour
 
     public float BaseMass = 1f;
 
-    public void Awake()
+    public virtual void Awake()
     {
         ApplyPhysicsSettings();
     }

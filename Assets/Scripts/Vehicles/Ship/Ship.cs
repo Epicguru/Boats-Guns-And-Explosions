@@ -48,6 +48,24 @@ public class Ship : Vehicle
     }
     private ShipUnit _shipUnit;
 
+    public ShipUnit Unit
+    {
+        get
+        {
+            if (_unit == null)
+            {
+                _unit = GetComponent<ShipUnit>();
+            }
+            return _unit;
+        }
+    }
+    private ShipUnit _unit;
+
+    public override void OnStartServer()
+    {
+        Unit.Faction = (Faction)(byte)Random.Range(0, 3);
+    }
+
     public override void ApplyPhysicsSettings()
     {
         base.ApplyPhysicsSettings();

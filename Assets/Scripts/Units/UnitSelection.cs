@@ -38,7 +38,10 @@ public class UnitSelection : MonoBehaviour
                 sel = null;
             }
 
-            Unit.DeselectPermanent();
+            if(!InputManager.IsPressed("Select Multiple"))
+            {
+                Unit.DeselectPermanent();
+            }
             Unit.SelectPermanent(new Rect(start, InputManager.MousePos - start));
         }
     }

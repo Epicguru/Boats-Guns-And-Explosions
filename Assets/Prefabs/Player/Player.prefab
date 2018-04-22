@@ -98,4 +98,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94aea42c3b694fc4eb808a5f684f3d1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 114027691420932164}
   ActiveTime: 0.5

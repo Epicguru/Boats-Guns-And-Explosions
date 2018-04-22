@@ -2,10 +2,12 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Player))]
 public class UnitMovement : NetworkBehaviour
 {
     // Used to move units that are owned by the player. This is a player script.
 
+    public Player Player;
     public float ActiveTime = 0.5f;
 
     private TargetArrow arrow;
@@ -62,6 +64,16 @@ public class UnitMovement : NetworkBehaviour
             // Get all the current units.
             Unit[] units = Unit.CurrentlySelected.ToArray();
 
+            // Filter out the ones we do not own.
+            for (int i = 0; i < units.Length; i++)
+            {
+                var unit = units[i];
+                if(unit.Faction != Player.Faction)
+                {
+                    units[i] = null;
+                }
+            }
+
             if (isServer)
             {
                 MoveUnits_Server(units, target);
@@ -77,6 +89,7 @@ public class UnitMovement : NetworkBehaviour
     private void MoveUnits_Server(Unit[] units, Vector2 pos)
     {
         // Move all units to position, on server.
+        // Already removed units that are not owned by the host. (Because this is a host method).
         Unit.MoveUnitsTo(units, pos);
     }
 
@@ -85,6 +98,8 @@ public class UnitMovement : NetworkBehaviour
     {
         // We have a list of units, but the networking system can't transfer an array of Units.
         // We will turn it into an array of GameObjects and then transfer that.
+
+        // The unowned units have theoretically already been removed, but the server performs more validation on the other end.
 
         GameObject[] gos = new GameObject[units.Length];
         for (int i = 0; i < units.Length; i++)
@@ -99,7 +114,7 @@ public class UnitMovement : NetworkBehaviour
     [Command]
     private void CmdMoveUnits(GameObject[] gos, Vector2 pos)
     {
-        // TODO validation.
+        // TODO position validation.
 
         // Turn gameobjects back into units.
         Unit[] units = new Unit[gos.Length];
@@ -109,7 +124,19 @@ public class UnitMovement : NetworkBehaviour
             var go = gos[i];
             if (go == null)
                 continue;
-            units[i] = go.GetComponent<Unit>();
+
+            // Make sure that the player that requested this movement owns the selected unit.
+            // On the client this test should have already been done, but ya'know, hackers and all that.
+
+            var unit = go.GetComponent<Unit>();
+            if(unit.Faction != this.Player.Faction)
+            {
+                Debug.LogError("The player '{0}' requested to move a unit they do not own, client validation should have removed that possibility, hmmm. BANHAMMER!");
+            }
+            else
+            {
+                units[i] = unit;
+            }
         }
 
         MoveUnits_Server(units, pos);

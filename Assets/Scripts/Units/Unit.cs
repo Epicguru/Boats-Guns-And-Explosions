@@ -23,7 +23,27 @@ public abstract class Unit : NetworkBehaviour
     [Tooltip("Internal ID")]
     private ushort _id;
 
-    public Faction Faction { get; private set; }
+    public Faction Faction
+    {
+        get
+        {
+            return _faction;
+        }
+        set
+        {
+            if (!isServer)
+            {
+                Debug.LogError("Cannot set faction outside of server!");
+            }
+            else
+            {
+                _faction = value;
+            }
+        }
+    }
+    [SerializeField]
+    [SyncVar]
+    private Faction _faction;
 
     public SpriteRenderer Bounds;
 
@@ -74,7 +94,7 @@ public abstract class Unit : NetworkBehaviour
             if(selBounds != null)
             {
                 // Set position of selection bounds.
-                selBounds.color = Color.green;
+                selBounds.color = Faction.GetColour();
                 selBounds.transform.position = Bounds.bounds.min - Bounds.bounds.size * 0.1f;
                 selBounds.size = Bounds.bounds.size * 1.2f;
             }
@@ -118,11 +138,13 @@ public abstract class Unit : NetworkBehaviour
     public static void SelectPermanent(Rect r)
     {
         // Same as Select but copies the result to the static CurrentlySelected list.
-        CurrentlySelected.Clear();
         var found = Select(r);
         foreach (var unit in found)
         {
-            CurrentlySelected.Add(unit);
+            if (!CurrentlySelected.Contains(unit))
+            {
+                CurrentlySelected.Add(unit);
+            }
         }
     }
 
