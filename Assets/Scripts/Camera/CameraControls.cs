@@ -15,7 +15,6 @@ public class CameraControls : MonoBehaviour
 
     public bool UseLocalInput = true;
 
-    private Vector2 oldMousePos;
     private bool inDrag = false;
 
     public void Update()
@@ -53,7 +52,6 @@ public class CameraControls : MonoBehaviour
                 }
             }
         }
-        oldMousePos = InputManager.ScreenMousePos;
     }
 
     private bool DoPanInput()

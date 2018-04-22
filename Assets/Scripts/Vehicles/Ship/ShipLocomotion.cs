@@ -179,7 +179,7 @@ public class ShipLocomotion : NetworkBehaviour
         float t = ThrottleAmount;
 
         AudioSource.volume = Mathf.Clamp(t, 0.1f, 1f);
-        AudioSource.pitch = Mathf.Clamp(t * 1.4f, 0.7f, 1.4f);
+        AudioSource.pitch = Mathf.Clamp(t * 1.1f, 0.7f, 1.1f);
     }
 
     public void OnDrawGizmos()

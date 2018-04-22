@@ -19,7 +19,6 @@ public class InputManagerGameObject : MonoBehaviour
 
     public void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         Bindings = null;
     }
 
