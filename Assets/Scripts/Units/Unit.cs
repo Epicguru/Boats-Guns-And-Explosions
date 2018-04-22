@@ -1,9 +1,14 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class Unit : NetworkBehaviour
 {
+    public static List<Unit> CurrentlySelected = new List<Unit>();
+    private static List<Unit> selected;
+    private static List<Unit> all = new List<Unit>();
+
     [Tooltip("Display name.")]
     public string Name;
 
@@ -19,16 +24,36 @@ public class Unit : NetworkBehaviour
     private ushort _id;
 
     public Faction Faction { get; private set; }
-    public bool RenderBounds;
 
     public SpriteRenderer Bounds;
 
+    private bool renderBounds;
     private SpriteRenderer selBounds;
+
+    public void Awake()
+    {
+        all.Add(this);
+    }
+
+    public void OnDestroy()
+    {
+        all.Remove(this);
+    }
+
+    public void Select()
+    {
+        if (!CurrentlySelected.Contains(this))
+        {
+            CurrentlySelected.Add(this);
+        }
+    }
 
     public void Update()
     {
+        renderBounds = CurrentlySelected.Contains(this);        
+
         // Completely local and client sided. Just visual.
-        if (RenderBounds)
+        if (renderBounds)
         {
             if(Bounds == null)
             {
@@ -62,5 +87,45 @@ public class Unit : NetworkBehaviour
                 selBounds = null;
             }
         }
+    }
+
+    public static List<Unit> Select(Rect r)
+    {
+        // Looping through all units and querying bounds is faster than using a box raycast.
+        // But with very large ships means that selecting the edge of this ship does not select the unit.
+        if (selected == null)
+        {
+            selected = new List<Unit>();
+        }
+        selected.Clear();
+        foreach (var unit in all)
+        {
+            if (unit == null)
+                continue;
+
+            if(r.Contains(unit.transform.position, true))
+            {
+                selected.Add(unit);
+            }
+        }
+
+        return selected;
+    }
+
+    public static void SelectPermanent(Rect r)
+    {
+        // Same as Select but copies the result to the static CurrentlySelected list.
+        CurrentlySelected.Clear();
+        var found = Select(r);
+        foreach (var unit in found)
+        {
+            CurrentlySelected.Add(unit);
+        }
+    }
+
+    public static void DeselectPermanent()
+    {
+        // De-select all...
+        CurrentlySelected.Clear();
     }
 }

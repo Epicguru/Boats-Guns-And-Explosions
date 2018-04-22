@@ -10,6 +10,7 @@ public class CameraControls : MonoBehaviour
     [Range(0.5f, 300f)]
     public float TargetSize = 30f;
     public float LerpSpeed = 5f;
+    public Vector2 SizeLimits = new Vector2(1f, 100f);
 
     private Vector2 mousePanStart;
 
@@ -52,6 +53,9 @@ public class CameraControls : MonoBehaviour
                 }
             }
         }
+
+        TargetSize = Mathf.Clamp(TargetSize, SizeLimits.x, SizeLimits.y);
+        Camera.orthographicSize = Mathf.Clamp(Camera.orthographicSize, SizeLimits.x, SizeLimits.y);
     }
 
     private bool DoPanInput()

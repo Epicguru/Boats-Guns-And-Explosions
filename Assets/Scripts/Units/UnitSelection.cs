@@ -28,13 +28,17 @@ public class UnitSelection : MonoBehaviour
                 sel.size = InputManager.MousePos - start;
             }
         }
-        else
+        
+        if(InputManager.IsUp("Select"))
         {
             if(sel != null)
             {
                 SelectionBoundsPool.Instance.ReturnToPool(sel.GetComponent<SelectionBounds>());
                 sel = null;
             }
+
+            Unit.DeselectPermanent();
+            Unit.SelectPermanent(new Rect(start, InputManager.MousePos - start));
         }
     }
 }

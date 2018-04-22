@@ -66,8 +66,6 @@ public class ShipNavigation : NetworkBehaviour
         if (!Active)
             return;
 
-        TargetPos = InputManager.MousePos;
-
         // If not in deadzone (reached target)...
         float dst = GetDistanceToTarget();
         if (IsInDeadzone(dst))
