@@ -27,6 +27,7 @@ public class Unit : NetworkBehaviour
 
     public void Update()
     {
+        // Completely local and client sided. Just visual.
         if (RenderBounds)
         {
             if(Bounds == null)

@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 21130038}
   - component: {fileID: 21130039}
   - component: {fileID: 21130040}
+  - component: {fileID: 21130041}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -272,6 +273,19 @@ MonoBehaviour:
   TargetSize: 30
   LerpSpeed: 5
   UseLocalInput: 1
+--- !u!114 &21130041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 21130033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc81fd0e10c6ba409c63032292d86f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanSelect: 1
+  SelectionColour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &57705636
 GameObject:
   m_ObjectHideFlags: 0
