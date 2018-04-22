@@ -12,6 +12,22 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public Faction Faction;
 
+    public static Player GetPlayer(uint id)
+    {
+        if (All == null || All.Count == 0)
+            return null;
+
+        foreach (var player in All)
+        {
+            if(player.netId.Value == id)
+            {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     public override void OnStartClient()
     {
         if (isServer)
