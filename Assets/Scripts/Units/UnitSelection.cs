@@ -14,6 +14,7 @@ public class UnitSelection : NetworkBehaviour
 
     private Vector2 start;
     private SpriteRenderer sel;
+    private bool selecting;
 
     public void Update()
     {
@@ -26,13 +27,19 @@ public class UnitSelection : NetworkBehaviour
     [Client]
     private void UpdateSelection()
     {
-        if (InputManager.IsDown("Select"))
+        if (InputManager.IsDown("Select") && !selecting)
         {
-            HideUnitOptions();
-            start = InputManager.MousePos;
+            // If not in options UI part of screen...
+            bool mouseInUI = UI_UnitOptions.Instance.OptionsBounds.rect.Contains(InputManager.ScreenMousePos);
+
+            if (!mouseInUI)
+            {
+                start = InputManager.MousePos;
+                selecting = true;
+            }
         }
 
-        if (InputManager.IsPressed("Select"))
+        if (selecting)
         {
             if (sel == null)
             {
@@ -47,8 +54,9 @@ public class UnitSelection : NetworkBehaviour
             }
         }
 
-        if (InputManager.IsUp("Select"))
+        if (InputManager.IsUp("Select") && selecting)
         {
+            selecting = false;
             if (sel != null)
             {
                 SelectionBoundsPool.Instance.ReturnToPool(sel.GetComponent<SelectionBounds>());
@@ -68,6 +76,10 @@ public class UnitSelection : NetworkBehaviour
         if (Unit.CurrentlySelected.Count > 0)
         {
             RequestUnitOptions();
+        }
+        else
+        {
+            HideUnitOptions();
         }
     }
 

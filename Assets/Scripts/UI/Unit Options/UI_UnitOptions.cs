@@ -7,6 +7,7 @@ public class UI_UnitOptions : MonoBehaviour
 
     public bool Active;
     public Transform Parent;
+    public RectTransform OptionsBounds;
     public List<UI_UnitOptionItem> Spawned = new List<UI_UnitOptionItem>();
     public GameObject NoOptions;
 
