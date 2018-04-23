@@ -5,12 +5,22 @@ using UnityEngine.Networking;
 public class Player : NetworkBehaviour
 {
     public static List<Player> All = new List<Player>();
+    public static Player Local;
+
+    public UnitSelection UnitSelection;
+    public UnitMovement UnitMovement;
+    public UnitOptionExecution UnitOptionExecution;
 
     [SyncVar]
     public string Name;
 
     [SyncVar]
     public Faction Faction;
+
+    public override void OnStartLocalPlayer()
+    {
+        Local = this;
+    }
 
     public static Player GetPlayer(uint id)
     {
@@ -52,6 +62,11 @@ public class Player : NetworkBehaviour
         if (All.Contains(this))
         {
             All.Remove(this);
+        }
+
+        if (isLocalPlayer)
+        {
+            Local = null;
         }
     }
 }

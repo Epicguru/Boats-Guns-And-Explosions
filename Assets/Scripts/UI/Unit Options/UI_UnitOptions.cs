@@ -57,6 +57,8 @@ public class UI_UnitOptions : MonoBehaviour
                 spawned.Title = pair.Key.GetString();
                 spawned.Options = this;
 
+                spawned.UpdateVisuals();
+
                 // Parent to the UI.
                 spawned.transform.SetParent(Parent);
 
@@ -72,7 +74,10 @@ public class UI_UnitOptions : MonoBehaviour
         if (item == null)
             return;
 
-        Debug.Log(item.Option);
+        if(Player.Local != null)
+        {
+            Player.Local.UnitOptionExecution.RequestOptionExecution(Unit.CurrentlySelected.ToArray(), item.Option);
+        }
     }
 
     public void DestroySpawned()

@@ -76,6 +76,13 @@ public abstract class Unit : NetworkBehaviour
         UpdateSelectionBounds();
     }
 
+    [Server]
+    public void ExecOption(UnitOption option)
+    {
+        // TODO params
+        BroadcastMessage("ExecuteOption", option, SendMessageOptions.DontRequireReceiver);
+    }
+
     private void UpdateSelectionBounds()
     {
         renderBounds = CurrentlySelected.Contains(this);
@@ -226,6 +233,32 @@ public abstract class Unit : NetworkBehaviour
         }
         tempOps.Clear();
         return options;
+    }
+
+    [Server]
+    public static void ExecuteOption(Unit unit, UnitOption option)
+    {
+        // TODO params?
+        if (unit == null)
+            return;
+
+        unit.ExecOption(option);
+    }
+
+    [Server]
+    public static void ExecuteOption(Unit[] units, UnitOption option)
+    {
+        // TODO params.
+        if (units == null || units.Length == 0)
+            return;
+
+        foreach (var unit in units)
+        {
+            if(units != null)
+            {                
+                ExecuteOption(unit, option);
+            }
+        }
     }
 
     public static void Dispose()

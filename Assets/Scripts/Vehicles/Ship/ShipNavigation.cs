@@ -40,10 +40,18 @@ public class ShipNavigation : NetworkBehaviour
         }
         private set
         {
-            _active = value;
+            if (isServer)
+            {
+                _active = value;
+            }
+            else
+            {
+                Debug.LogError("Cannot set active state when not on server.");
+            }
         }
     }
     [SerializeField]
+    [SyncVar]
     private bool _active;
 
     public Vector2 TargetPos
@@ -115,6 +123,15 @@ public class ShipNavigation : NetworkBehaviour
         if (Active)
         {
             options.Add(UnitOption.STOP_ENGINE);
+        }
+    }
+
+    [Server]
+    public void ExecuteOption(UnitOption option)
+    {
+        if(option == UnitOption.STOP_ENGINE)
+        {
+            Deactivate();
         }
     }
 
