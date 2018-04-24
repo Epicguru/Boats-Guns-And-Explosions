@@ -79,7 +79,6 @@ public abstract class Unit : NetworkBehaviour
     [Server]
     public void ExecOption(OptionAndParams option)
     {
-        // TODO params
         BroadcastMessage("ExecuteOption", option, SendMessageOptions.DontRequireReceiver);
     }
 
@@ -238,7 +237,6 @@ public abstract class Unit : NetworkBehaviour
     [Server]
     public static void ExecuteOption(Unit unit, UnitOption option, UnitOptionParams param)
     {
-        // TODO params?
         if (unit == null)
             return;
 
@@ -248,7 +246,6 @@ public abstract class Unit : NetworkBehaviour
     [Server]
     public static void ExecuteOption(Unit[] units, UnitOption option, UnitOptionParams param)
     {
-        // TODO params.
         if (units == null || units.Length == 0)
             return;
 

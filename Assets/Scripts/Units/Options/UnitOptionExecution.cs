@@ -10,8 +10,6 @@ public class UnitOptionExecution : NetworkBehaviour
     [Client]
 	public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams param = null)
     {
-        // TODO params
-
         if (isServer)
         {
             RequestOption_Server(units, option);
@@ -47,7 +45,6 @@ public class UnitOptionExecution : NetworkBehaviour
     [Command]
     private void CmdRequestExec(GameObject[] gos, UnitOption option, string param)
     {
-        // TODO params
         if (gos == null || gos.Length == 0)
             return;
 

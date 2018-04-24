@@ -58,7 +58,6 @@ public class UnitMovement : NetworkBehaviour
         if(selected > 0)
         {
             // Tell the server that we want to move units to the target position.
-            // Assume (TODO) that we own the units.
             // Assume (TODO) that the target position is valid.
 
             // Get all the current units.
