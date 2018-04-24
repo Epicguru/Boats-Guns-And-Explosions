@@ -8,7 +8,7 @@ public class UnitOptionExecution : NetworkBehaviour
     public Player Player;
 
     [Client]
-	public void RequestOptionExecution(Unit[] units, UnitOption option)
+	public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams param = null)
     {
         // TODO params
 
@@ -33,13 +33,19 @@ public class UnitOptionExecution : NetworkBehaviour
                 }
             }
 
+            string json = null;
+            if(param != null)
+            {
+                json = param.ToJson();
+            }
+
             // Send command request to the server.
-            CmdRequestExec(gos, option);
+            CmdRequestExec(gos, option, json);
         }
     }
 
     [Command]
-    private void CmdRequestExec(GameObject[] gos, UnitOption option)
+    private void CmdRequestExec(GameObject[] gos, UnitOption option, string param)
     {
         // TODO params
         if (gos == null || gos.Length == 0)
@@ -65,17 +71,22 @@ public class UnitOptionExecution : NetworkBehaviour
             }
         }
 
+        // Make the params object from the json. Works even if the json is null or blank.
+        // May return null, which is fine.
+        UnitOptionParams p = UnitOptionParams.TryDeserialize(param);
+
         // Run the server version.
-        RequestOption_Server(units, option);
+        RequestOption_Server(units, option, p);
     }
 
     [Server]
-    private void RequestOption_Server(Unit[] units, UnitOption option)
+    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams param = null)
     {
         if (units == null || units.Length == 0)
             return;
 
         // No need for validation, server side.
-        Unit.ExecuteOption(units, option);
+        Unit.ExecuteOption(units, option, param);
+
     }
 }

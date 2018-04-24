@@ -77,7 +77,7 @@ public abstract class Unit : NetworkBehaviour
     }
 
     [Server]
-    public void ExecOption(UnitOption option)
+    public void ExecOption(OptionAndParams option)
     {
         // TODO params
         BroadcastMessage("ExecuteOption", option, SendMessageOptions.DontRequireReceiver);
@@ -236,17 +236,17 @@ public abstract class Unit : NetworkBehaviour
     }
 
     [Server]
-    public static void ExecuteOption(Unit unit, UnitOption option)
+    public static void ExecuteOption(Unit unit, UnitOption option, UnitOptionParams param)
     {
         // TODO params?
         if (unit == null)
             return;
 
-        unit.ExecOption(option);
+        unit.ExecOption(new OptionAndParams() { Option = option, Params = param });
     }
 
     [Server]
-    public static void ExecuteOption(Unit[] units, UnitOption option)
+    public static void ExecuteOption(Unit[] units, UnitOption option, UnitOptionParams param)
     {
         // TODO params.
         if (units == null || units.Length == 0)
@@ -254,9 +254,35 @@ public abstract class Unit : NetworkBehaviour
 
         foreach (var unit in units)
         {
-            if(units != null)
+            if(unit != null)
             {                
-                ExecuteOption(unit, option);
+                ExecuteOption(unit, option, param);
+            }
+        }
+    }
+
+    [Server]
+    public static void ExecuteOption(Unit[] units, UnitOption option, UnitOptionParams[] param)
+    {
+        if (units == null || units.Length == 0)
+            return;
+        if(param != null && param.Length != units.Length)
+        {
+            Debug.LogError("Not enough parameters for the number of units supplied! (Total {0} units, {1} params). Pass a null array to not execute without options.".Form(units.Length, param.Length));
+            return;
+        }
+
+        for (int i = 0; i < units.Length; i++)
+        {
+            var unit = units[i];
+            if (units != null)
+            {
+                UnitOptionParams p = null;
+                if(param != null)
+                {
+                    p = param[i];
+                }
+                ExecuteOption(unit, option, p);
             }
         }
     }

@@ -127,9 +127,9 @@ public class ShipNavigation : NetworkBehaviour
     }
 
     [Server]
-    public void ExecuteOption(UnitOption option)
+    public void ExecuteOption(OptionAndParams option)
     {
-        if(option == UnitOption.STOP_ENGINE)
+        if(option.Option == UnitOption.STOP_ENGINE)
         {
             Deactivate();
         }
