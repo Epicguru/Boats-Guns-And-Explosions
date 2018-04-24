@@ -89,6 +89,8 @@ public class ShipNavigation : NetworkBehaviour
     {
         ClampValues();
 
+        TargetCross.DrawAt(TargetPos);
+
         if (!isServer)
             return;
 
@@ -124,7 +126,7 @@ public class ShipNavigation : NetworkBehaviour
         {
             options.Add(UnitOption.STOP_ENGINE);
         }
-    }
+    }    
 
     [Server]
     public void ExecuteOption(OptionAndParams option)
