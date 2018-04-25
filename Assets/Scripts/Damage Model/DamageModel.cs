@@ -56,7 +56,7 @@ public class DamageModel : NetworkBehaviour
         }
     }
 
-    public float GetAvergaeHealthPercentage()
+    public float GetAverageHealthPercentage()
     {
         if (Parts == null || Parts.Count == 0)
             return 0f;
