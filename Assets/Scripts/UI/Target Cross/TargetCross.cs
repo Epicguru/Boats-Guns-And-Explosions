@@ -6,10 +6,15 @@ public class TargetCross : MonoBehaviour
 
     public Mesh MeshToDraw;
     public Material Material;
+    public Vector3 Angle;
+
+    private Quaternion angle;
 
     public void Awake()
     {
         Instance = this;
+
+        angle = Quaternion.Euler(Angle);
     }
 
     public void OnDestroy()
@@ -22,6 +27,6 @@ public class TargetCross : MonoBehaviour
         if (Instance == null)
             return;
 
-        Graphics.DrawMesh(Instance.MeshToDraw, center, Quaternion.identity, Instance.Material, 0);
+        Graphics.DrawMesh(Instance.MeshToDraw, center, Instance.angle, Instance.Material, 0);
     }
 }

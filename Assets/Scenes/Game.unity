@@ -861,6 +861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeshToDraw: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   Material: {fileID: 2100000, guid: cecb12bbfea8c1047a6a5ce825854c04, type: 2}
+  Angle: {x: 0, y: 0, z: 0}
 --- !u!1 &892652454
 GameObject:
   m_ObjectHideFlags: 0
