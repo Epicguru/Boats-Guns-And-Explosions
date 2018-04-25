@@ -22,6 +22,6 @@ public class TargetCross : MonoBehaviour
         if (Instance == null)
             return;
 
-        Graphics.DrawMeshNow(Instance.MeshToDraw, center, Quaternion.identity);
+        Graphics.DrawMesh(Instance.MeshToDraw, center, Quaternion.identity, Instance.Material, 0);
     }
 }

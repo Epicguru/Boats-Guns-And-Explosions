@@ -49,6 +49,14 @@ public abstract class Unit : NetworkBehaviour
 
     public SpriteRenderer Bounds;
 
+    public bool IsSelected
+    {
+        get
+        {
+            return CurrentlySelected.Contains(this);
+        }
+    }
+
     private bool renderBounds;
     private SpriteRenderer selBounds;
 
@@ -59,6 +67,7 @@ public abstract class Unit : NetworkBehaviour
 
     public void OnDestroy()
     {
+        Deselect();
         all.Remove(this);
     }
 
@@ -67,6 +76,14 @@ public abstract class Unit : NetworkBehaviour
         if (!CurrentlySelected.Contains(this))
         {
             CurrentlySelected.Add(this);
+        }
+    }
+
+    public void Deselect()
+    {
+        if (CurrentlySelected.Contains(this))
+        {
+            CurrentlySelected.Remove(this);
         }
     }
 

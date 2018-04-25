@@ -89,7 +89,20 @@ public class ShipNavigation : NetworkBehaviour
     {
         ClampValues();
 
-        TargetCross.DrawAt(TargetPos);
+        if(isClient && Player.Local != null)
+        {
+            // If we are active client...
+            if(Ship.Unit.Faction == Player.Local.Faction)
+            {
+                // If we control/own this ship...
+                if (Ship.Unit.IsSelected)
+                {
+                    // If currently selected by user...
+                    // Then draw a cross at the target position.
+                    TargetCross.DrawAt(TargetPos);
+                }
+            }
+        }
 
         if (!isServer)
             return;
