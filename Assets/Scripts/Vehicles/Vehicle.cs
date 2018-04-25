@@ -2,11 +2,26 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(DamageModel))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(NetPosSync))]
 public abstract class Vehicle : NetworkBehaviour
 {
     // All vehicles are physics based moving objects.
+    // They can be damaged and destroyed.
+
+    public DamageModel DamageModel
+    {
+        get
+        {
+            if(_damageModel == null)
+            {
+                _damageModel = GetComponent<DamageModel>();
+            }
+            return _damageModel;
+        }
+    }
+    private DamageModel _damageModel;
 
     public Rigidbody2D Rigidbody
     {

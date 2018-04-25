@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 19968292}
   - component: {fileID: 19968294}
   - component: {fileID: 19968293}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 91070967}
   - component: {fileID: 91070969}
   - component: {fileID: 91070968}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,7 +474,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 92848323}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 355743952}
   - component: {fileID: 355743953}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debug Stats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 593661656}
   - component: {fileID: 593661657}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Unit Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,52 +791,6 @@ MonoBehaviour:
     Name: Start Engine
     Icon: {fileID: 21300000, guid: 013477701afcf4a468ca9ca1e697f8a1, type: 3}
     DefaultKey: 99
---- !u!1001 &764887866
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 9.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1560373461334954, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_Name
-      value: Fishing Boat (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &794718067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,7 +959,7 @@ GameObject:
   - component: {fileID: 1103446434}
   - component: {fileID: 1103446436}
   - component: {fileID: 1103446435}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: No Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1316,7 +1270,7 @@ GameObject:
   - component: {fileID: 1279189233}
   - component: {fileID: 1279189235}
   - component: {fileID: 1279189234}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1506,7 +1460,7 @@ GameObject:
   - component: {fileID: 1404296396}
   - component: {fileID: 1404296395}
   - component: {fileID: 1404296394}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1590,52 +1544,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1001 &1418404015
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 11.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1560373461334954, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-      propertyPath: m_Name
-      value: Fishing Boat (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &1426346903
 Prefab:
   m_ObjectHideFlags: 0
@@ -1862,7 +1770,7 @@ GameObject:
   - component: {fileID: 1502768710}
   - component: {fileID: 1502768712}
   - component: {fileID: 1502768711}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2645,7 +2553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1965034952}
   - component: {fileID: 1965034953}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}

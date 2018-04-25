@@ -112,6 +112,9 @@ public class ShipNavigation : NetworkBehaviour
 
         // All server only.
 
+        // If the ship is destroyed, then the engine stops!
+
+
         // If active...
         if (!Active)
             return;
