@@ -141,4 +141,11 @@ public class DamageModel : NetworkBehaviour
 
         return true;
     }
+
+    public bool IsDestroyed()
+    {
+        bool essentials = HasAllEssentialParts();
+
+        return !essentials;
+    }
 }

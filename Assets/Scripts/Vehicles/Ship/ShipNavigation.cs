@@ -112,8 +112,14 @@ public class ShipNavigation : NetworkBehaviour
 
         // All server only.
 
-        // If the ship is destroyed, then the engine stops!
-
+        // If the ship part(s) is/are destroyed, then the engine stops!
+        if (IsPhysicallyBroken())
+        {
+            if (Active)
+            {
+                Deactivate();
+            }
+        }
 
         // If active...
         if (!Active)
@@ -138,9 +144,18 @@ public class ShipNavigation : NetworkBehaviour
         CurrentAngle = GetCurrentAngle();
     }
 
+    public bool IsPhysicallyBroken()
+    {
+        return Ship.DamageModel.IsDestroyed() || Ship.DamageModel.PartMap[DPart.SHIP_ENGINE].IsDestroyed;
+    }
+
     public void GetUnitOptions(List<UnitOption> options)
     {
-        // Stop engine if active.
+        // Below: only if not broken.
+        if (IsPhysicallyBroken())
+            return;
+
+        // Engine state:
         if (Active)
         {
             options.Add(UnitOption.STOP_ENGINE);
@@ -154,6 +169,10 @@ public class ShipNavigation : NetworkBehaviour
     [Server]
     public void ExecuteOption(OptionAndParams option)
     {
+        // Below: only if not broken.
+        if (IsPhysicallyBroken())
+            return;
+
         if(option.Option == UnitOption.STOP_ENGINE)
         {
             if (Active)

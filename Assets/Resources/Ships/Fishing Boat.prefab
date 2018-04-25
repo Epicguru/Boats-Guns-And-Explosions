@@ -67,9 +67,24 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4243176596115048}
-  - component: {fileID: 60953799642503260}
   m_Layer: 0
   m_Name: Physics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1360866144176678
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4034002439968954}
+  - component: {fileID: 60450551402259284}
+  m_Layer: 0
+  m_Name: Hull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4319832762296476}
   - component: {fileID: 114610151026024638}
+  - component: {fileID: 114427245975135774}
   - component: {fileID: 114546432198467276}
   - component: {fileID: 114422347576987166}
   - component: {fileID: 114100569095086676}
@@ -125,6 +141,22 @@ GameObject:
   - component: {fileID: 199190151007844726}
   m_Layer: 0
   m_Name: Bubbles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1944889224523034
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4661444392507930}
+  - component: {fileID: 61572901713069580}
+  m_Layer: 0
+  m_Name: Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,6 +191,19 @@ Transform:
   m_Father: {fileID: 4835136154212146}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4034002439968954
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360866144176678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4243176596115048}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4048793746598052
 Transform:
   m_ObjectHideFlags: 1
@@ -181,7 +226,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4661444392507930}
+  - {fileID: 4034002439968954}
   m_Father: {fileID: 4319832762296476}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -226,6 +273,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4835136154212146}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4661444392507930
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1944889224523034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4243176596115048}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4701230186682426
@@ -277,12 +337,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!60 &60953799642503260
+--- !u!60 &60450551402259284
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1347315787155338}
+  m_GameObject: {fileID: 1360866144176678}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -308,6 +368,31 @@ PolygonCollider2D:
       - {x: 0.39069372, y: -0.5212631}
       - {x: 0.6992761, y: -0.39394438}
       - {x: 0.9909457, y: 0.00013163686}
+--- !u!61 &61572901713069580
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1944889224523034}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.70875865, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.528376, y: 0.7}
+  m_EdgeRadius: 0
 --- !u!82 &82521726792597372
 AudioSource:
   m_ObjectHideFlags: 1
@@ -478,7 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _active: 0
-  TargetPos: {x: 0, y: 0}
+  _targetPos: {x: 0, y: 0}
   DistanceDeadzone: 5
   RotationDeadzone: 3
   MaxThrottleDistance: 15
@@ -563,6 +648,36 @@ MonoBehaviour:
   ForceStrength: 75
   AudioSource: {fileID: 82521726792597372}
   CurrentSpeed: 0
+--- !u!114 &114427245975135774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560373461334954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eae0b13f3234584091b5f20f62bedd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parts:
+  - _id: 1
+    Name: Hull
+    _health: 100
+    _maxHealth: 100
+    Hitbox: {fileID: 60450551402259284}
+    Model: {fileID: 0}
+    RelativeSize: 1
+    DestroyedLevel: 0.7
+    IsEssential: 1
+  - _id: 0
+    Name: Engine
+    _health: 50
+    _maxHealth: 50
+    Hitbox: {fileID: 61572901713069580}
+    Model: {fileID: 0}
+    RelativeSize: 0.2
+    DestroyedLevel: 0.5
+    IsEssential: 0
 --- !u!114 &114546432198467276
 MonoBehaviour:
   m_ObjectHideFlags: 1
