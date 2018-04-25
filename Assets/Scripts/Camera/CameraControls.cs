@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
@@ -12,10 +13,9 @@ public class CameraControls : MonoBehaviour
     public float LerpSpeed = 5f;
     public Vector2 SizeLimits = new Vector2(1f, 100f);
 
-    private Vector2 mousePanStart;
-
     public bool UseLocalInput = true;
 
+    private Vector2 mousePanStart;
     private bool inDrag = false;
 
     public void Update()

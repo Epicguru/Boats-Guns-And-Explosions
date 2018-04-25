@@ -100,6 +100,9 @@ public class ShipNavigation : NetworkBehaviour
                     // If currently selected by user...
                     // Then draw a cross at the target position.
                     TargetCross.DrawAt(TargetPos);
+
+                    // And a line from the ship to the cross.
+                    CameraLines.DrawLine(transform.position, TargetPos);
                 }
             }
         }
@@ -139,6 +142,10 @@ public class ShipNavigation : NetworkBehaviour
         {
             options.Add(UnitOption.STOP_ENGINE);
         }
+        else
+        {
+            options.Add(UnitOption.START_ENGINE);
+        }
     }    
 
     [Server]
@@ -146,7 +153,18 @@ public class ShipNavigation : NetworkBehaviour
     {
         if(option.Option == UnitOption.STOP_ENGINE)
         {
-            Deactivate();
+            if (Active)
+            {
+                Deactivate();
+            }
+        }
+
+        if (option.Option == UnitOption.START_ENGINE)
+        {
+            if (!Active)
+            {
+                Activate();
+            }
         }
     }
 

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum UnitOption : byte
 {
-    STOP_ENGINE
+    STOP_ENGINE,
+    START_ENGINE
 }
 
 public static class UnitOptionUtils
