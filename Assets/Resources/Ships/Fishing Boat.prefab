@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 114546432198467276}
   - component: {fileID: 114422347576987166}
   - component: {fileID: 114100569095086676}
+  - component: {fileID: 114811593578297542}
   - component: {fileID: 114716204712993114}
   - component: {fileID: 50542637490617000}
   - component: {fileID: 114320426897918620}
@@ -662,21 +663,21 @@ MonoBehaviour:
   Parts:
   - _id: 1
     Name: Hull
-    _health: 100
+    _currentHealth: 100
     _maxHealth: 100
     Hitbox: {fileID: 60450551402259284}
     Model: {fileID: 0}
     RelativeSize: 1
-    DestroyedLevel: 0.7
+    DestroyedThreshhold: 0.6
     IsEssential: 1
   - _id: 0
     Name: Engine
-    _health: 50
+    _currentHealth: 100
     _maxHealth: 50
     Hitbox: {fileID: 61572901713069580}
     Model: {fileID: 0}
     RelativeSize: 0.2
-    DestroyedLevel: 0.5
+    DestroyedThreshhold: 0.6
     IsEssential: 0
 --- !u!114 &114546432198467276
 MonoBehaviour:
@@ -706,6 +707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseMass: 5
   GeneralSize: 0
+  MaxWaterOntake: 1000
 --- !u!114 &114716204712993114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -720,6 +722,22 @@ MonoBehaviour:
   UseRigidbody2D: 1
   UpdateRate: 15
   LerpSpeed: 10
+--- !u!114 &114811593578297542
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560373461334954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ade914085c515848bff2ce5827ee4d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentWater: 0
+  MaxWater: 1000
+  SinkStartThreshhold: 0.5
+  MinTimeToSink: 20
+  WaterOntake: 0
 --- !u!198 &198538375596863204
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -5286,7 +5304,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1939414363
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -5314,8 +5332,8 @@ SortingGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1972752115944654}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -664128359
+  m_SortingLayer: -1
   m_SortingOrder: 0
 --- !u!212 &212044665485431880
 SpriteRenderer:

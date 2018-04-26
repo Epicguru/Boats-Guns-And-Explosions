@@ -4,36 +4,39 @@ using UnityEngine;
 [RequireComponent(typeof(ShipUnit))]
 [RequireComponent(typeof(ShipLocomotion))]
 [RequireComponent(typeof(ShipNavigation))]
+[RequireComponent(typeof(ShipDamage))]
 public class Ship : Vehicle
 {
     [Range(0f, 1f)]
     public float GeneralSize = 0.5f;
 
-    public ShipLocomotion ShipLocomotion
-    {
-        get
-        {
-            if (_shipLocomotion == null)
-            {
-                _shipLocomotion = GetComponent<ShipLocomotion>();
-            }
-            return _shipLocomotion;
-        }
-    }
-    private ShipLocomotion _shipLocomotion;
+    public float MaxWaterOntake = 1000f;
 
-    public ShipNavigation ShipNavigation
+    public ShipLocomotion Locomotion
     {
         get
         {
-            if (_shipNavigation == null)
+            if (_locomotion == null)
             {
-                _shipNavigation = GetComponent<ShipNavigation>();
+                _locomotion = GetComponent<ShipLocomotion>();
             }
-            return _shipNavigation;
+            return _locomotion;
         }
     }
-    private ShipNavigation _shipNavigation;
+    private ShipLocomotion _locomotion;
+
+    public ShipNavigation Navigation
+    {
+        get
+        {
+            if (_navigation == null)
+            {
+                _navigation = GetComponent<ShipNavigation>();
+            }
+            return _navigation;
+        }
+    }
+    private ShipNavigation _navigation;
 
     public ShipUnit Unit
     {
@@ -47,6 +50,41 @@ public class Ship : Vehicle
         }
     }
     private ShipUnit _unit;
+
+    public ShipDamage Damage
+    {
+        get
+        {
+            if(_damage == null)
+            {
+                _damage = GetComponent<ShipDamage>();
+            }
+            return _damage;
+        }
+    }
+    private ShipDamage _damage;
+
+    public void Update()
+    {
+        if (isServer)
+        {
+            // Server only...
+            // Update sinking based on the integrity of the ship hull.
+
+            if (DamageModel.PartMap.ContainsKey(DPart.SHIP_HULL))
+            {
+                // Integrity value 1 is best. Integrity 0 is the worst. Seriously. It's not good.
+                float integrity = Mathf.Clamp01(DamageModel.PartMap[DPart.SHIP_HULL].HealthPercentage);
+                MaxWaterOntake = Mathf.Max(MaxWaterOntake, 0f);
+                float ontake = Mathf.Clamp((1f - integrity) * MaxWaterOntake, 0f, MaxWaterOntake);
+                Damage.WaterOntake = ontake;
+            }
+            else
+            {
+                Debug.LogWarning("Ship {0} ({1}) does not contain a SHIP_HULL damage part in the damage model. You need a hull to make a ship work!".Form(Unit.Name, Unit.ID));
+            }
+        }
+    }
 
     public override void ApplyPhysicsSettings()
     {

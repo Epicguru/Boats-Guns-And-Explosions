@@ -17,11 +17,11 @@ public class DestructiblePart
 
     public string Name = "Part Name";
 
-    public float Health
+    public float CurrentHealth
     {
         get
         {
-            return _health;
+            return _currentHealth;
         }
         set
         {
@@ -33,11 +33,11 @@ public class DestructiblePart
                 return;
             }
 
-            _health = value;
+            _currentHealth = value;
         }
     }
     [SerializeField]
-    private float _health = 100f;
+    private float _currentHealth = 100f;
 
     public float MaxHealth
     {
@@ -73,7 +73,7 @@ public class DestructiblePart
 
     [Range(0f, 1f)]
     [Tooltip("The point at which the part is considered destroyed beyond repair. 0 means 0 health and 1 means max health.")]
-    public float DestroyedLevel = 0f;
+    public float DestroyedThreshhold = 0f;
 
     [Tooltip("Is this part/component completely necessary for the DamageModel object to operate/exist/live?")]
     public bool IsEssential = false;
@@ -82,7 +82,7 @@ public class DestructiblePart
     {
         get
         {
-            return Mathf.Clamp(Health, 0f, MaxHealth) / Mathf.Max(MaxHealth, 1f);
+            return Mathf.Clamp(CurrentHealth, 0f, MaxHealth) / Mathf.Max(MaxHealth, 1f);
         }
     }
 
@@ -90,7 +90,7 @@ public class DestructiblePart
     {
         get
         {
-            return HealthPercentage <= DestroyedLevel;
+            return HealthPercentage <= DestroyedThreshhold;
         }
     }
 
@@ -101,14 +101,37 @@ public class DestructiblePart
 
     private void ClampValues()
     {
-        if (Health < 0)
-            Health = 0;
+        if (CurrentHealth < 0)
+            CurrentHealth = 0;
 
         if (MaxHealth < 1)
             MaxHealth = 1;
 
-        if (Health > MaxHealth)
-            Health = MaxHealth;
+        if (CurrentHealth > MaxHealth)
+            CurrentHealth = MaxHealth;
+    }
+
+    public void Damage(float damage)
+    {
+        if (damage == 0f)
+            return;
+        if (damage < 0)
+            damage *= -1;
+
+        CurrentHealth -= damage;
+        ClampValues();
+    }
+
+    public void Repair(float health)
+    {
+        if (health == 0)
+            return;
+
+        if (health < 0)
+            health *= -1;
+
+        CurrentHealth += health;
+        ClampValues();
     }
 }
 

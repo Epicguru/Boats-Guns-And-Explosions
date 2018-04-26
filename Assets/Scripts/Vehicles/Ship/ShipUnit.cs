@@ -19,7 +19,7 @@ public class ShipUnit : Unit
 
     public override void SetMovementTarget(Vector2 target)
     {
-        Ship.ShipNavigation.TargetPos = target;
-        Ship.ShipNavigation.Activate();
+        Ship.Navigation.TargetPos = target;
+        Ship.Navigation.Activate();
     }
 }
