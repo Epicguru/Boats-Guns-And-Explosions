@@ -44,6 +44,12 @@ TagManager:
   - name: Map
     uniqueID: 1338484679
     locked: 0
+  - name: Effects
+    uniqueID: 2463568651
+    locked: 0
+  - name: Ships
+    uniqueID: 3630838937
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
