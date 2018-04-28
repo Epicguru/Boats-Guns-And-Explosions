@@ -74,6 +74,17 @@ public class UI_ShipOverview : MonoBehaviour
         string DESTROYED = RichText.InBold(RichText.InItalics("<b><color=#ff6666> [DESTROYED]</color></b>"));
         string DESTROYED_ESS = RichText.InBold(RichText.InItalics("<b><color=#ff6666> [DESTROYED] [!]</color></b>"));
 
+        if(Ship.Damage.WaterOntake > 0f)
+        {
+            str.Append(RED);
+            string water = ((Ship.Damage.WaterOntake / Ship.Damage.MaxWater) * 100f).ToString("n1");
+            str.Append("--> Taking On Water! ");
+            str.Append(water);
+            str.Append("% /s");
+            str.Append(END_COLOUR);
+            str.Append('\n');
+        }
+
         foreach (var part in Ship.DamageModel.Parts)
         {
             str.Append(BOLD_START);
