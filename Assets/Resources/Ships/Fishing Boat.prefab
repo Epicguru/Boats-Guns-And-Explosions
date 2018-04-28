@@ -668,11 +668,11 @@ MonoBehaviour:
     Hitbox: {fileID: 60450551402259284}
     Model: {fileID: 0}
     RelativeSize: 1
-    DestroyedThreshhold: 0.6
+    DestroyedThreshhold: 0
     IsEssential: 1
   - _id: 0
     Name: Engine
-    _currentHealth: 100
+    _currentHealth: 50
     _maxHealth: 50
     Hitbox: {fileID: 61572901713069580}
     Model: {fileID: 0}

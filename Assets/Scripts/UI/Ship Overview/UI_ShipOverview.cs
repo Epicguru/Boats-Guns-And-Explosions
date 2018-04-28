@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_ShipOverview : MonoBehaviour
@@ -15,11 +16,18 @@ public class UI_ShipOverview : MonoBehaviour
     public AnimationCurve Curve;
     public float OpenTime;
 
+    [Header("Extension")]
     [ReadOnly]
     public bool IsExtended;
     public RectTransform ExtendedIcon;
+    public float ExtensionTime = 1f;
+    public Vector2 YSize;
+    public RectTransform ExtensionRect;
+    public RectTransform DetailsTextRect;
+    public Text DetailsText;
 
-    private float timer;
+    private float fadeTimer;
+    private float exTimer;
 
     public void OnExtendedButton()
     {
@@ -28,31 +36,142 @@ public class UI_ShipOverview : MonoBehaviour
 
     public void Start()
     {
-        timer = 0f;
+        fadeTimer = 0f;
     }
 
     public void Update()
     {
         // Update opening and closing.
         UpdateOpenClose();
+
+        // Update icon rotation
+        UpdateExtendedIcon();
+
+        // Update Y extension size.
+        UpdateExtension();
+
+        if(Ship != null)
+        {
+            UpdateDetailedView();
+        }
+    }
+
+    private StringBuilder str = new StringBuilder();
+    public void UpdateDetailedView()
+    {
+        if (Ship == null)
+            return;
+
+        str.Clear();
+        const string BOLD_START = "<b>";
+        const string BOLD_END = "</b>";
+        const string COLON = " : ";
+        const string HYPHEN = " - ";
+        const string RED = "<b><color=#ff6666>";
+        const string ORANGE = "<b><color=#ffa500ff>";
+        const string GREEN = "<b><color=#70ff77>";
+        const string END_COLOUR = "</color></b>";
+        string DESTROYED = RichText.InBold(RichText.InItalics("<b><color=#ff6666> [DESTROYED]</color></b>"));
+        string DESTROYED_ESS = RichText.InBold(RichText.InItalics("<b><color=#ff6666> [DESTROYED] [!]</color></b>"));
+
+        foreach (var part in Ship.DamageModel.Parts)
+        {
+            str.Append(BOLD_START);
+            str.Append(part.Name.Trim());
+            str.Append(BOLD_END);
+            str.Append(COLON);
+            str.Append(Mathf.Ceil(part.CurrentHealth));
+            str.Append('/');
+            str.Append(Mathf.Ceil(part.MaxHealth));
+            str.Append(HYPHEN);
+            float p = part.HealthPercentage;
+            string c = null;
+            if (p >= 0.7f)
+            {
+                c = GREEN;
+            }
+            else if(p >= 0.4f)
+            {
+                c = ORANGE;
+            }
+            else
+            {
+                c = RED;
+            }
+            str.Append(c);
+            str.Append(Mathf.RoundToInt(p * 100f));
+            str.Append('%');
+            str.Append(END_COLOUR);
+            if (part.IsDestroyed)
+            {
+                if (part.IsEssential)
+                {
+                    str.Append(DESTROYED_ESS);
+                }
+                else
+                {
+                    str.Append(DESTROYED);
+                }
+            }
+            str.Append('\n');
+        }
+
+        DetailsText.text = str.ToString();
+    }
+
+    private void UpdateExtendedIcon()
+    {
+        float rot = ExtendedIcon.localEulerAngles.z;
+        float speed = 1000f * Time.unscaledDeltaTime;
+        if (IsExtended)
+        {
+            rot += speed;
+        }
+        else
+        {
+            rot -= speed;
+        }
+        rot = Mathf.Clamp(rot, 0f, 180f);
+        ExtendedIcon.localEulerAngles = new Vector3(0f, 0f, rot);
+    }
+
+    private void UpdateExtension()
+    {
+        YSize.y = YSize.x + 15f + DetailsTextRect.sizeDelta.y;
+
+        if (IsExtended)
+        {
+            exTimer += Time.unscaledDeltaTime;
+        }
+        else
+        {
+            exTimer -= Time.unscaledDeltaTime;
+        }
+        exTimer = Mathf.Clamp(exTimer, 0f, ExtensionTime);
+        float p = Mathf.Clamp01(exTimer / ExtensionTime);
+
+        float size = Mathf.Lerp(YSize.x, YSize.y, p);
+        var ex = ExtensionRect.sizeDelta;
+        ex.y = size;
+        ExtensionRect.sizeDelta = ex;
     }
 
     private void UpdateOpenClose()
     {
         if (IsOpen())
         {
-            timer += Time.unscaledDeltaTime;
-            if (timer > OpenTime)
-                timer = OpenTime;
+            fadeTimer += Time.unscaledDeltaTime;
+            if (fadeTimer > OpenTime)
+                fadeTimer = OpenTime;
         }
         else
         {
-            timer -= Time.unscaledDeltaTime;
-            if (timer < 0f)
-                timer = 0f;
+            fadeTimer -= Time.unscaledDeltaTime;
+            if (fadeTimer < 0f)
+                fadeTimer = 0f;
         }
 
-        float p = Mathf.Clamp01(timer / OpenTime);
+        float p = Mathf.Clamp01(fadeTimer / OpenTime);
         Group.alpha = Curve.Evaluate(p);
 
         if (Ship != null)

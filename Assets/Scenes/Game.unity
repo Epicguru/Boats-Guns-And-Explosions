@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e5a2183878472418d11ee554e1dc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ship: {fileID: 0}
+  Ship: {fileID: 2113132355}
   HealthBar: {fileID: 155073515}
   HullWaterBar: {fileID: 245324957}
   SunkBar: {fileID: 1909110599}
@@ -1054,6 +1054,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   OpenTime: 0.25
+  IsExtended: 0
+  ExtendedIcon: {fileID: 1116534958}
+  ExtensionTime: 0.25
+  YSize: {x: 137, y: 300}
+  ExtensionRect: {fileID: 1723629102}
+  DetailsTextRect: {fileID: 799768498}
+  DetailsText: {fileID: 799768499}
 --- !u!225 &542230453
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1445,20 +1452,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'New Text
-
-    asd
-
-    a
-
-    sd
-
-    asd
-
-
-    asd
-
-    asd'
+  m_Text: 
 --- !u!222 &799768500
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3527,7 +3521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -3553,7 +3547,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1698862243}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 542230452}
+        m_MethodName: OnExtendedButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1698862243
@@ -3775,7 +3780,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -10, y: -10}
-  m_SizeDelta: {x: 300, y: 137.41}
+  m_SizeDelta: {x: 300, y: 137}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1723629103
 MonoBehaviour:
@@ -4286,6 +4291,12 @@ PolygonCollider2D:
       - {x: 0.0859375, y: -1.84375}
       - {x: 0.1796875, y: -1.8046875}
       - {x: 0.40625, y: -1.75}
+--- !u!114 &2113132355 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114610151026024638, guid: 762ff0fda355a6d4d928fa5f5c04f0fc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1726520061}
+  m_Script: {fileID: 11500000, guid: ceb74cf203875c64497578ce74e9eb41, type: 3}
 --- !u!1 &2114031810
 GameObject:
   m_ObjectHideFlags: 0
