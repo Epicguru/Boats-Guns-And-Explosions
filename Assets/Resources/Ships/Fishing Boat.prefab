@@ -707,7 +707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseMass: 5
   GeneralSize: 0
-  MaxWaterOntake: 1000
+  MaxWaterOntake: 100
 --- !u!114 &114716204712993114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -735,7 +735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentWater: 0
   MaxWater: 1000
-  SinkStartThreshhold: 0.5
+  SinkStartThreshhold: 0.7
   MinTimeToSink: 20
   WaterOntake: 0
 --- !u!198 &198538375596863204
