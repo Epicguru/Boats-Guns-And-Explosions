@@ -66,12 +66,11 @@ public class Ship : Vehicle
 
     private SpriteRenderer[] Renderers;
 
-    public override void Awake()
+    public void Start()
     {
-        base.Awake();
-        if(Materials.Instance != null)
+        if (Materials.Instance != null)
         {
-            if(Materials.Instance.ShipShader != null)
+            if (Materials.Instance.ShipShader != null)
             {
                 Renderers = GetComponentsInChildren<SpriteRenderer>();
                 foreach (var r in Renderers)
