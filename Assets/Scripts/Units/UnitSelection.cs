@@ -27,20 +27,25 @@ public class UnitSelection : NetworkBehaviour
             UpdateSelection();
         }
 
-        if(Unit.CurrentlySelected != null || UI_ShipOverview.Instance != null)
+        UpdateUnitOverview();
+    }
+
+    private void UpdateUnitOverview()
+    {
+        if (Unit.CurrentlySelected != null || UI_ShipOverview.Instance != null)
         {
-            if(Unit.CurrentlySelected.Count == 0)
+            if (Unit.CurrentlySelected.Count == 0)
             {
                 UI_ShipOverview.Instance.Ship = null;
             }
             else
             {
                 Unit u = Unit.CurrentlySelected[0];
-                if(u != null)
+                if (u != null)
                 {
                     // Ship...
                     var ship = u.GetComponent<Ship>();
-                    if(ship != null)
+                    if (ship != null)
                     {
                         UI_ShipOverview.Instance.Ship = ship;
                         bool show = false;
@@ -51,12 +56,13 @@ public class UnitSelection : NetworkBehaviour
                                 show = true;
                             }
                         }
-                        if(Player.Faction == u.Faction)
+                        if (Player.Faction == u.Faction)
                         {
                             show = true;
                         }
 
                         UI_ShipOverview.Instance.IsEnemy = !show;
+                        UI_ShipOverview.Instance.TotalSelected = Unit.CurrentlySelected.Count;
                     }
                 }
             }

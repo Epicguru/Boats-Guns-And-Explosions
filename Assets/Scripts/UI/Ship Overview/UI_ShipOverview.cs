@@ -28,7 +28,9 @@ public class UI_ShipOverview : MonoBehaviour
     public RectTransform DetailsTextRect;
     public Text DetailsText;
 
+    public Text XOfY;
     public bool IsEnemy;
+    public int TotalSelected = 0;
 
     private float fadeTimer;
     private float exTimer;
@@ -124,6 +126,7 @@ public class UI_ShipOverview : MonoBehaviour
             str.Append('\n');
         }
 
+        str.Append('\n');
         foreach (var part in Ship.DamageModel.Parts)
         {
             str.Append(BOLD_START);
@@ -166,7 +169,7 @@ public class UI_ShipOverview : MonoBehaviour
             str.Append('\n');
         }
 
-        DetailsText.text = str.ToString();
+        DetailsText.text = str.ToString().Trim();
     }
 
     private void UpdateExtendedIcon()
@@ -238,6 +241,7 @@ public class UI_ShipOverview : MonoBehaviour
         HealthBar.IsUnknown = IsEnemy;
         HullWaterBar.IsUnknown = IsEnemy;
         SunkBar.IsUnknown = IsEnemy;
+        XOfY.text = "1 of {0}".Form(TotalSelected);
 
         if (!IsEnemy)
         {

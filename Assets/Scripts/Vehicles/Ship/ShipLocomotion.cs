@@ -187,9 +187,16 @@ public class ShipLocomotion : NetworkBehaviour
 
         // Get current throttle.
         float t = ThrottleAmount;
+        float v = Mathf.Clamp(t, 0.1f, 1f);
+        float p = Mathf.Clamp(t * 1.1f, 0.7f, 1.1f);
 
-        AudioSource.volume = Mathf.Clamp(t, 0.1f, 1f);
-        AudioSource.pitch = Mathf.Clamp(t * 1.1f, 0.7f, 1.1f);
+        if (!Ship.Navigation.Active)
+        {
+            v = 0f;
+        }
+
+        AudioSource.volume = v;
+        AudioSource.pitch = p;
     }
 
     public void OnDrawGizmos()
