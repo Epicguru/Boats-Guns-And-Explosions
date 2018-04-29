@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Player))]
 public class UnitSelection : NetworkBehaviour
@@ -11,6 +13,8 @@ public class UnitSelection : NetworkBehaviour
 
     public bool CanSelect = true;
     public Color SelectionColour = Color.white;
+
+    public bool ServerCanViewAll = false;
 
     private Vector2 start;
     private SpriteRenderer sel;
@@ -22,6 +26,41 @@ public class UnitSelection : NetworkBehaviour
         {
             UpdateSelection();
         }
+
+        if(Unit.CurrentlySelected != null || UI_ShipOverview.Instance != null)
+        {
+            if(Unit.CurrentlySelected.Count == 0)
+            {
+                UI_ShipOverview.Instance.Ship = null;
+            }
+            else
+            {
+                Unit u = Unit.CurrentlySelected[0];
+                if(u != null)
+                {
+                    // Ship...
+                    var ship = u.GetComponent<Ship>();
+                    if(ship != null)
+                    {
+                        UI_ShipOverview.Instance.Ship = ship;
+                        bool show = false;
+                        if (isServer)
+                        {
+                            if (ServerCanViewAll)
+                            {
+                                show = true;
+                            }
+                        }
+                        if(Player.Faction == u.Faction)
+                        {
+                            show = true;
+                        }
+
+                        UI_ShipOverview.Instance.IsEnemy = !show;
+                    }
+                }
+            }
+        }
     }
 
     [Client]
@@ -30,7 +69,7 @@ public class UnitSelection : NetworkBehaviour
         if (InputManager.IsDown("Select") && !selecting)
         {
             // If not in options UI part of screen...
-            bool mouseInUI = UI_UnitOptions.Instance.OptionsBounds.rect.Contains(InputManager.ScreenMousePos);
+            bool mouseInUI = InputManager.MouseOverAnyUI;
 
             if (!mouseInUI)
             {

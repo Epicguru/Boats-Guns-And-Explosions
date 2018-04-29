@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManagerGameObject : MonoBehaviour
 {
+    public EventSystem Events;
+
     [SerializeField]
     private List<NameKeyBinding> Bindings;
 
@@ -24,6 +27,10 @@ public class InputManagerGameObject : MonoBehaviour
 
     public void Update()
     {
+        if(Events != null)
+        {
+            InputManager.UpdateMouseUI(Events.IsPointerOverGameObject());
+        }
         InputManager.Update();
     }
 }

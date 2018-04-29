@@ -42,16 +42,38 @@ public class UI_StateBar : MonoBehaviour
     [SerializeField]
     private string _title = "XYZ";
 
+    public bool IsUnknown
+    {
+        get
+        {
+            return _isUnknown;
+        }
+        set
+        {
+            if(value != _isUnknown)
+            {
+                _isUnknown = value;
+                UpdateUnknown();
+            }
+        }
+    }
+    [SerializeField]
+    [ReadOnly]
+    private bool _isUnknown = false;
+
+    [Header("Visuals")]
     public Gradient Colours = new Gradient();
 
     [Header("References")]
     public Text TitleText;
     public Image Bar;
+    public GameObject GOUnknown;
 
     public void Start()
     {
         UpdateBar();
         UpdateTitle();
+        UpdateUnknown();
     }
 
     public void UpdateBar()
@@ -59,8 +81,15 @@ public class UI_StateBar : MonoBehaviour
         if (Bar == null)
             return;
 
-        Bar.fillAmount = Mathf.Clamp01(Percentage);
-        Bar.color = Colours.Evaluate(Mathf.Clamp01(Percentage));
+        if (IsUnknown)
+        {
+            Bar.fillAmount = 0f;
+        }
+        else
+        {
+            Bar.fillAmount = Mathf.Clamp01(Percentage);
+            Bar.color = Colours.Evaluate(Mathf.Clamp01(Percentage));
+        }
     }
 
     public void UpdateTitle()
@@ -69,5 +98,11 @@ public class UI_StateBar : MonoBehaviour
             return;
 
         TitleText.text = Title;
+    }
+
+    public void UpdateUnknown()
+    {
+        GOUnknown.SetActive(IsUnknown);        
+        UpdateBar();
     }
 }

@@ -8,6 +8,17 @@ public static class InputManager
     public static Vector2 ScreenMousePos { get; private set; }
     public static Vector2 MousePos { get; private set; }
 
+    public static bool MouseOverAnyUI
+    {
+        get;
+        private set;
+    }
+
+    public static void UpdateMouseUI(bool inUI)
+    {
+        MouseOverAnyUI = inUI;
+    }
+
     public static void Init()
     {
         if(bindings != null)

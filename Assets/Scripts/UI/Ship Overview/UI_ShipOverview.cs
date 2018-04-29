@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI_ShipOverview : MonoBehaviour
 {
+    public static UI_ShipOverview Instance;
+
     public Ship Ship;
 
     public UI_StateBar HealthBar;
@@ -26,12 +28,24 @@ public class UI_ShipOverview : MonoBehaviour
     public RectTransform DetailsTextRect;
     public Text DetailsText;
 
+    public bool IsEnemy;
+
     private float fadeTimer;
     private float exTimer;
 
     public void OnExtendedButton()
     {
         IsExtended = !IsExtended;
+    }
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
+    public void OnDestroy()
+    {
+        Instance = null;
     }
 
     public void Start()
@@ -50,8 +64,9 @@ public class UI_ShipOverview : MonoBehaviour
         // Update Y extension size.
         UpdateExtension();
 
-        if(Ship != null)
+        if (Ship != null)
         {
+            UpdateVisuals();
             UpdateDetailedView();
         }
     }
@@ -61,6 +76,13 @@ public class UI_ShipOverview : MonoBehaviour
     {
         if (Ship == null)
             return;
+
+        if (IsEnemy)
+        {
+            // Do not display any details if this is an enemy ship.
+            DetailsText.text = "Cannot see stats or details on this enemy ship...";
+            return;
+        }
 
         str.Clear();
         const string BOLD_START = "<b>";
@@ -201,14 +223,6 @@ public class UI_ShipOverview : MonoBehaviour
 
         float p = Mathf.Clamp01(fadeTimer / OpenTime);
         Group.alpha = Curve.Evaluate(p);
-
-        if (Ship != null)
-            Title.text = Ship.Unit.Name;
-
-        if (Ship != null)
-        {
-            UpdateVisuals();
-        }
     }
 
     public bool IsOpen()
@@ -221,8 +235,22 @@ public class UI_ShipOverview : MonoBehaviour
         if (Ship == null)
             return;
 
-        HealthBar.Percentage = Ship.DamageModel.GetAverageHealthPercentage();
-        HullWaterBar.Percentage = Ship.Damage.GetWaterPercentage();
-        SunkBar.Percentage = Ship.Damage.GetSinkState();
+        HealthBar.IsUnknown = IsEnemy;
+        HullWaterBar.IsUnknown = IsEnemy;
+        SunkBar.IsUnknown = IsEnemy;
+
+        if (!IsEnemy)
+        {
+            // Is locally owned ship, show all real details.
+            HealthBar.Percentage = Ship.DamageModel.GetAverageHealthPercentage();
+            HullWaterBar.Percentage = Ship.Damage.GetWaterPercentage();
+            SunkBar.Percentage = Ship.Damage.GetSinkState();
+            Title.text = Ship.Unit.Name;
+        }
+        else
+        {
+            // Is enemy ship, cannot show real details.
+            Title.text = "Enemy " + Ship.Unit.Name;
+        }
     }
 }
