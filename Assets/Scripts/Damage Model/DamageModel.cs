@@ -8,11 +8,47 @@ public class DamageModel : NetworkBehaviour
     public Dictionary<DPart, DestructiblePart> PartMap;
     public Dictionary<Collider2D, DestructiblePart> ColliderPartMap;
 
-    public void Awake()
+    public SyncListStruct<DestructiblePartNetData> NetData = new SyncListStruct<DestructiblePartNetData>();
+
+    [Range(0.5f, 30f)]
+    public float PartSyncRate = 10f;
+
+    private float timer;
+
+    public virtual void Awake()
     {
         ReconstructPartMap();
         ReconstructColliderMap();
         ConfigureParts();
+    }
+
+    public virtual void Update()
+    {
+        if (isServer)
+        {
+            // On server, send clients data at a rather slow rate.
+            // Since the target is to be completely server-authorative, this should not be a problem.
+            // Worst case, the client will appear unresponsive.
+
+            timer += Time.unscaledDeltaTime;
+            float interval = 1f / PartSyncRate;
+            bool run = false;
+            while (timer >= interval)
+            {
+                timer -= interval;
+                run = true;
+            }
+
+            if (run)
+            {
+                SynchronizeData();
+            }
+        }
+        else
+        {
+            // On client update destructible parts based on data sent from the server.
+            ReceiveData();
+        }
     }
 
     [Server]
@@ -86,6 +122,37 @@ public class DamageModel : NetworkBehaviour
             float damage = CalculateCollarteralDamage(baseDamage, part);
 
             part.Damage(damage);
+        }
+    }
+
+    [Server]
+    public void SynchronizeData()
+    {
+        NetData.Clear();
+        foreach (var part in Parts)
+        {
+            if (part == null)
+                continue;
+
+            NetData.Add(part.GetNetData());
+        }
+    }
+
+    [Client]
+    public void ReceiveData()
+    {
+        if (NetData == null)
+            return;
+
+        foreach (var data in NetData)
+        {
+            if(data.ID != DPart.NONE)
+            {
+                if (ContainsPart(data.ID))
+                {
+                    PartMap[data.ID].RecieveNetData(data);
+                }
+            }
         }
     }
 

@@ -18,7 +18,7 @@ public class UnitSelection : NetworkBehaviour
 
     public void Update()
     {
-        if (isClient)
+        if (isLocalPlayer)
         {
             UpdateSelection();
         }

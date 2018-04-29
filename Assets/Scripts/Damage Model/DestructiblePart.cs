@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -81,6 +82,23 @@ public class DestructiblePart
 
     [Tooltip("Is this part/component completely necessary for the DamageModel object to operate/exist/live?")]
     public bool IsEssential = false;
+
+    public DestructiblePartNetData GetNetData()
+    {
+        return new DestructiblePartNetData() { ID = this.ID, Health = this.CurrentHealth };
+    }
+
+    public void RecieveNetData(DestructiblePartNetData data)
+    {
+        if (data.ID != this.ID)
+        {
+            Debug.LogWarning("Incorrect net data supplied to part - Local ID: {0}, Net ID: {1}, Local Name: {2}".Form(ID, data.ID, Name));
+            return;
+        }
+
+        // Set Health
+        CurrentHealth = data.Health;
+    }
 
     public float HealthPercentage
     {

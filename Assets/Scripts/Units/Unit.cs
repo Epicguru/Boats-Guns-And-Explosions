@@ -140,7 +140,6 @@ public abstract class Unit : NetworkBehaviour
         }
     }
 
-    [Server]
     public virtual void GetOptions(List<UnitOption> options)
     {
         if (!isServer)
@@ -211,7 +210,6 @@ public abstract class Unit : NetworkBehaviour
         }
     }
 
-    [Server]
     public static Dictionary<UnitOption, int> GetAllOptions(Unit[] units)
     {
         // Gets all options for an array of units.
