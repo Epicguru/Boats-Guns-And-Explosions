@@ -70,7 +70,7 @@ public class ShipDamage : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Ship.DamageModel.PartMap[DPart.SHIP_HULL].Damage(10f);
+                Ship.DamageModel.DealExplosionDamage(50f);
             }
         }
     }

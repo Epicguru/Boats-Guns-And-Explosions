@@ -685,22 +685,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Parts:
-  - _id: 1
+  - _id: 2
     Name: Hull
     _currentHealth: 100
     _maxHealth: 100
     Hitbox: {fileID: 60450551402259284}
     Model: {fileID: 0}
     RelativeSize: 1
+    ExplosionDamageMultipler: 1
     DestroyedThreshhold: 0
     IsEssential: 1
-  - _id: 0
+  - _id: 1
     Name: Engine
     _currentHealth: 50
     _maxHealth: 50
     Hitbox: {fileID: 61572901713069580}
     Model: {fileID: 0}
     RelativeSize: 0.2
+    ExplosionDamageMultipler: 1.5
     DestroyedThreshhold: 0.6
     IsEssential: 0
 --- !u!114 &114546432198467276

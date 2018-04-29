@@ -71,6 +71,10 @@ public class DestructiblePart
     [Tooltip("How large this part is compared to the overall size of the DamageModel. For example, a helmet would be around 0.1 of an entire person, whereas their clothes would be around 0.8.")]
     public float RelativeSize = 0.2f;
 
+    [Range(0f, 2f)]
+    [Tooltip("How much damage is recieved from explosions, in both direct and collateral damage.")]
+    public float ExplosionDamageMultipler = 1f;
+
     [Range(0f, 1f)]
     [Tooltip("The point at which the part is considered destroyed beyond repair. 0 means 0 health and 1 means max health.")]
     public float DestroyedThreshhold = 0f;
@@ -137,6 +141,7 @@ public class DestructiblePart
 
 public enum DPart : byte
 {
+    NONE,
     SHIP_ENGINE,
     SHIP_HULL
 }

@@ -6,11 +6,107 @@ public class DamageModel : NetworkBehaviour
 {
     public List<DestructiblePart> Parts = new List<DestructiblePart>();
     public Dictionary<DPart, DestructiblePart> PartMap;
+    public Dictionary<Collider2D, DestructiblePart> ColliderPartMap;
 
     public void Awake()
     {
         ReconstructPartMap();
+        ReconstructColliderMap();
         ConfigureParts();
+    }
+
+    [Server]
+    public void DealExplosionDamage(float maxDamage, DPart origin, float collateralMultiplier = 1f)
+    {
+        // Simulates an explosion on board based on the relative size and HP of destructible parts.
+        // The origin is the center point of the explosion, so will receive full damage.
+
+        if (maxDamage <= 0f)
+            return;
+        if (origin == DPart.NONE)
+            return;
+
+        if (ContainsPart(origin))
+        {
+            var part = PartMap[origin];
+            part.Damage(maxDamage);
+        }
+        else
+        {
+            Debug.LogError("Passed explosion origin part '{0}', but that does not exist on this damage model ({1})".Form(origin, name));
+        }
+
+        // Calculate collateral damage.
+        collateralMultiplier = Mathf.Clamp01(collateralMultiplier);
+
+        foreach (var part in Parts)
+        {
+            if (part == null)
+                continue;
+            if (part.ID == origin)
+                continue;
+
+            float damage = CalculateCollarteralDamage(maxDamage * collateralMultiplier, part);
+
+            part.Damage(damage);
+        }
+    }
+
+    [Server]
+    public void DealExplosionDamage(float minDamage, float maxDamage)
+    {
+        float min = Mathf.Min(minDamage, maxDamage);
+        float max = Mathf.Max(minDamage, maxDamage);
+
+        if (max <= 0f)
+            return;
+
+        foreach (var part in Parts)
+        {
+            if (part == null)
+                continue;
+
+            float damage = Random.Range(min, max);
+
+            part.Damage(damage);
+        }
+    }
+
+    [Server]
+    public void DealExplosionDamage(float baseDamage)
+    {
+        if (baseDamage <= 0f)
+            return;
+
+        foreach (var part in Parts)
+        {
+            if (part == null)
+                continue;
+
+            float damage = CalculateCollarteralDamage(baseDamage, part);
+
+            part.Damage(damage);
+        }
+    }
+
+    public virtual float CalculateCollarteralDamage(float baseDamage, DestructiblePart part)
+    {
+        if (baseDamage <= 0f)
+            return 0f;
+        if (part == null)
+            return 0f;
+
+        float size = Mathf.Clamp01(part.RelativeSize);
+        float multiplier = Mathf.Max(part.ExplosionDamageMultipler, 0f);
+
+        float final = baseDamage * size * multiplier;
+
+        return final;
+    }
+
+    public bool ContainsPart(DPart part)
+    {
+        return PartMap.ContainsKey(part);
     }
 
     public void ReconstructPartMap()
@@ -31,6 +127,11 @@ public class DamageModel : NetworkBehaviour
 
             DPart id = part.ID;
 
+            if(id == DPart.NONE)
+            {
+                Debug.LogWarning("ERROR: Why does '{0}' have a part ID of DPart.NONE??".Form(id));
+            }
+
             if (PartMap.ContainsKey(id))
             {
                 Debug.LogError("Duplicate part ID in this damage model - Id: {0}, Name: {1}".Form(id, part.Name));
@@ -38,6 +139,37 @@ public class DamageModel : NetworkBehaviour
             else
             {
                 PartMap.Add(id, part);
+            }
+        }
+    }
+
+    public void ReconstructColliderMap()
+    {
+        if (ColliderPartMap == null)
+        {
+            ColliderPartMap = new Dictionary<Collider2D, DestructiblePart>();
+        }
+        else
+        {
+            ColliderPartMap.Clear();
+        }
+
+        foreach (var part in Parts)
+        {
+            if (part == null)
+                continue;
+
+            Collider2D collider = part.Hitbox;
+            if (collider == null)
+                continue;
+
+            if (ColliderPartMap.ContainsKey(collider))
+            {
+                Debug.LogError("Collider hitbox used twice in this damage model - Id: {0}, Name: {1}, Collider Name: {2}".Form(part.ID, part.Name, collider.name));
+            }
+            else
+            {
+                ColliderPartMap.Add(collider, part);
             }
         }
     }
