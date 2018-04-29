@@ -85,6 +85,23 @@ public class UI_ShipOverview : MonoBehaviour
             str.Append('\n');
         }
 
+        if(Ship.Locomotion.GetAgilityMultiplier() != 1f)
+        {
+            str.Append("Max throttle at ");
+            if(Ship.Locomotion.GetAgilityMultiplier() > 1f)
+            {
+                str.Append("<b><color=#70ff77>");
+            }
+            else
+            {
+                str.Append("<b><color=#ff6666>");
+            }
+            str.Append((Ship.Locomotion.GetAgilityMultiplier() * 100f).ToString("n1"));
+            str.Append('%');
+            str.Append("</color></b>");
+            str.Append('\n');
+        }
+
         foreach (var part in Ship.DamageModel.Parts)
         {
             str.Append(BOLD_START);

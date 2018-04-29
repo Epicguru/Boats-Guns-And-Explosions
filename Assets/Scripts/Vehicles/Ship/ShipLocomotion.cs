@@ -29,6 +29,9 @@ public class ShipLocomotion : NetworkBehaviour
     public float MaxTurn = 10f;
     public float CurrentTurn = 0f;
 
+    [Header("Sinking Speed Falloff")]
+    public AnimationCurve SinkingSpeed = AnimationCurve.Linear(0f, 1f, 1f, 0f);
+
     [Header("Visuals")]
     public ParticleSystem Bubbles;
     public float MaxBubbles = 350f;
@@ -117,7 +120,8 @@ public class ShipLocomotion : NetworkBehaviour
     [Server]
     public void ApplyThrottle()
     {
-        Ship.Rigidbody.AddRelativeForce(new Vector2(1f, 0f) * CurrentThrottle, ForceMode2D.Force);
+        float multiplier = GetAgilityMultiplier();
+        Ship.Rigidbody.AddRelativeForce(new Vector2(1f, 0f) * CurrentThrottle * multiplier, ForceMode2D.Force);
     }
 
     [Server]
@@ -126,7 +130,13 @@ public class ShipLocomotion : NetworkBehaviour
         // Turn speed should be based on forward speed, realistically.
         // But where is the run in realistic?
 
-        Ship.Rigidbody.AddTorque(CurrentTurn, ForceMode2D.Force);
+        float multiplier = GetAgilityMultiplier();
+        Ship.Rigidbody.AddTorque(CurrentTurn * multiplier, ForceMode2D.Force);
+    }
+
+    public float GetAgilityMultiplier()
+    {
+        return Mathf.Clamp01(SinkingSpeed.Evaluate(Ship.Damage.GetSinkState()));
     }
 
     [Server]

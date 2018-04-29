@@ -64,6 +64,22 @@ public class Ship : Vehicle
     }
     private ShipDamage _damage;
 
+    public override void Awake()
+    {
+        base.Awake();
+        if(Materials.Instance != null)
+        {
+            if(Materials.Instance.ShipShader != null)
+            {
+                var renderers = GetComponentsInChildren<SpriteRenderer>();
+                foreach (var r in renderers)
+                {
+                    r.material = Materials.Instance.ShipShader;
+                }
+            }
+        }
+    }
+
     public void Update()
     {
         if (isServer)
