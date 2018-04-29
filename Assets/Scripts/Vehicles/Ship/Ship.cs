@@ -64,6 +64,8 @@ public class Ship : Vehicle
     }
     private ShipDamage _damage;
 
+    private SpriteRenderer[] Renderers;
+
     public override void Awake()
     {
         base.Awake();
@@ -71,8 +73,8 @@ public class Ship : Vehicle
         {
             if(Materials.Instance.ShipShader != null)
             {
-                var renderers = GetComponentsInChildren<SpriteRenderer>();
-                foreach (var r in renderers)
+                Renderers = GetComponentsInChildren<SpriteRenderer>();
+                foreach (var r in Renderers)
                 {
                     r.material = Materials.Instance.ShipShader;
                 }
@@ -98,6 +100,26 @@ public class Ship : Vehicle
             else
             {
                 Debug.LogWarning("Ship {0} ({1}) does not contain a SHIP_HULL damage part in the damage model. You need a hull to make a ship work!".Form(Unit.Name, Unit.ID));
+            }
+        }
+
+        // Client and server:
+        // Set shader state based on the sinking state.
+        UpdateShaders();
+    }
+
+    public void UpdateShaders()
+    {
+        if (Renderers == null || Renderers.Length == 0)
+            return;
+
+        float sink = Damage.GetSinkState();
+
+        foreach (var r in Renderers)
+        {
+            if(r != null)
+            {
+                r.material.SetFloat("_Sinkness", sink);
             }
         }
     }

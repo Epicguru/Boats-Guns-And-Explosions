@@ -5,6 +5,8 @@
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+		_Sinkness ("Sink State", Range(0, 1)) = 0
+		_WaterColor ("Water Color", Color) = (0, 0, 1, 1)
 	}
 
 	SubShader
@@ -63,6 +65,8 @@
 			sampler2D _MainTex;
 			sampler2D _AlphaTex;
 			float _AlphaSplitEnabled;
+			float _Sinkness;
+			fixed4 _WaterColor;
 
 			fixed4 SampleSpriteTexture (float2 uv)
 			{
@@ -80,7 +84,10 @@
 			{
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
-				return c;
+
+				fixed4 final = lerp(c, c * _WaterColor, _Sinkness);
+
+				return final;
 			}
 		ENDCG
 		}
