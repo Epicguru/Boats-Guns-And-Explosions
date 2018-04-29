@@ -28,11 +28,6 @@ public class DestructiblePart
         {
             if (Model == null)
                 return;
-            if (!Model.isServer)
-            {
-                Debug.LogError("Cannot set part health when not on server!");
-                return;
-            }
 
             _currentHealth = value;
         }

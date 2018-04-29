@@ -8,7 +8,7 @@ public class DamageModel : NetworkBehaviour
     public Dictionary<DPart, DestructiblePart> PartMap;
     public Dictionary<Collider2D, DestructiblePart> ColliderPartMap;
 
-    public SyncListStruct<DestructiblePartNetData> NetData = new SyncListStruct<DestructiblePartNetData>();
+    private PartNetList netData = new PartNetList();
 
     [Range(0.5f, 30f)]
     public float PartSyncRate = 10f;
@@ -128,23 +128,23 @@ public class DamageModel : NetworkBehaviour
     [Server]
     public void SynchronizeData()
     {
-        NetData.Clear();
+        netData.Clear();
         foreach (var part in Parts)
         {
             if (part == null)
                 continue;
 
-            NetData.Add(part.GetNetData());
+            netData.Add(part.GetNetData());
         }
     }
 
     [Client]
     public void ReceiveData()
     {
-        if (NetData == null)
+        if (netData == null)
             return;
 
-        foreach (var data in NetData)
+        foreach (var data in netData)
         {
             if(data.ID != DPart.NONE)
             {
@@ -348,3 +348,5 @@ public class DamageModel : NetworkBehaviour
         return !essentials;
     }
 }
+
+public class PartNetList : SyncListStruct<DestructiblePartNetData> { }
