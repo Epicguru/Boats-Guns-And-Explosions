@@ -50,6 +50,9 @@ TagManager:
   - name: Ships
     uniqueID: 3630838937
     locked: 0
+  - name: Top Effects
+    uniqueID: 2784419927
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

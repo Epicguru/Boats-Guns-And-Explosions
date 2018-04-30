@@ -17,11 +17,6 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public Faction Faction;
 
-    public override void OnStartLocalPlayer()
-    {
-        Local = this;
-    }
-
     public static Player GetPlayer(uint id)
     {
         if (All == null || All.Count == 0)
@@ -40,13 +35,18 @@ public class Player : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (isServer)
-            return;
-
         if (!All.Contains(this))
         {
             All.Add(this);
         }
+    }
+
+    public override void OnStartLocalPlayer()
+    {    
+        if (isLocalPlayer)
+        {
+            Local = this;
+        }        
     }
 
     public override void OnStartServer()

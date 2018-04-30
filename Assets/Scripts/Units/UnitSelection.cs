@@ -25,9 +25,9 @@ public class UnitSelection : NetworkBehaviour
         if (isLocalPlayer)
         {
             UpdateSelection();
+            UpdateUnitOverview();
         }
 
-        UpdateUnitOverview();
     }
 
     private void UpdateUnitOverview()

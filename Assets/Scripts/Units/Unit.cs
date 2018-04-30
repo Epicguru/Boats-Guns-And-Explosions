@@ -142,11 +142,6 @@ public abstract class Unit : NetworkBehaviour
 
     public virtual void GetOptions(List<UnitOption> options)
     {
-        if (!isServer)
-        {
-            return;
-        }
-
         BroadcastMessage("GetUnitOptions", options, SendMessageOptions.DontRequireReceiver);
     }
 

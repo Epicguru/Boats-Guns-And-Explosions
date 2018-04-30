@@ -153,7 +153,9 @@ public class ShipNavigation : NetworkBehaviour
     {
         // Below: only if not broken.
         if (IsPhysicallyBroken())
+        {
             return;
+        }
 
         // Engine state:
         if (Active)
