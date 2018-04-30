@@ -68,10 +68,34 @@ public class ShipDamage : NetworkBehaviour
             // Make sure nothing is out of range.
             ClampValues();
 
+            // Show smoke when the engine is damaged.
+            UpdateEffects();
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Ship.DamageModel.DealExplosionDamage(50f);
             }
+        }
+    }
+
+    [Server]
+    private void UpdateEffects()
+    {
+        bool smoke = false;
+        if (Ship.DamageModel.ContainsPart(DPart.SHIP_ENGINE))
+        {
+            if (Ship.DamageModel.PartMap[DPart.SHIP_ENGINE].IsDestroyed)
+            {
+                smoke = true;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Ship {1} ({0}) is missing an engine!".Form(Ship.Unit.ID, Ship.Unit.Name));
+        }
+        if (smoke != Ship.Effects.SmokeActive)
+        {
+            Ship.Effects.SmokeActive = smoke;
         }
     }
 

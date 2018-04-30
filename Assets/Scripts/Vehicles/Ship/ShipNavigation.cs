@@ -270,6 +270,8 @@ public class ShipNavigation : NetworkBehaviour
     {
         if (Active)
             return;
+        if (IsPhysicallyBroken())
+            return;
 
         Active = true;
     }
