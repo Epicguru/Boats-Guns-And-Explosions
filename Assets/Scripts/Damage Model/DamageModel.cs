@@ -10,8 +10,24 @@ public class DamageModel : NetworkBehaviour
 
     private PartNetList netData = new PartNetList();
 
+    public Unit Unit
+    {
+        get
+        {
+            if(_unit == null)
+            {
+                _unit = GetComponent<Unit>();
+            }
+            return _unit;
+        }
+    }
+    private Unit _unit;
+
     [Range(0.5f, 30f)]
     public float PartSyncRate = 10f;
+
+    [SyncVar]
+    public bool CanHit = true;
 
     private float timer;
 

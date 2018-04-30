@@ -237,7 +237,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 40
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1272,8 +1272,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 519263564}
+  - component: {fileID: 519263566}
   - component: {fileID: 519263563}
   - component: {fileID: 519263565}
+  - component: {fileID: 519263567}
   m_Layer: 0
   m_Name: Standard Projectile
   m_TagString: Untagged
@@ -1313,8 +1315,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1831398645
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cab038a53874c9d4aa720ba389325dfb, type: 3}
   m_Color: {r: 1, g: 0.5562036, b: 0, a: 1}
@@ -1333,7 +1335,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519263562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1000, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1372,10 +1374,10 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1831398645
+  m_SortingLayer: -2
   m_SortingOrder: 0
-  m_Time: 3
+  m_Time: 1
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 0.1
@@ -1439,6 +1441,57 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.5
   m_Autodestruct: 0
+--- !u!114 &519263566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519263562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9c678acb477fe4a89e559bbe5c6d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 500
+  Penetration: 2
+  DamageType: 0
+  Damage: 60
+  ExplosionCollateralDamage: 1
+  Faction: 0
+  AllowFriendlyFire: 1
+  HitColliders: []
+--- !u!114 &519263567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519263562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &542230450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,28 +1853,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.9983282
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.057799447
       objectReference: {fileID: 0}
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114869950380923236, guid: 762ff0fda355a6d4d928fa5f5c04f0fc,
-        type: 2}
-      propertyPath: SmokeActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
@@ -3704,6 +3752,7 @@ GameObject:
   - component: {fileID: 1550653902}
   - component: {fileID: 1550653903}
   - component: {fileID: 1550653904}
+  - component: {fileID: 1550653905}
   m_Layer: 0
   m_Name: Pools
   m_TagString: Untagged
@@ -3760,6 +3809,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefab: {fileID: 114744046313836704, guid: 4a76a5dcc95b00441bfa6e2ea67e7f6e, type: 2}
+--- !u!114 &1550653905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1550653900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baedfe09ec97de049b8ce20f676cd8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sparks: {fileID: 114449693382016378, guid: bcfe957a2e4131743b33305d95118f4e, type: 2}
+  Explosion: {fileID: 114583499129590980, guid: e119f944b4745264581bdcc3c464c56b,
+    type: 2}
 --- !u!1 &1563828058
 GameObject:
   m_ObjectHideFlags: 0

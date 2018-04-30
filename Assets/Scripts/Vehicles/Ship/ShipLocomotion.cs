@@ -194,6 +194,7 @@ public class ShipLocomotion : NetworkBehaviour
         {
             v = 0f;
         }
+        p -= 0.5f * Ship.Damage.GetSinkState();
 
         AudioSource.volume = v;
         AudioSource.pitch = p;

@@ -272,6 +272,8 @@ public class ShipNavigation : NetworkBehaviour
             return;
         if (IsPhysicallyBroken())
             return;
+        if (Ship.Damage.IsSunk())
+            return;
 
         Active = true;
     }

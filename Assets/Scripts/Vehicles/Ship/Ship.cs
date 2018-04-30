@@ -114,6 +114,16 @@ public class Ship : Vehicle
             {
                 Debug.LogWarning("Ship {0} ({1}) does not contain a SHIP_HULL damage part in the damage model. You need a hull to make a ship work!".Form(Unit.Name, Unit.ID));
             }
+
+            if (Damage.IsSunk())
+            {
+                Navigation.Deactivate();
+                DamageModel.CanHit = false;
+            }
+            else
+            {
+                DamageModel.CanHit = true;
+            }
         }
 
         // Client and server:

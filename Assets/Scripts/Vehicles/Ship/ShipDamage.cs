@@ -55,6 +55,16 @@ public class ShipDamage : NetworkBehaviour
         return sinkness;
     }
 
+    public bool IsSunk()
+    {
+        return GetSinkState() == 1f;
+    }
+
+    public bool IsSinking()
+    {
+        return WaterOntake > 0f;
+    }
+
     public void Update()
     {
         if (isServer)
@@ -70,11 +80,6 @@ public class ShipDamage : NetworkBehaviour
 
             // Show smoke when the engine is damaged.
             UpdateEffects();
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Ship.DamageModel.DealExplosionDamage(50f);
-            }
         }
     }
 

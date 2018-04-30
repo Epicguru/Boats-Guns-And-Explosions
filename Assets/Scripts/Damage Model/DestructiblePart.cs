@@ -78,6 +78,9 @@ public class DestructiblePart
     [Tooltip("Is this part/component completely necessary for the DamageModel object to operate/exist/live?")]
     public bool IsEssential = false;
 
+    [Header("Visual")]
+    public TempEffects HitEffect = TempEffects.NONE;
+
     public DestructiblePartNetData GetNetData()
     {
         return new DestructiblePartNetData() { ID = this.ID, Health = this.CurrentHealth };
