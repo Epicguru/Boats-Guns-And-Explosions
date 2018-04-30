@@ -87,6 +87,8 @@ MonoBehaviour:
   ID: 1
   Duration: 0.5
   Particles: {fileID: 198087479747871516}
+  Clip: {fileID: 8300000, guid: 19965be78b67ac3409eb132418bab419, type: 3}
+  Volume: 1
 --- !u!198 &198087479747871516
 ParticleSystem:
   m_ObjectHideFlags: 1

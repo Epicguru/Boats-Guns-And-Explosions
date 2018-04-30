@@ -787,7 +787,7 @@ MonoBehaviour:
     ExplosionDamageMultipler: 1
     DestroyedThreshhold: 0
     IsEssential: 1
-    HitEffect: 2
+    HitEffect: 1
   - _id: 1
     Name: Engine
     _currentHealth: 50
@@ -796,7 +796,7 @@ MonoBehaviour:
     Model: {fileID: 0}
     RelativeSize: 0.2
     ExplosionDamageMultipler: 1.5
-    DestroyedThreshhold: 0.6
+    DestroyedThreshhold: 0.4
     IsEssential: 0
     HitEffect: 0
   PartSyncRate: 10

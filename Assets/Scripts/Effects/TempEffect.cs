@@ -8,12 +8,19 @@ public class TempEffect : MonoBehaviour, IPoolable
 
     public ParticleSystem Particles;
 
+    [Header("Audio")]
+    public AudioClip Clip;
+    [Range(0f, 1f)]
+    public float Volume = 0.5f;
+
     private float timer = 0f;
+    private bool playAudio;
 
     public void Begin(Transform pool)
     {
         gameObject.SetActive(true);
         transform.SetParent(pool);
+        playAudio = true;
         Play();
     }
 
@@ -35,6 +42,14 @@ public class TempEffect : MonoBehaviour, IPoolable
 
     public void Update()
     {
+        if (playAudio)
+        {
+            playAudio = false;
+            if(Clip != null)
+            {
+                AudioSource.PlayClipAtPoint(Clip, transform.position, Volume);
+            }
+        }
         timer += Time.deltaTime;
 
         if(timer >= Duration)

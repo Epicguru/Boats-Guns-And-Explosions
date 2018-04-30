@@ -146,7 +146,7 @@ public class ShipNavigation : NetworkBehaviour
 
     public bool IsPhysicallyBroken()
     {
-        return Ship.DamageModel.IsDestroyed() || Ship.DamageModel.PartMap[DPart.SHIP_ENGINE].IsDestroyed;
+        return Ship.DamageModel.IsDestroyed() || Ship.DamageModel.PartMap[DPart.SHIP_ENGINE].IsDestroyed || Ship.Damage.IsSunk();
     }
 
     public void GetUnitOptions(List<UnitOption> options)

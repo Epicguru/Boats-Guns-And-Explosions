@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -10,11 +11,20 @@ public class Projectile : NetworkBehaviour
 
     [Header("Movement")]
     public float Speed = 500f;
+    [Range(0f, 50f)]
+    public float MinSpeed = 20f;
+    public float MaxRange = 1000f;
+    public float SpeedReduction = 50f;
+    [Range(0f, 1f)]
+    public float SpeedFalloff = 0.8f;
+
 
     [Header("Penetration")]
     [Range(0, 50)]
     [Tooltip("How many layers of colliders can this projectile penetrate through?")]
     public int Penetration = 0;
+    [Range(0f, 1f)]
+    public float PenetrationFalloff = 0.7f;
 
     [Header("Damage")]
     public ProjectileDamageType DamageType = ProjectileDamageType.NORMAL;
@@ -25,7 +35,6 @@ public class Projectile : NetworkBehaviour
     [Header("Other")]
     [SyncVar]
     public Faction Faction;
-    [SyncVar]
     public bool AllowFriendlyFire;
 
     public ProjectileHitEvent ServerHit = new ProjectileHitEvent();
@@ -34,17 +43,83 @@ public class Projectile : NetworkBehaviour
     public List<Collider2D> HitColliders = new List<Collider2D>();
     private int currentPenetrationCount = 0;
 
+    private bool disabled = false;
+
+    [SyncVar]
+    [HideInInspector]
+    public Vector2 StartPos;
+
     public void Update()
     {
         // On the server, update the authorative position.
         // Also, hit targets!
-        UpdatePosition();        
+        UpdatePosition();
+        UpdateRange();
+        UpdateSpeed();
+        UpdateSpeedCutoff();
+    }
+
+    public void Disable()
+    {
+        if (disabled)
+            return;
+
+        // Can't destroy on client because it will cause a desync. Just hide the renderer.
+        StartCoroutine(DecreaseAlpha());
+        disabled = true;
+
+        // If on server, destroy after one second (to allow the tail to catch up to the projectile).
+        if (isServer)
+        {
+            Destroy(gameObject, 1f);
+        }
+    }
+
+    public IEnumerator DecreaseAlpha()
+    {
+        var s = GetComponent<SpriteRenderer>();
+        while(s.color.a > 0f)
+        {
+            var c = s.color;
+            c.a -= 0.1f;
+            s.color = c;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public void UpdateSpeed()
+    {
+        Speed -= Time.deltaTime * SpeedReduction;
+    }
+
+    public void UpdateSpeedCutoff()
+    {
+        if (MinSpeed < 0f)
+            MinSpeed = 0f;
+
+        if(Speed <= MinSpeed)
+        {
+            Disable();
+        }
+    }
+
+    public void UpdateRange()
+    {
+        float dst = Vector2.Distance(StartPos, transform.position);
+
+        if(dst > MaxRange)
+        {
+            Disable();
+        }
     }
 
     public virtual void UpdatePosition()
     {
         // Runs on both client and server, but the server mode is the only one that does authorative actions such as dealing damage.
         // Note that with high latency clients may experience desyc where projectiles appear to hit when don't, but it will be purely visual.
+
+        if (disabled)
+            return;
 
         Vector2 pos = transform.position;
         Vector2 newPos = pos + ((Vector2)transform.right * Speed * Time.deltaTime);
@@ -116,7 +191,11 @@ public class Projectile : NetworkBehaviour
                 }
 
                 // TODO hit it, deal damage, apply force, spawn hit effect.
-                ProcessHit(hit, Penetration, model);
+                ProcessHit(hit, currentPenetrationCount, model);
+
+                // Apply falloff values.
+                Speed *= SpeedFalloff;
+                Damage *= PenetrationFalloff;
 
                 // Increate the penetration count, and if it exceeds max penetration then quit.
                 currentPenetrationCount++;
@@ -126,15 +205,7 @@ public class Projectile : NetworkBehaviour
                     endPos = hit.point;
 
                     // Now we want to destroy or hide this projectile.
-                    // On server, destroy to sync with all clients.
-                    if (isServer)
-                    {
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
-                        gameObject.SetActive(false);
-                    }
+                    Disable();
                 
                     break;
                 }
