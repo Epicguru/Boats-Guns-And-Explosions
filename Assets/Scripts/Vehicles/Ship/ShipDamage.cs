@@ -81,6 +81,7 @@ public class ShipDamage : NetworkBehaviour
     [Server]
     private void UpdateEffects()
     {
+        // Smoke
         bool smoke = false;
         if (Ship.DamageModel.ContainsPart(DPart.SHIP_ENGINE))
         {
@@ -93,6 +94,12 @@ public class ShipDamage : NetworkBehaviour
         {
             Debug.LogWarning("Ship {1} ({0}) is missing an engine!".Form(Ship.Unit.ID, Ship.Unit.Name));
         }
+
+        if(Ship.Damage.GetSinkState() >= 0.6f)
+        {
+            smoke = false; // Can't have smoke under water!
+        }
+
         if (smoke != Ship.Effects.SmokeActive)
         {
             Ship.Effects.SmokeActive = smoke;
