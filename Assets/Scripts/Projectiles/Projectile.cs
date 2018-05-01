@@ -9,45 +9,52 @@ public class Projectile : NetworkBehaviour
     public const int MAX_COLLISIONS_PER_FRAME = 20;
     public static RaycastHit2D[] Hits = new RaycastHit2D[MAX_COLLISIONS_PER_FRAME];
 
-    [Header("Movement")]
-    public float Speed = 500f;
-    [Range(0f, 50f)]
-    public float MinSpeed = 20f;
-    public float MaxRange = 1000f;
-    public float SpeedReduction = 50f;
-    [Range(0f, 1f)]
-    public float SpeedFalloff = 0.8f;
-
-
-    [Header("Penetration")]
-    [Range(0, 50)]
-    [Tooltip("How many layers of colliders can this projectile penetrate through?")]
-    public int Penetration = 0;
-    [Range(0f, 1f)]
-    public float PenetrationFalloff = 0.7f;
-
-    [Header("Damage")]
-    public ProjectileDamageType DamageType = ProjectileDamageType.NORMAL;
-    public float Damage = 60f;
-    [Range(0f, 1f)]
-    public float ExplosionCollateralDamage = 1f;
-
-    [Header("Other")]
-    [SyncVar]
-    public Faction Faction;
-    public bool AllowFriendlyFire;
-
     public ProjectileHitEvent ServerHit = new ProjectileHitEvent();
-
     [HideInInspector]
     public List<Collider2D> HitColliders = new List<Collider2D>();
-    private int currentPenetrationCount = 0;
+
+    public ProjectileData Data;
+    [SyncVar] public Faction Faction;
+    [HideInInspector]
+    [SyncVar] public Vector2 StartPos;
 
     private bool disabled = false;
+    private int currentPenetrationCount = 0;
+    private float speed;
+    private float damage;
+    private bool created = false;
 
-    [SyncVar]
-    [HideInInspector]
-    public Vector2 StartPos;
+    public override void OnStartClient()
+    {
+        Create();
+    }
+
+    public void Start()
+    {
+        if (isServer)
+        {
+            Create();
+        }
+    }
+
+    private void Create()
+    {
+        if (created)
+            return;
+
+        if (Data == null)
+        {
+            Debug.LogError("Projectile spawned with null data! Why?! ({0})".Form(isServer ? "Server" : "Client"));
+            disabled = true;
+            return;
+        }
+
+        speed = Data.Speed;
+        damage = Data.Damage;
+        transform.position = StartPos;
+
+        created = true;
+    }
 
     public void Update()
     {
@@ -89,15 +96,15 @@ public class Projectile : NetworkBehaviour
 
     public void UpdateSpeed()
     {
-        Speed -= Time.deltaTime * SpeedReduction;
+        speed -= Time.deltaTime * Data.SpeedReduction;
     }
 
     public void UpdateSpeedCutoff()
     {
-        if (MinSpeed < 0f)
-            MinSpeed = 0f;
+        if (Data.MinSpeed < 0f)
+            Data.MinSpeed = 0f;
 
-        if(Speed <= MinSpeed)
+        if(Data.Speed <= Data.MinSpeed)
         {
             Disable();
         }
@@ -107,7 +114,7 @@ public class Projectile : NetworkBehaviour
     {
         float dst = Vector2.Distance(StartPos, transform.position);
 
-        if(dst > MaxRange)
+        if(dst > Data.MaxRange)
         {
             Disable();
         }
@@ -122,7 +129,7 @@ public class Projectile : NetworkBehaviour
             return;
 
         Vector2 pos = transform.position;
-        Vector2 newPos = pos + ((Vector2)transform.right * Speed * Time.deltaTime);
+        Vector2 newPos = pos + ((Vector2)transform.right * speed * Time.deltaTime);
 
         // Update collision!
         Vector2 endPos;
@@ -178,7 +185,7 @@ public class Projectile : NetworkBehaviour
                 HitColliders.Add(hit.collider);
 
                 // Check to see if it the faction of this projectile matches the model's unit faction.
-                if (!AllowFriendlyFire)
+                if (!Data.AllowFriendlyFire)
                 {
                     if (model.Unit != null)
                     {
@@ -194,12 +201,12 @@ public class Projectile : NetworkBehaviour
                 ProcessHit(hit, currentPenetrationCount, model);
 
                 // Apply falloff values.
-                Speed *= SpeedFalloff;
-                Damage *= PenetrationFalloff;
+                speed *= Data.SpeedFalloff;
+                damage *= Data.DamageFaloff;
 
                 // Increate the penetration count, and if it exceeds max penetration then quit.
                 currentPenetrationCount++;
-                if(currentPenetrationCount > Penetration)
+                if(currentPenetrationCount > Data.Penetration)
                 {
                     // Stop here, because this projectile cannot penetrate any more and should be destroyed.
                     endPos = hit.point;
@@ -274,21 +281,21 @@ public class Projectile : NetworkBehaviour
                 return;
 
             // Deal damage to that part!
-            switch (DamageType)
+            switch (Data.DamageType)
             {
                 case ProjectileDamageType.NORMAL:
                     // Deal damage to only the hit part.
-                    part.Damage(Damage);
+                    part.Damage(damage);
 
                     break;
                 case ProjectileDamageType.EXPLOSIVE:
                     // Do an explosion style damage that will harm parts around the inital hit point.
                     // Does not spawn explosion effect or anything like that.
-                    model.DealExplosionDamage(Damage, part.ID, ExplosionCollateralDamage);
+                    model.DealExplosionDamage(damage, part.ID, Data.ExplosionCollateralDamage);
 
                     break;
                 default:
-                    Debug.LogError("Unhandled type of projectile damage!! ({0})".Form(DamageType));
+                    Debug.LogError("Unhandled type of projectile damage!! ({0})".Form(Data.DamageType));
                     break;
             }
 
@@ -304,6 +311,31 @@ public class Projectile : NetworkBehaviour
             Debug.LogWarning("Unmapped collider on damage model '{0}'. Collider name: '{1}'. Hit with projectile, but could not deal damage. Please consider making unmapped colliders triggers so that they are not hit.".Form(model.name, hit.collider.name));
             return;
         }
+    }
+
+    [Server]
+    public static Projectile Spawn(ProjectileData data, Vector2 position, float angle, Faction faction)
+    {
+        if (data == null)
+        {
+            Debug.LogWarning("Null data supplied, returning null...");
+            return null;
+        }
+
+        // Create new instance...
+        var prefab = Spawnables.Instance.Projectile;
+        var instance = Instantiate(prefab);
+
+        // Set position, angle, data, spawn pos, faction...
+        instance.transform.position = position;
+        instance.transform.eulerAngles = new Vector3(0f, 0f, angle);
+        instance.StartPos = position;
+        instance.Faction = faction;
+
+        // Spawn on network, syncs with all clients.
+        NetworkServer.Spawn(instance.gameObject);
+
+        return instance;
     }
 }
 
