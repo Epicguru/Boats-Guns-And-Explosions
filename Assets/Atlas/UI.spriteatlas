@@ -41,6 +41,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 47c16c91c6cea74499c4608388cfb09f, type: 3}
   - {fileID: 21300000, guid: 59205e30e88387a49bdb8517e9bffc49, type: 3}
   - {fileID: 21300000, guid: 35df5558655344947b3492af79efc481, type: 3}
+  - {fileID: 21300000, guid: e08876be01327c6438719b5cc1566fb1, type: 3}
   - {fileID: 21300000, guid: e9e497523d335424990e102cc4bd3465, type: 3}
   - {fileID: 21300000, guid: 64dae8042fd770243954dad1eeadb535, type: 3}
   m_PackedSpriteNamesToIndex:
@@ -53,6 +54,7 @@ SpriteAtlas:
   - Selection Bounds
   - State Bar
   - Dropdown
+  - Loading Bar
   - Border
   - Pixel
   m_Tag: UI
