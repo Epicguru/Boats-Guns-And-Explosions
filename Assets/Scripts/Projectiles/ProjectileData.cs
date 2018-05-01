@@ -1,11 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Projectile Data", menuName = "Projectile")]
 public class ProjectileData : ScriptableObject
 {
     // Defines a projectiles characteristics.
-
     // Could add sprite, trail colour/length etc.
+
+    public byte ID
+    {
+        get
+        {
+            return _id;
+        }
+    }
+    [SerializeField]
+    private byte _id;
 
     [Header("Movement")]
     [Tooltip("The initial starting velocity in units/second")]
@@ -41,4 +51,22 @@ public class ProjectileData : ScriptableObject
     [Header("Other")]
     [Tooltip("Can this projectile damage friendly units?")]
     public bool AllowFriendlyFire;
+
+    public static Dictionary<byte, ProjectileData> Loaded;
+
+    public static void Load(List<AsyncOperation> ops)
+    {
+        // Load all projectile datas into RAM from the resources.
+        Loaded = new Dictionary<byte, ProjectileData>();
+
+        // TODO load.
+    }
+
+    public static void Unload()
+    {
+        // Unload resources from memory.
+
+        Loaded.Clear();
+        Loaded = null;
+    }
 }
