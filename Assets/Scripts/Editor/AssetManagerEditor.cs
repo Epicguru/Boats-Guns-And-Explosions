@@ -11,11 +11,11 @@ public class AssetManagerEditor : Editor
 
         if (GUILayout.Button("Load Game Assets"))
         {
-            m.LoadGA();
+            m.Load();
         }
         if (GUILayout.Button("Unload Game Assets"))
         {
-            m.UnloadGA();
+            m.Unload();
         }
     }
 }
