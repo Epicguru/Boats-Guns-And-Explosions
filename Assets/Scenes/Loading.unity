@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 578000286}
   - component: {fileID: 578000287}
   m_Layer: 0
-  m_Name: Asset Manager
+  m_Name: Scene Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -584,22 +584,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 578000285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ca902ff44b7ebe4bb3a640d0a353efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 03113d9f7ade7ae478cc95bb05a88d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadGameAssets:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: AssetLoadEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  UnloadGameAssets:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: AssetUnloadEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  IsLoading: 1
-  IsUnloading: 0
-  Progress: 0
+  LoadingUI: {fileID: 1879365703}
+  TargetScene: Game
+  Done: 0
 --- !u!1 &1277856582
 GameObject:
   m_ObjectHideFlags: 0

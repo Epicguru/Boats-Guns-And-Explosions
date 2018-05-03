@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Projectile Data", menuName = "Projectile")]
 public class ProjectileData : ScriptableObject
@@ -54,17 +56,43 @@ public class ProjectileData : ScriptableObject
 
     public static Dictionary<byte, ProjectileData> Loaded;
 
-    public static void Load(List<AsyncOperation> ops)
+    public static void LoadProjectiles()
     {
+        if (Loaded != null)
+            return;
+
         // Load all projectile datas into RAM from the resources.
         Loaded = new Dictionary<byte, ProjectileData>();
 
-        // TODO load.
+        var array = Resources.LoadAll<ProjectileData>("Projectiles");
+
+        foreach (var data in array)
+        {
+            if (!Loaded.ContainsKey(data.ID))
+            {
+                Loaded.Add(data.ID, data);
+            }
+            else
+            {
+                Debug.LogError("Duplicate projectile ID {0}! Will not be added.".Form(data.ID));
+            }
+        }
     }
 
     public static void Unload()
     {
-        // Unload resources from memory.
+        // Unload resources from memory...
+        if (Loaded == null)
+            return;
+
+        // Unload all projectile data's.
+        foreach (var pair in Loaded)
+        {
+            if(pair.Value != null)
+            {
+                Resources.UnloadAsset(pair.Value);
+            }
+        }
 
         Loaded.Clear();
         Loaded = null;
