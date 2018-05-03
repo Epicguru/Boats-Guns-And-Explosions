@@ -146,7 +146,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &41459660
@@ -183,10 +183,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 72
+    m_FontSize: 60
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 7
+    m_MinSize: 6
     m_MaxSize: 72
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading Assets
+  m_Text: Loading Stuff...
 --- !u!222 &41459662
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -584,12 +584,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 578000285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03113d9f7ade7ae478cc95bb05a88d44, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e76f3e33781b064c8e9a40ec9693108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingUI: {fileID: 1879365703}
-  TargetScene: Game
-  Done: 0
+  UI: {fileID: 1879365703}
+  GameScene: Game
 --- !u!1 &1277856582
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,7 +917,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Percentage: 0
+  Title: 
   StepText: {fileID: 72086655}
+  TitleText: {fileID: 41459661}
   StepBar: {fileID: 372204878}
 --- !u!1 &2098453217
 GameObject:
