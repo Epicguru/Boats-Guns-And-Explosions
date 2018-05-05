@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 41459659}
   - component: {fileID: 41459662}
   - component: {fileID: 41459661}
-  - component: {fileID: 41459660}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -144,24 +143,11 @@ RectTransform:
   m_Father: {fileID: 1277856583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: 60}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &41459660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 41459658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!114 &41459661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,16 +171,16 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 60
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 6
-    m_MaxSize: 72
+    m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading Stuff...
+  m_Text: Loading Something...
 --- !u!222 &41459662
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -557,7 +543,7 @@ GameObject:
   - component: {fileID: 578000286}
   - component: {fileID: 578000287}
   m_Layer: 0
-  m_Name: Scene Loader
+  m_Name: Asset Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -589,6 +575,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI: {fileID: 1879365703}
   GameScene: Game
+  Server: 1
+  Client: 1
+  IP: localhost
+  Port: 7777
+  LoadedStatic: 0
 --- !u!1 &1277856582
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,8 +907,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ce877fcdaf98341a25309edb3c49c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Percentage: 0
-  Title: 
   StepText: {fileID: 72086655}
   TitleText: {fileID: 41459661}
   StepBar: {fileID: 372204878}
