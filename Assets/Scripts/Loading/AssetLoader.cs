@@ -50,7 +50,6 @@ public class AssetLoader : MonoBehaviour
     {
         if (!LoadedStatic)
         {
-            yield return null;
             LoadedStatic = false;
 
             List<KeyValuePair<string, Run>> actions = new List<KeyValuePair<string, Run>>();
@@ -58,6 +57,7 @@ public class AssetLoader : MonoBehaviour
 
             int total = actions.Count;
 
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             // Loop and execute...
             for (int i = 0; i < total; i++)
             {
@@ -66,7 +66,10 @@ public class AssetLoader : MonoBehaviour
                 UI.Title = pair.Key;
                 UI.Percentage = i / total;
                 yield return null;
+                watch.Restart();
                 pair.Value.Invoke();
+                watch.Stop();
+                Debug.Log("'{0}' - Took {1} milliseconds.".Form(pair.Key, watch.ElapsedMilliseconds));
             }
 
             LoadedStatic = true;
