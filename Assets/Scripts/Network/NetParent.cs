@@ -38,4 +38,10 @@ public class NetParent : MonoBehaviour
     {
         return NetID != null;
     }
+
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, 0.5f);
+    }
 }

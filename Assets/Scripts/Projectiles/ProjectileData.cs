@@ -62,15 +62,15 @@ public class ProjectileData : ScriptableObject
             return;
 
         // Load all projectile datas into RAM from the resources.
-        LoadedData = new Dictionary<ProjectileType, ProjectileData>();
+        LoadedData = new Dictionary<byte, ProjectileData>();
 
         var array = Resources.LoadAll<ProjectileData>("Projectiles");
 
         foreach (var data in array)
         {
-            if (!LoadedData.ContainsKey(data.ID))
+            if (!ContainsData(data.ID))
             {
-                LoadedData.Add(data.ID, data);
+                LoadedData.Add((byte)data.ID, data);
             }
             else
             {
@@ -129,4 +129,10 @@ public class ProjectileData : ScriptableObject
 public enum ProjectileType : byte
 {
     STANDARD
+}
+
+public enum ProjectileDamageType : byte
+{
+    NORMAL,
+    EXPLOSIVE
 }

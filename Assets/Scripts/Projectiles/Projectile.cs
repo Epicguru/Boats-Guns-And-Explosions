@@ -314,6 +314,18 @@ public class Projectile : NetworkBehaviour
     }
 
     [Server]
+    public static Projectile Spawn(ProjectileType type, Vector2 position, float angle, Faction faction)
+    {
+        return Spawn(ProjectileData.GetData(type), position, angle, faction);
+    }
+
+    [Server]
+    public static Projectile Spawn(byte dataID, Vector2 position, float angle, Faction faction)
+    {
+        return Spawn(ProjectileData.GetData(dataID), position, angle, faction);
+    }
+
+    [Server]
     public static Projectile Spawn(ProjectileData data, Vector2 position, float angle, Faction faction)
     {
         if (data == null)
@@ -337,12 +349,6 @@ public class Projectile : NetworkBehaviour
 
         return instance;
     }
-}
-
-public enum ProjectileDamageType : byte
-{
-    NORMAL,
-    EXPLOSIVE
 }
 
 public class ProjectileHitEvent : UnityEvent<RaycastHit2D, int, DamageModel>

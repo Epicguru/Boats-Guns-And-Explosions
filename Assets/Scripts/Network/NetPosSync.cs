@@ -98,6 +98,7 @@ public class NetPosSync : NetworkBehaviour
         if (!UseRigidbody2D)
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, Position, Time.deltaTime * LerpSpeed);
+            // Rotation...
             Vector3 angles = transform.localEulerAngles;
             angles.z = Mathf.LerpAngle(angles.z, Rotation, Time.deltaTime * LerpSpeed);
             transform.localEulerAngles = angles;

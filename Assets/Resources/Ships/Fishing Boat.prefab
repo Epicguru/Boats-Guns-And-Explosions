@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4033265673571240}
   - component: {fileID: 212487290846272316}
+  - component: {fileID: 114863968142051082}
   m_Layer: 0
   m_Name: Pivot Mount
   m_TagString: Untagged
@@ -317,7 +318,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1560373461334954}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9983282, w: 0.057799447}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -327,7 +328,7 @@ Transform:
   - {fileID: 4722045084534218}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 173.373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4416053593745588
 Transform:
   m_ObjectHideFlags: 1
@@ -860,6 +861,18 @@ MonoBehaviour:
   SinkStartThreshhold: 0.7
   MinTimeToSink: 10
   WaterOntake: 0
+--- !u!114 &114863968142051082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087571853018138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b26f99b7b2fdf544a9c33aa187fb446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 0
 --- !u!114 &114869950380923236
 MonoBehaviour:
   m_ObjectHideFlags: 1
