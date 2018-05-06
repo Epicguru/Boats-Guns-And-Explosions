@@ -64,7 +64,7 @@ public class ProjectileData : ScriptableObject
         // Load all projectile datas into RAM from the resources.
         LoadedData = new Dictionary<byte, ProjectileData>();
 
-        var array = Resources.LoadAll<ProjectileData>("Projectiles");
+        var array = Resources.LoadAll<ProjectileData>("Projectile Datas");
 
         foreach (var data in array)
         {

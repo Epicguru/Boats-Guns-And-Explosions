@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -54,6 +55,7 @@ public class AssetLoader : MonoBehaviour
 
             List<KeyValuePair<string, Run>> actions = new List<KeyValuePair<string, Run>>();
             actions.Add(new KeyValuePair<string, Run>("Loading Projectiles...", () => { ProjectileData.LoadProjectiles(); }));
+            actions.Add(new KeyValuePair<string, Run>("Registering Projectiles...", () => { Projectile.NetRegister(); }));
 
             int total = actions.Count;
 
@@ -67,7 +69,14 @@ public class AssetLoader : MonoBehaviour
                 UI.Percentage = i / total;
                 yield return null;
                 watch.Restart();
-                pair.Value.Invoke();
+                try
+                {
+                    pair.Value.Invoke();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception when loading on step #{0} - '{1}':\n{2}".Form(i, pair.Key, e));
+                }
                 watch.Stop();
                 Debug.Log("'{0}' - Took {1} milliseconds.".Form(pair.Key, watch.ElapsedMilliseconds));
             }
@@ -83,6 +92,9 @@ public class AssetLoader : MonoBehaviour
         {
             // Projectiles...
             ProjectileData.Unload();
+
+            // Resources cleanup...
+            Resources.UnloadUnusedAssets();
 
             LoadedStatic = false;
         }
@@ -127,6 +139,13 @@ public class AssetLoader : MonoBehaviour
             {
                 Debug.LogError("Impropper network setup, neither client nor server!");
             }
+
+            OnGameSceneSetUp();
         }        
+    }
+
+    private static void OnGameSceneSetUp()
+    {
+        NetworkPrefabs.Apply();
     }
 }

@@ -13,6 +13,8 @@ public class Projectile : NetworkBehaviour
     [HideInInspector]
     public List<Collider2D> HitColliders = new List<Collider2D>();
 
+    public TrailRenderer Trail;
+
     public ProjectileData Data { get; private set; }
     [SyncVar] public byte DataID;
     [SyncVar] public Faction Faction;
@@ -117,6 +119,11 @@ public class Projectile : NetworkBehaviour
         }
     }
 
+    public void UpdateTrailWidth()
+    {
+        Trail.widthMultiplier = speed / Data.Speed;
+    }
+
     public void UpdateSpeed()
     {
         speed -= Time.deltaTime * Data.SpeedReduction;
@@ -127,7 +134,7 @@ public class Projectile : NetworkBehaviour
         if (Data.MinSpeed < 0f)
             Data.MinSpeed = 0f;
 
-        if(Data.Speed <= Data.MinSpeed)
+        if(speed <= Data.MinSpeed)
         {
             Disable();
         }
@@ -372,6 +379,16 @@ public class Projectile : NetworkBehaviour
         NetworkServer.Spawn(instance.gameObject);
 
         return instance;
+    }
+
+    public static void NetRegister()
+    {
+        // Register the projectile prefab(s) with the networking system.
+        var gos = Resources.LoadAll<GameObject>("Projectiles");
+        foreach (var go in gos)
+        {
+            NetworkPrefabs.Add(go);
+        }
     }
 }
 
