@@ -54,7 +54,7 @@ public class ProjectileData : ScriptableObject
     [Tooltip("Can this projectile damage friendly units?")]
     public bool AllowFriendlyFire;
 
-    public static Dictionary<ProjectileType, ProjectileData> LoadedData;
+    public static Dictionary<byte, ProjectileData> LoadedData;
 
     public static void LoadProjectiles()
     {
@@ -98,10 +98,31 @@ public class ProjectileData : ScriptableObject
         LoadedData = null;
     }
 
+    public static bool ContainsData(ProjectileType type)
+    {
+        return ContainsData((byte)type);
+    }
+
+    public static bool ContainsData(byte ID)
+    {
+        return LoadedData != null && LoadedData.ContainsKey(ID);
+    }
+
+    public static ProjectileData GetData(ProjectileType type)
+    {
+        return GetData((byte)type);
+    }
+
     public static ProjectileData GetData(byte ID)
     {
-        GetData((byte)ProjectileType.STANDARD);
-        return null;
+        if (ContainsData(ID))
+        {
+            return LoadedData[ID];
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 
