@@ -29,9 +29,9 @@ public class NetParenting : NetworkBehaviour
         ParentChanged(parentID);
     }
 
-    public void SetParent(NetParent parent)
+    public void SetParent(NetParent parent, bool earlyBypass = false)
     {
-        if (!isServer)
+        if (!isServer && !earlyBypass)
         {
             Debug.LogError("Can only change parenting on server!");
             return;

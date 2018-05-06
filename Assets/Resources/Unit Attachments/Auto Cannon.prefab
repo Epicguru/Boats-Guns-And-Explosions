@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 114177631090363078}
   - component: {fileID: 114932730988473850}
   - component: {fileID: 114842425421968922}
-  - component: {fileID: 114141901581023618}
   - component: {fileID: 114323294395128006}
   m_Layer: 0
   m_Name: Auto Cannon
@@ -276,7 +275,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1606909163318878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.295, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4784451134044258}
@@ -301,22 +300,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114141901581023618
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1606909163318878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e15696f506365547bf941ba626e32b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
-  Anim: {fileID: 95793330823241790}
-  ProjectileSpawns:
-  - {fileID: 4117915305684294}
-  - {fileID: 4697561883182614}
 --- !u!114 &114177631090363078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -377,7 +360,7 @@ MonoBehaviour:
   UponEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114141901581023618}
+      - m_Target: {fileID: 0}
         m_MethodName: Fire
         m_Mode: 0
         m_Arguments:

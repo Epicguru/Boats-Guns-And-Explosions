@@ -98,6 +98,18 @@ public class Attachment : NetworkBehaviour
         Loaded.Clear();
         Loaded = null;
     }
+
+    public static Attachment Get(AttachmentType type)
+    {
+        return Get((byte)type);
+    }
+
+    public static Attachment Get(byte ID)
+    {
+        if (Loaded.ContainsKey(ID))
+            return Loaded[ID];
+        return null;
+    }
 }
 
 public enum AttachmentType : byte

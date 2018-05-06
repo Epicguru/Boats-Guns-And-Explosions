@@ -26,6 +26,14 @@ public class AttachmentManager : NetworkBehaviour
         RefreshSockets();
     }
 
+    public void Start()
+    {
+        if (isServer)
+        {
+            Attach(0, (byte)AttachmentType.AUTO_CANNON);
+        }
+    }
+
     public void RefreshSockets()
     {
         Sockets.Clear();
@@ -46,7 +54,7 @@ public class AttachmentManager : NetworkBehaviour
 
     public Attachment GetAttached(byte socketID)
     {
-        if (!Sockets.ContainsKey(socketID))
+        if (!HasSocket(socketID))
         {
             return null;
         }
@@ -69,9 +77,62 @@ public class AttachmentManager : NetworkBehaviour
         return GetAttached(socketID) != null;
     }
 
+    public bool HasSocket(byte socketID)
+    {
+        return Sockets.ContainsKey(socketID);
+    }
+
     [Server]
     public void Attach(byte socketID, byte ID)
     {
+        if (!HasSocket(socketID))
+            return;
 
+        var socket = Sockets[socketID];
+        if (socket == null)
+        {
+            Debug.LogError("Null socket, cannot attach, why is it destroyed?!?");
+            return;
+        }
+
+        var a = GetAttached(socketID);
+
+        if(a != null)
+        {
+            // Remove old attachment, the add new.
+            RemoveAttachment(socketID);
+        }
+
+        // Now spawn new attachment...
+        var spawned = Instantiate(Attachment.Get(ID));
+
+        // Do whatever needs doing to attachment here...
+        // Parent...
+        var parenting = spawned.GetComponent<NetParenting>();
+        if(parenting != null)
+        {
+            parenting.SetParent(socket.NetParent, true);
+        }
+        else
+        {
+            Debug.LogError("The attachment {0} does not have a net parent component!".Form(spawned.Name));
+        }
+        spawned.transform.localPosition = Vector3.zero;
+        spawned.transform.localEulerAngles = Vector3.zero;
+
+        // Now spawn on network for everyone to see...
+        NetworkServer.Spawn(spawned.gameObject);
+    }
+
+    [Server]
+    public void RemoveAttachment(byte socketID)
+    {
+        // Server side removal of attachment. Just destroy it.
+        var a = GetAttached(socketID);
+
+        if(a != null)
+        {
+            Destroy(a);
+        }
     }
 }
