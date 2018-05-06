@@ -9,7 +9,7 @@ public class ProjectileData : ScriptableObject
     // Defines a projectiles characteristics.
     // Could add sprite, trail colour/length etc.
 
-    public byte ID
+    public ProjectileType ID
     {
         get
         {
@@ -17,7 +17,7 @@ public class ProjectileData : ScriptableObject
         }
     }
     [SerializeField]
-    private byte _id;
+    private ProjectileType _id;
 
     [Header("Movement")]
     [Tooltip("The initial starting velocity in units/second")]
@@ -54,23 +54,23 @@ public class ProjectileData : ScriptableObject
     [Tooltip("Can this projectile damage friendly units?")]
     public bool AllowFriendlyFire;
 
-    public static Dictionary<byte, ProjectileData> Loaded;
+    public static Dictionary<ProjectileType, ProjectileData> LoadedData;
 
     public static void LoadProjectiles()
     {
-        if (Loaded != null)
+        if (LoadedData != null)
             return;
 
         // Load all projectile datas into RAM from the resources.
-        Loaded = new Dictionary<byte, ProjectileData>();
+        LoadedData = new Dictionary<ProjectileType, ProjectileData>();
 
         var array = Resources.LoadAll<ProjectileData>("Projectiles");
 
         foreach (var data in array)
         {
-            if (!Loaded.ContainsKey(data.ID))
+            if (!LoadedData.ContainsKey(data.ID))
             {
-                Loaded.Add(data.ID, data);
+                LoadedData.Add(data.ID, data);
             }
             else
             {
@@ -82,11 +82,11 @@ public class ProjectileData : ScriptableObject
     public static void Unload()
     {
         // Unload resources from memory...
-        if (Loaded == null)
+        if (LoadedData == null)
             return;
 
         // Unload all projectile data's.
-        foreach (var pair in Loaded)
+        foreach (var pair in LoadedData)
         {
             if(pair.Value != null)
             {
@@ -94,7 +94,18 @@ public class ProjectileData : ScriptableObject
             }
         }
 
-        Loaded.Clear();
-        Loaded = null;
+        LoadedData.Clear();
+        LoadedData = null;
     }
+
+    public static ProjectileData GetData(byte ID)
+    {
+        GetData((byte)ProjectileType.STANDARD);
+        return null;
+    }
+}
+
+public enum ProjectileType : byte
+{
+    STANDARD
 }
