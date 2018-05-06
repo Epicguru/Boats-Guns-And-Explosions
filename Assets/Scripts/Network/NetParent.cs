@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,6 +20,8 @@ public class NetParent : MonoBehaviour
         }
     }
     private NetworkIdentity _netID;
+
+    public List<NetParenting> Children = new List<NetParenting>();
 
     public void Awake()
     {

@@ -18,6 +18,12 @@ public class NetParenting : NetworkBehaviour
     [SerializeField]
     private byte subParentID;
 
+    public NetParent CurrentParent
+    {
+        get;
+        private set;
+    }
+
     public override void OnStartClient()
     {
         ParentChanged(parentID);
@@ -46,6 +52,14 @@ public class NetParenting : NetworkBehaviour
                 // No need to change sub parent ID...
                 // But the real parent ID is set to 0 (invalid)
                 parentID = 0;
+
+                if(CurrentParent != null)
+                {
+                    // Tell the parent that we are leaving...
+                    if(CurrentParent.Children.Contains(this))
+                        CurrentParent.Children.Remove(this);
+                }
+                CurrentParent = null;
             }
         }
         else
@@ -68,6 +82,9 @@ public class NetParenting : NetworkBehaviour
                 // Set the parent here on the server, and update state.
                 transform.SetParent(parent.transform);
 
+                CurrentParent = parent;
+                parent.Children.Add(this);
+
                 // Set sub parent ID and then parent ID, in that order.
                 subParentID = parent.GetID();
                 parentID = parent.NetID.netId.Value;
@@ -77,11 +94,27 @@ public class NetParenting : NetworkBehaviour
 
     private void ParentChanged(uint newID)
     {
+        if (newID == parentID)
+            return;
+
         parentID = newID;
 
         // Do not change anything if on server...
         if (isServer)
             return;
+
+        // If the ID is zero, then we have unparented...
+        if(newID == 0)
+        {
+            transform.SetParent(null);
+            if (CurrentParent != null)
+            {
+                if (CurrentParent.Children.Contains(this))
+                    CurrentParent.Children.Remove(this);
+            }
+            CurrentParent = null;
+            return;
+        }
 
         // When the parent changes, the sub-parent has changed too.
         var obj = ClientScene.FindLocalObject(new NetworkInstanceId(newID));
@@ -108,6 +141,9 @@ public class NetParenting : NetworkBehaviour
             {
                 transform.SetParent(hooks[i].transform);
                 parented = true;
+
+                CurrentParent = hooks[i];
+                hooks[i].Children.Add(this);
                 break;
             }
         }
@@ -116,6 +152,16 @@ public class NetParenting : NetworkBehaviour
         {
             Debug.LogError("Network parenting failed: This ({0}) failed to find a NetParent of ID {1}, although there were {2} NetParents.".Form(name, subParentID, hooks.Length));
             return;
+        }
+    }
+
+    public void OnDestroy()
+    {
+        if (CurrentParent != null)
+        {
+            // Tell the parent that we are leaving...
+            if (CurrentParent.Children.Contains(this))
+                CurrentParent.Children.Remove(this);
         }
     }
 }

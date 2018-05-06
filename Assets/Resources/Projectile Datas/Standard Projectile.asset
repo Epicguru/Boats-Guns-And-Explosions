@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: Standard Projectile
   m_EditorClassIdentifier: 
   _id: 0
-  Speed: 250
+  Speed: 500
   MinSpeed: 1
-  MaxRange: 250
-  SpeedReduction: 70
+  MaxRange: 750
+  SpeedReduction: 300
   Penetration: 5
   DamageFaloff: 0.7
   SpeedFalloff: 0.6

@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4033265673571240}
-  - component: {fileID: 212487290846272316}
+  - component: {fileID: 114969578983966906}
   - component: {fileID: 114863968142051082}
+  - component: {fileID: 212487290846272316}
   m_Layer: 0
   m_Name: Pivot Mount
   m_TagString: Untagged
@@ -147,6 +148,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4319832762296476}
+  - component: {fileID: 114548959235679918}
   - component: {fileID: 114610151026024638}
   - component: {fileID: 114427245975135774}
   - component: {fileID: 114546432198467276}
@@ -817,6 +819,17 @@ MonoBehaviour:
   _id: 0
   _faction: 0
   Bounds: {fileID: 212044665485431880}
+--- !u!114 &114548959235679918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560373461334954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc3cb1a3e18266468038c4c8640bf9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114610151026024638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -873,6 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
+  Children: []
 --- !u!114 &114869950380923236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -886,6 +900,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SmokeActive: 0
   Smoke: {fileID: 198402805798495028}
+--- !u!114 &114969578983966906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087571853018138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8fb3c4e50eff5408833eca35ab3156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinSize: 0
+  MaxSize: 1
+  _name: Front Gun Mount
 --- !u!198 &198402805798495028
 ParticleSystem:
   m_ObjectHideFlags: 1
