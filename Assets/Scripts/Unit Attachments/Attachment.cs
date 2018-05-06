@@ -54,9 +54,9 @@ public class Attachment : NetworkBehaviour
 
     public string Name = "Big Gun";
 
-    private Dictionary<byte, Attachment> Loaded;
+    private static Dictionary<byte, Attachment> Loaded;
 
-    public void Load()
+    public static void Load()
     {
         if (Loaded != null)
             return;
@@ -75,9 +75,22 @@ public class Attachment : NetworkBehaviour
                 Debug.LogError("'{0}' has a duplicate unit attachment ID! ID: {1}".Form(a.Name, (byte)a.ID));
             }
         }
+
+        Debug.Log("Loaded {0} unit attachments.".Form(Loaded.Count));
     }
 
-    public void Unload()
+    public static void NetRegister()
+    {
+        if (Loaded == null)
+            return;
+
+        foreach (var pair in Loaded)
+        {
+            NetworkPrefabs.Add(pair.Value.gameObject);
+        }
+    }
+
+    public static void Unload()
     {
         if (Loaded == null)
             return;

@@ -575,7 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI: {fileID: 1879365703}
   GameScene: Game
-  Server: 1
+  Server: 0
   Client: 1
   IP: localhost
   Port: 7777

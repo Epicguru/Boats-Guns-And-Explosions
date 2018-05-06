@@ -94,9 +94,6 @@ public class NetParenting : NetworkBehaviour
 
     private void ParentChanged(uint newID)
     {
-        if (newID == parentID)
-            return;
-
         parentID = newID;
 
         // Do not change anything if on server...

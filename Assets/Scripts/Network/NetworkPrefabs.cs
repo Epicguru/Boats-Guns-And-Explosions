@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class NetworkPrefabs
 {
@@ -18,17 +19,10 @@ public static class NetworkPrefabs
         if (Buffer.Count == 0)
             return;
 
-        var net = GameObject.FindObjectOfType<NetManager>();
-
-        if(net != null)
+        foreach (var go in Buffer)
         {
-            net.spawnPrefabs.Clear();
-            net.spawnPrefabs.AddRange(Buffer);
-            Buffer.Clear();
+            ClientScene.RegisterPrefab(go);
         }
-        else
-        {
-            Debug.LogError("Cannot apply networked prefabs right now, could not find the network manager. Wrong scene?");
-        }
+        Buffer.Clear();
     }
 }
