@@ -82,15 +82,24 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.07
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.092165336
+        value: 0.97608244
+        inSlope: -0.5020253
+        outSlope: -0.5020253
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
@@ -110,7 +119,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 0.094653934, b: 0, a: 1}
-      key1: {r: 1, g: 0.8378445, b: 0, a: 0.19607843}
+      key1: {r: 1, g: 0.63231593, b: 0.3443396, a: 0.19607843}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -118,7 +127,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 65342
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -187,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitColliders: []
-  Data: {fileID: 0}
+  DataID: 0
   Faction: 0
   StartPos: {x: 0, y: 0}
 --- !u!212 &212986710929883398

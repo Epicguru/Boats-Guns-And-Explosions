@@ -11,14 +11,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1682432eb7c5c448a36ca5bbf735dd, type: 3}
   m_Name: Standard Projectile
   m_EditorClassIdentifier: 
+  _id: 0
   Speed: 500
   MinSpeed: 1
-  MaxRange: 1000
+  MaxRange: 500
   SpeedReduction: 70
   Penetration: 5
   DamageFaloff: 0.7
   SpeedFalloff: 0.6
   DamageType: 0
-  Damage: 45
+  Damage: 30
   ExplosionCollateralDamage: 1
   AllowFriendlyFire: 0

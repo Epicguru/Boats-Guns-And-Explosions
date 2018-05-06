@@ -13,7 +13,8 @@ public class Projectile : NetworkBehaviour
     [HideInInspector]
     public List<Collider2D> HitColliders = new List<Collider2D>();
 
-    public ProjectileData Data;
+    public ProjectileData Data { get; private set; }
+    [SyncVar] public byte DataID;
     [SyncVar] public Faction Faction;
     [HideInInspector]
     [SyncVar] public Vector2 StartPos;
@@ -26,28 +27,50 @@ public class Projectile : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        if (isServer)
+            return;
+
+        if (Data == null)
+        {
+            var data = ProjectileData.GetData(DataID);
+            if (data == null)
+            {
+                Debug.LogError("Server could not find a real copy of the data from ID! ID: {0}. Perhaps the data is not loaded?".Form(DataID));
+            }
+            else
+            {
+                Data = data;
+            }
+        }
+
         Create();
     }
 
     public void Start()
     {
-        if (isServer)
+        if (!isServer)
+            return;
+
+        if (Data == null)
         {
-            Create();
+            var data = ProjectileData.GetData(DataID);
+            if (data == null)
+            {
+                Debug.LogError("Server could not find a real copy of the data from ID! ID: {0}. Perhaps the data is not loaded?".Form(DataID));
+            }
+            else
+            {
+                Data = data;
+            }
         }
+
+        Create();        
     }
 
     private void Create()
     {
         if (created)
             return;
-
-        if (Data == null)
-        {
-            Debug.LogError("Projectile spawned with null data! Why?! ({0})".Form(isServer ? "Server" : "Client"));
-            disabled = true;
-            return;
-        }
 
         speed = Data.Speed;
         damage = Data.Damage;
@@ -341,6 +364,7 @@ public class Projectile : NetworkBehaviour
         // Set position, angle, data, spawn pos, faction...
         instance.transform.position = position;
         instance.transform.eulerAngles = new Vector3(0f, 0f, angle);
+        instance.DataID = (byte)data.ID; 
         instance.StartPos = position;
         instance.Faction = faction;
 
