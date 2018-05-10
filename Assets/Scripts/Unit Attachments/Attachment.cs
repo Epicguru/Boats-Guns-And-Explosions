@@ -52,6 +52,34 @@ public class Attachment : NetworkBehaviour
     [SerializeField]
     private AttachmentSize _size;
 
+    public bool IsAttached
+    {
+        get
+        {
+            return ParentUnit != null;
+        }
+    }
+
+    public Unit ParentUnit
+    {
+        get
+        {
+            if(_parent == null)
+            {
+                var netParent = Parenting.CurrentParent;
+                if(netParent != null)
+                {
+                    var unit = netParent.GetComponentInParent<Unit>();
+
+                    _parent = unit;
+                }
+            }
+
+            return _parent;
+        }
+    }
+    private Unit _parent;
+
     public string Name = "Big Gun";
 
     private static Dictionary<byte, Attachment> Loaded;
