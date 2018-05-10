@@ -95,6 +95,20 @@ public class AttachmentManager : NetworkBehaviour
             return;
         }
 
+        var prefab = Attachment.Get(ID);
+
+        if(prefab == null)
+        {
+            Debug.LogWarning("Attachment prefab for ID: {0} could not be found, no action taken.".Form(ID));
+            return;
+        }
+
+        if (!socket.IsValid(prefab))
+        {
+            Debug.LogWarning("Invalid attachment for the slot, no action taken. Socket: ID({0}), Name({1}), Attachment: ID({2}), Name({3})".Form(socketID, socket.Name, ID, prefab.Name));
+            return;
+        }
+
         var a = GetAttached(socketID);
 
         if(a != null)
@@ -104,7 +118,7 @@ public class AttachmentManager : NetworkBehaviour
         }
 
         // Now spawn new attachment...
-        var spawned = Instantiate(Attachment.Get(ID));
+        var spawned = Instantiate(prefab);
 
         // Do whatever needs doing to attachment here...
         // Parent...
