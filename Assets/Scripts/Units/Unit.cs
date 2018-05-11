@@ -177,10 +177,7 @@ public abstract class Unit : NetworkBehaviour
         var found = Select(r);
         foreach (var unit in found)
         {
-            if (!CurrentlySelected.Contains(unit))
-            {
-                CurrentlySelected.Add(unit);
-            }
+            unit.Select();
         }
     }
 

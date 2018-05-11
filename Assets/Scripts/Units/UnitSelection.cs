@@ -20,6 +20,9 @@ public class UnitSelection : NetworkBehaviour
     private SpriteRenderer sel;
     private bool selecting;
 
+    private const int MAX_RAY_HITS = 20;
+    private RaycastHit2D[] hits = new RaycastHit2D[MAX_RAY_HITS];
+
     public void Update()
     {
         if (isLocalPlayer)
@@ -27,7 +30,6 @@ public class UnitSelection : NetworkBehaviour
             UpdateSelection();
             UpdateUnitOverview();
         }
-
     }
 
     private void UpdateUnitOverview()
@@ -113,8 +115,16 @@ public class UnitSelection : NetworkBehaviour
             {
                 Unit.DeselectPermanent();
             }
+
             // Select units in the bounds.
-            Unit.SelectPermanent(new Rect(start, InputManager.MousePos - start));            
+            Unit.SelectPermanent(new Rect(start, InputManager.MousePos - start));
+
+            // Select whatever was just clicked on.
+            Unit underMouse = GetUnitUnder(InputManager.MousePos);
+            if(underMouse != null)
+            {
+                underMouse.Select();
+            }
         }
 
         // Get options for the selected units (if any)
@@ -126,6 +136,29 @@ public class UnitSelection : NetworkBehaviour
         {
             HideUnitOptions();
         }
+    }
+
+    private Unit GetUnitUnder(Vector2 pos)
+    {
+        Ray r = new Ray(new Vector3(0f, 0f, -100f) + (Vector3)pos, Vector3.forward);
+        int total = Physics2D.GetRayIntersectionNonAlloc(r, hits);
+        if(total > MAX_RAY_HITS)
+        {
+            Debug.LogWarning("Number of raycast hits under the unit selection exceeds the max capacity.");
+            total = MAX_RAY_HITS;
+        }
+
+        for (int i = 0; i < total; i++)
+        {
+            var hit = hits[i];
+
+            var unit = hit.transform.GetComponentInParent<Unit>();
+            if(unit != null)
+            {
+                return unit;
+            }
+        }
+        return null;
     }
 
     [Client]

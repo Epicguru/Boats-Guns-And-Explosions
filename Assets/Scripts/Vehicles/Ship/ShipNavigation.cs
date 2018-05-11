@@ -99,7 +99,8 @@ public class ShipNavigation : NetworkBehaviour
                 {
                     // If currently selected by user...
                     // Then draw a cross at the target position.
-                    TargetCross.DrawAt(TargetPos);
+                    // EDIT: Was too distacting, and line has the same purpose.
+                    // TargetCross.DrawAt(TargetPos);
 
                     // And a line from the ship to the cross.
                     CameraLines.DrawLine(transform.position, TargetPos);
