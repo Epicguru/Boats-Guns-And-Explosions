@@ -20,12 +20,100 @@ public class Cannon : NetworkBehaviour
     }
     private Attachment _attachment;
 
+    [Header("Turning")]
     public float TargetAngle = 0f;
+    public float MaxRotationSpeed = 360f;
 
+    [Header("Projectiles")]
     public ProjectileType ProjectileType = ProjectileType.STANDARD;
     public Transform[] ProjectileSpawnPoints;
 
-    [ServerCallback]
+    [Header("Audio")]
+    public AudioSource Source;
+    public AudioClip[] Clips;
+
+    private void Start()
+    {
+        if(Source == null)
+        {
+            Source = GetComponentInChildren<AudioSource>();
+        }
+    }
+
+    private void Update()
+    {
+        if (isServer)
+        {
+            RotateToTarget();
+        }
+    }
+
+    public void PlayShotSound()
+    {
+        if(Source == null)
+        {
+            Debug.LogWarning("Audio source on this cannon '{0}' is null, cannot play shot sound!".Form(gameObject.name));
+            return;
+        }
+
+        if(Clips == null)
+        {
+            Debug.LogWarning("Audio clip array for this cannon '{0}' is null, cannot play shot sound!".Form(gameObject.name));
+            return;
+        }
+
+        int index = Random.Range(0, Clips.Length);
+        AudioClip clip = Clips[index];
+
+        if(clip == null)
+        {
+            Debug.LogWarning("Audio clip from array at index {1} for this cannon '{0}' is null, cannot play shot sound!".Form(gameObject.name, index));
+            return;
+        }
+
+        Source.clip = clip;
+        Source.Play();
+    }
+
+    [Server]
+    private void RotateToTarget()
+    {
+        var angles = transform.eulerAngles;
+        float rot = angles.z;
+
+        float movement = Mathf.DeltaAngle(rot, TargetAngle);
+
+        if (movement == 0f)
+        {
+            // No reason to move the cannon if we are already at the target angle.
+            return;
+        }
+
+        float change = 0f;
+        if(movement > 0f)
+        {
+            // The target angle is 'above' our current angle, move upwards.
+            change = Time.deltaTime * MaxRotationSpeed;
+            if(change > movement)
+            {
+                change = movement;
+            }
+        }
+        else
+        {
+            // The target angle is 'below' our current angle, move downwards.
+            change = Time.deltaTime * MaxRotationSpeed * -1f;
+            if (change < movement)
+            {
+                change = movement;
+            }
+        }
+
+        rot += change;
+        angles.z = rot;
+        transform.eulerAngles = angles;
+    }
+
     public void FireFromAnim(AnimationEvent e)
     {
         // Fires a projectile using information supplied by the animation event parameter.
@@ -38,7 +126,14 @@ public class Cannon : NetworkBehaviour
         }
         int index = e.intParameter;
 
-        Fire(index);
+        // Play shot audio, on server and clients...
+        PlayShotSound();
+
+        // Only do the real firing on the server.
+        if (isServer)
+        {
+            Fire(index);
+        }
     }
 
     public void Fire(int spawnPointIndex)
@@ -50,7 +145,7 @@ public class Cannon : NetworkBehaviour
         }
         if (spawnPointIndex < 0 || spawnPointIndex >= ProjectileSpawnPoints.Length)
         {
-            Debug.LogWarning("Tried to fire cannon using FireFromAnim, but spawn point index supplied is out of range! Index: {0}, Total Point Count: {1}".Form(index, ProjectileSpawnPoints.Length));
+            Debug.LogWarning("Tried to fire cannon using FireFromAnim, but spawn point index supplied is out of range! Index: {0}, Total Point Count: {1}".Form(spawnPointIndex, ProjectileSpawnPoints.Length));
             return;
         }
 
