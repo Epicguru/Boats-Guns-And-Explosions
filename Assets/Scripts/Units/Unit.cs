@@ -11,6 +11,9 @@ public abstract class Unit : NetworkBehaviour
     private static Dictionary<UnitOption, int> options = new Dictionary<UnitOption, int>();
     private static List<UnitOption> tempOps = new List<UnitOption>();
 
+    private const int MAX_RAY_HITS = 20;
+    private static RaycastHit2D[] hits = new RaycastHit2D[MAX_RAY_HITS];
+
     [Tooltip("Display name.")]
     public string Name;
 
@@ -148,7 +151,7 @@ public abstract class Unit : NetworkBehaviour
     [Server]
     public abstract void SetMovementTarget(Vector2 target);
 
-    public static List<Unit> Select(Rect r)
+    public static List<Unit> GetInBounds(Rect r)
     {
         // Looping through all units and querying bounds is faster than using a box raycast.
         // But with very large ships means that selecting the edge of this ship does not select the unit.
@@ -171,10 +174,33 @@ public abstract class Unit : NetworkBehaviour
         return selected;
     }
 
+    public static Unit GetUnder(Vector2 pos)
+    {
+        Ray r = new Ray(new Vector3(0f, 0f, -100f) + (Vector3)pos, Vector3.forward);
+        int total = Physics2D.GetRayIntersectionNonAlloc(r, hits);
+        if (total > MAX_RAY_HITS)
+        {
+            Debug.LogWarning("Number of raycast hits under the unit selection exceeds the max capacity.");
+            total = MAX_RAY_HITS;
+        }
+
+        for (int i = 0; i < total; i++)
+        {
+            var hit = hits[i];
+
+            var unit = hit.transform.GetComponentInParent<Unit>();
+            if (unit != null)
+            {
+                return unit;
+            }
+        }
+        return null;
+    }
+
     public static void SelectPermanent(Rect r)
     {
         // Same as Select but copies the result to the static CurrentlySelected list.
-        var found = Select(r);
+        var found = GetInBounds(r);
         foreach (var unit in found)
         {
             unit.Select();
