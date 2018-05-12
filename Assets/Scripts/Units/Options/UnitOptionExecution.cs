@@ -8,11 +8,11 @@ public class UnitOptionExecution : NetworkBehaviour
     public Player Player;
 
     [Client]
-	public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams param = null)
+	public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams[] param = null)
     {
         if (isServer)
         {
-            RequestOption_Server(units, option);
+            RequestOption_Server(units, option, param);
         }
         else
         {
@@ -31,19 +31,23 @@ public class UnitOptionExecution : NetworkBehaviour
                 }
             }
 
-            string json = null;
-            if(param != null)
+            string[] jsons = new string[param.Length];
+            for (int i = 0; i < param.Length; i++)
             {
-                json = param.ToJson();
+                var p = param[i];
+                if(p != null)
+                {
+                    jsons[i] = p.ToJson();
+                }
             }
 
             // Send command request to the server.
-            CmdRequestExec(gos, option, json);
+            CmdRequestExec(gos, option, jsons);
         }
     }
 
     [Command]
-    private void CmdRequestExec(GameObject[] gos, UnitOption option, string param)
+    private void CmdRequestExec(GameObject[] gos, UnitOption option, string[] param)
     {
         if (gos == null || gos.Length == 0)
             return;
@@ -70,20 +74,30 @@ public class UnitOptionExecution : NetworkBehaviour
 
         // Make the params object from the json. Works even if the json is null or blank.
         // May return null, which is fine.
-        UnitOptionParams p = UnitOptionParams.TryDeserialize(param);
+        UnitOptionParams[] p = null;
+        if(param != null)
+        {
+            p = new UnitOptionParams[param.Length];
+            for (int i = 0; i < param.Length; i++)
+            {
+                Debug.Log("Received {0}".Form(param[i]));
+                p[i] = UnitOptionParams.TryDeserialize(param[i]);
+            }
+
+        }
 
         // Run the server version.
         RequestOption_Server(units, option, p);
     }
 
     [Server]
-    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams param = null)
+    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams[] param = null)
     {
         if (units == null || units.Length == 0)
             return;
 
-        // No need for validation, server side.
-        Unit.ExecuteOption(units, option, param);
+        // No need for validation, server side and already done.
+        Unit.ExecuteOptions(units, option, param);
 
     }
 }

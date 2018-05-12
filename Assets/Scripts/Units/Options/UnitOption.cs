@@ -3,8 +3,9 @@ using UnityEngine;
 
 public enum UnitOption : byte
 {
-    STOP_ENGINE,
-    START_ENGINE
+    SHIP_STOP_ENGINE,
+    SHIP_START_ENGINE,
+    CANNON_FIRE_AT
 }
 
 public static class UnitOptionUtils

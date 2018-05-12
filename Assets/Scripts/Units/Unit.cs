@@ -277,7 +277,7 @@ public abstract class Unit : NetworkBehaviour
     }
 
     [Server]
-    public static void ExecuteOption(Unit[] units, UnitOption option, UnitOptionParams param)
+    public static void ExecuteOptions(Unit[] units, UnitOption option, UnitOptionParams param)
     {
         if (units == null || units.Length == 0)
             return;
@@ -292,7 +292,7 @@ public abstract class Unit : NetworkBehaviour
     }
 
     [Server]
-    public static void ExecuteOption(Unit[] units, UnitOption option, UnitOptionParams[] param)
+    public static void ExecuteOptions(Unit[] units, UnitOption option, UnitOptionParams[] param)
     {
         if (units == null || units.Length == 0)
             return;

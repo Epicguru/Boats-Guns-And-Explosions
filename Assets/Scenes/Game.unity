@@ -1439,6 +1439,10 @@ MonoBehaviour:
     Name: Start Engine
     Icon: {fileID: 21300000, guid: 013477701afcf4a468ca9ca1e697f8a1, type: 3}
     DefaultKey: 99
+  - option: 2
+    Name: Fire At...
+    Icon: {fileID: 21300000, guid: c63a2ad2aab639745883810541a1f20b, type: 3}
+    DefaultKey: 101
 --- !u!1 &763268091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,6 +3844,11 @@ Prefab:
     - target: {fileID: 4319832762296476, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114546432198467276, guid: 762ff0fda355a6d4d928fa5f5c04f0fc,
+        type: 2}
+      propertyPath: _faction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}

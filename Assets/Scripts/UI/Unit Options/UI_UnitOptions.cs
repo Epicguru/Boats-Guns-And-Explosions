@@ -76,7 +76,19 @@ public class UI_UnitOptions : MonoBehaviour
 
         if(Player.Local != null)
         {
-            Player.Local.UnitOptionExecution.RequestOptionExecution(Unit.CurrentlySelected.ToArray(), item.Option);
+            var array = Unit.CurrentlySelected.ToArray();
+            UnitOptionParams[] param = new UnitOptionParams[array.Length];
+            Vector2 pos = Random.insideUnitCircle * 20f;
+            var p = new UnitOptionParams();
+            p.Update(0, true);
+            p.Update(1, array[0].gameObject);
+            p.Update(2, pos);
+            for (int i = 0; i < array.Length; i++)
+            {
+                param[i] = p;
+            }
+
+            Player.Local.UnitOptionExecution.RequestOptionExecution(array, item.Option, param);
         }
     }
 

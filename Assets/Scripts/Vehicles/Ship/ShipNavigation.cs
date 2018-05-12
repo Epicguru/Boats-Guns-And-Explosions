@@ -161,12 +161,14 @@ public class ShipNavigation : NetworkBehaviour
         // Engine state:
         if (Active)
         {
-            options.Add(UnitOption.STOP_ENGINE);
+            options.Add(UnitOption.SHIP_STOP_ENGINE);
         }
         else
         {
-            options.Add(UnitOption.START_ENGINE);
+            options.Add(UnitOption.SHIP_START_ENGINE);
         }
+
+        options.Add(UnitOption.CANNON_FIRE_AT);
     }    
 
     [Server]
@@ -176,7 +178,7 @@ public class ShipNavigation : NetworkBehaviour
         if (IsPhysicallyBroken())
             return;
 
-        if(option.Option == UnitOption.STOP_ENGINE)
+        if(option.Option == UnitOption.SHIP_STOP_ENGINE)
         {
             if (Active)
             {
@@ -184,11 +186,29 @@ public class ShipNavigation : NetworkBehaviour
             }
         }
 
-        if (option.Option == UnitOption.START_ENGINE)
+        if (option.Option == UnitOption.SHIP_START_ENGINE)
         {
             if (!Active)
             {
                 Activate();
+            }
+        }
+
+        if(option.Option == UnitOption.CANNON_FIRE_AT)
+        {
+            // 0: Is unit target.
+            // 1: Unit.
+            // 2: Position.
+            var isUnit = option.Params.Get<bool>(0, false);
+            if (isUnit)
+            {
+                GameObject unit = option.Params.GetGameObject(1);
+                Debug.Log("Unit, is: " + unit);
+            }
+            else
+            {
+                Vector2 pos = option.Params.Get<Vector2>(2, Vector2.zero);
+                Debug.Log("Position, is: " + pos);
             }
         }
     }
