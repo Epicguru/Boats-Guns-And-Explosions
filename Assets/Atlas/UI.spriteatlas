@@ -37,11 +37,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 013477701afcf4a468ca9ca1e697f8a1, type: 3}
   - {fileID: 21300000, guid: c63a2ad2aab639745883810541a1f20b, type: 3}
   - {fileID: 21300000, guid: c88c1bff632eefb46bfedc1687c83c8f, type: 3}
+  - {fileID: 21300000, guid: acaaebf5bcfa90e48b37fdc3cb72aa0a, type: 3}
   - {fileID: 21300000, guid: 990352997758dbb49afac5b8655ff404, type: 3}
   - {fileID: 21300000, guid: 105b70a6d57f5b8409b71566cc7f3302, type: 3}
   - {fileID: 21300000, guid: 47c16c91c6cea74499c4608388cfb09f, type: 3}
   - {fileID: 21300000, guid: 59205e30e88387a49bdb8517e9bffc49, type: 3}
   - {fileID: 21300000, guid: 35df5558655344947b3492af79efc481, type: 3}
+  - {fileID: 21300000, guid: ac1cc5d88d27ad942b3226a75f869a0f, type: 3}
   - {fileID: 21300000, guid: e08876be01327c6438719b5cc1566fb1, type: 3}
   - {fileID: 21300000, guid: e9e497523d335424990e102cc4bd3465, type: 3}
   - {fileID: 21300000, guid: 64dae8042fd770243954dad1eeadb535, type: 3}
@@ -51,11 +53,13 @@ SpriteAtlas:
   - Start Engine
   - Fire At
   - Cut Engine
+  - Unit Target
   - Cross
   - Arrow
   - Selection Bounds
   - State Bar
   - Dropdown
+  - Position Target
   - Loading Bar
   - Border
   - Pixel

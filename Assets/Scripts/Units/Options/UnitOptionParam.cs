@@ -39,8 +39,6 @@ public class UnitOptionParams
             {
                 data.Add(key, id);
             }
-
-            Debug.Log("Added " + id);
         }
         else
         {
