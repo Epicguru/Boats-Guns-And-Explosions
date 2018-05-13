@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UI_PosSelect : MonoBehaviour
 {
-    public Color Color = Color.white;
+    public Color Colour = Color.white;
 
     public Image[] Images;
 
@@ -11,7 +11,7 @@ public class UI_PosSelect : MonoBehaviour
     {
         foreach (var image in Images)
         {
-            image.color = Color;
+            image.color = Colour;
         }
 
         Vector2 worldPos = InputManager.MousePos;

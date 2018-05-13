@@ -1515,6 +1515,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorldPos: {x: 0, y: 0, z: 0}
+  Image: {fileID: 606254005}
+  Colour: {r: 1, g: 0, b: 0, a: 0.9019608}
 --- !u!1 &626858405
 GameObject:
   m_ObjectHideFlags: 0
@@ -4698,7 +4700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a2918a63eb7d94c8eb017e6b73ff71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 1, b: 1, a: 1}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
   Images:
   - {fileID: 1579317881}
   - {fileID: 121580530}
@@ -5005,7 +5007,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1925269472}
-  - component: {fileID: 1925269474}
+  - component: {fileID: 1925269473}
   m_Layer: 5
   m_Name: Pos And Unit Select
   m_TagString: Untagged
@@ -5032,12 +5034,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1925269474
-CanvasRenderer:
+--- !u!114 &1925269473
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1925269471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 404f86be09bdb2249bf1d15d3b17e3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 0
+  PosSelectorColour: {r: 0, g: 0.65, b: 0, a: 0.79607844}
+  UnitSelectorColour: {r: 0.902, g: 0, b: 0, a: 0.91764706}
+  All: {fileID: 1585873419}
+  PosSelector: {fileID: 1766259038}
+  UnitSelector: {fileID: 606254007}
 --- !u!1 &1965034951
 GameObject:
   m_ObjectHideFlags: 0
