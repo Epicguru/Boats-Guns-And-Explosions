@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_PosOrUnitSelect : MonoBehaviour
@@ -19,6 +20,7 @@ public class UI_PosOrUnitSelect : MonoBehaviour
     public UI_PosSelect PosSelector;
     public UI_UnitSelect UnitSelector;
     public Text Title;
+    public Text SubTitle;
 
     private bool overUnit = false;
     private SelectionOutput output;
@@ -71,6 +73,7 @@ public class UI_PosOrUnitSelect : MonoBehaviour
         Instance = this;
     }
 
+    private StringBuilder str = new StringBuilder();
     public void Update()
     {
         if (!Active)
@@ -79,7 +82,16 @@ public class UI_PosOrUnitSelect : MonoBehaviour
         }
         else
         {
-            Title.text = "Select a " + (AllowUnits ? "unit" : "") + (AllowPositions && AllowUnits ? " or a " : "") + (AllowPositions ? "position" : "");
+            str.Append("Select a ");
+            if (AllowUnits)
+                str.Append("unit");
+            if (AllowPositions && AllowUnits)
+                str.Append(" or a ");
+            if (AllowPositions)
+                str.Append("position");
+            Title.text = str.ToString();
+            str.Clear();
+
             All.SetActive(true);
 
             // Get unit under mouse, if any...
@@ -103,21 +115,59 @@ public class UI_PosOrUnitSelect : MonoBehaviour
 
             if (InputManager.IsDown("Select"))
             {
-                // Something has been selected!
-                bool isUnit = overUnit && AllowUnits;
-                Unit unit = null;
-                if (isUnit)
+                bool isUnit = overUnit;
+                if((isUnit && AllowUnits) || (!isUnit && AllowPositions))
                 {
-                    unit = u;
-                }
-                Vector2 position = Vector2.zero;
-                if (!isUnit)
-                {
-                    position = InputManager.MousePos;
-                }
+                    // Something has been selected!
+                    Unit unit = null;
+                    if (isUnit)
+                    {
+                        unit = u;
+                    }
+                    Vector2 position = Vector2.zero;
+                    if (!isUnit)
+                    {
+                        position = InputManager.MousePos;
+                    }
 
-                Finish(isUnit, unit, position);
+                    Finish(isUnit, unit, position);
+                }
             }
+
+            if(u != null && AllowUnits)
+            {
+                var player = Player.Local;
+                bool same = false;
+                if(player != null)
+                {
+                    same = player.Faction == u.Faction;
+                    if (same)
+                    {
+                        str.Append(RichText.InColour("Friendly ", Color.green));
+                    }
+                    else
+                    {
+                        str.Append("Enemy ");
+                    }
+                }
+                str.Append("Unit: ");
+                str.Append(u.Name);
+
+                if (!same)
+                {
+                    str.Append(" (");
+                    str.Append(u.Faction.ToString());
+                    str.Append(')');
+                }
+            }
+            else if(AllowPositions)
+            {
+                str.Append("Position: ");
+                str.Append(InputManager.MousePos.ToString("#.#"));
+            }
+
+            SubTitle.text = str.ToString();
+            str.Clear();
         }        
     }
 

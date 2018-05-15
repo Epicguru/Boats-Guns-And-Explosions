@@ -153,6 +153,8 @@ public class UI_UnitOptions : MonoBehaviour
                 workingIndex = 0;
                 option = item.Option;
 
+                this.inputs = inputs;
+
                 var first = inputs[0];
                 RunInputCollection(first);
             }
