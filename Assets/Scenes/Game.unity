@@ -1434,6 +1434,7 @@ MonoBehaviour:
   OptionsBounds: {fileID: 19968292}
   Spawned: []
   NoOptions: {fileID: 1103446433}
+  _gatheringInput: 0
 --- !u!1 &606254003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,14 +1661,17 @@ MonoBehaviour:
     Name: Stop Engine
     Icon: {fileID: 21300000, guid: c88c1bff632eefb46bfedc1687c83c8f, type: 3}
     DefaultKey: 120
+    Inputs: 
   - option: 1
     Name: Start Engine
     Icon: {fileID: 21300000, guid: 013477701afcf4a468ca9ca1e697f8a1, type: 3}
     DefaultKey: 99
+    Inputs: 
   - option: 2
     Name: Fire At...
     Icon: {fileID: 21300000, guid: c63a2ad2aab639745883810541a1f20b, type: 3}
     DefaultKey: 101
+    Inputs: 02
 --- !u!1 &763268091
 GameObject:
   m_ObjectHideFlags: 0
@@ -4281,7 +4285,7 @@ Prefab:
     - target: {fileID: 114546432198467276, guid: 762ff0fda355a6d4d928fa5f5c04f0fc,
         type: 2}
       propertyPath: _faction
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 762ff0fda355a6d4d928fa5f5c04f0fc, type: 2}
@@ -5046,11 +5050,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 0
+  AllowPositions: 0
+  AllowUnits: 0
   PosSelectorColour: {r: 0, g: 0.65, b: 0, a: 0.79607844}
   UnitSelectorColour: {r: 0.902, g: 0, b: 0, a: 0.91764706}
   All: {fileID: 1585873419}
   PosSelector: {fileID: 1766259038}
   UnitSelector: {fileID: 606254007}
+  Title: {fileID: 120409126}
 --- !u!1 &1965034951
 GameObject:
   m_ObjectHideFlags: 0

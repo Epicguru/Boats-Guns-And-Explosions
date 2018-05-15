@@ -196,19 +196,24 @@ public class ShipNavigation : NetworkBehaviour
 
         if(option.Option == UnitOption.CANNON_FIRE_AT)
         {
-            // 0: Is unit target.
-            // 1: Unit.
-            // 2: Position.
-            var isUnit = option.Params.Get<bool>(0, false);
+            // 0: Unit / Position
+            bool isUnit = option.Params.IsOfType<GameObject>(0);
             if (isUnit)
             {
-                GameObject unit = option.Params.GetGameObject(1);
-                Debug.Log("Unit, is: " + unit);
+                Debug.Log("Is unit!");
+                var go = option.Params.Get<GameObject>(0);
+                if(go != null)
+                {
+                    Unit u = go.GetComponent<Unit>();
+
+                    Debug.Log("Here is the unit: " + u);
+                }
             }
             else
             {
-                Vector2 pos = option.Params.Get<Vector2>(2, Vector2.zero);
-                Debug.Log("Position, is: " + pos);
+                Debug.Log("Is position!");
+                var pos = option.Params.Get<Vector2>(0);
+                Debug.Log("Here is the pos: " + pos);
             }
         }
     }

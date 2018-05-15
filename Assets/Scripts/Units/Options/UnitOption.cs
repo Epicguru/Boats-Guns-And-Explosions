@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum UnitOption : byte
@@ -46,6 +47,19 @@ public static class UnitOptionUtils
         {
             var op = UnitOptionGO.Instance.Data[option];
             return op == null ? null : op.Icon;
+        }
+    }
+
+    public static List<UnitOptionInput> GetInputs(this UnitOption option)
+    {
+        if (UnitOptionGO.Instance == null)
+        {
+            return null;
+        }
+        else
+        {
+            var op = UnitOptionGO.Instance.Data[option];
+            return op == null ? null : op.Inputs;
         }
     }
 }

@@ -16,8 +16,26 @@ public class UnitOptionParams
         return data.ContainsKey(key);
     }
 
+    public bool IsOfType<T>(byte key)
+    {
+        if(typeof(T) == typeof(GameObject))
+        {
+            uint x;
+            return ContainsKey(key) && (data[key] == null ? false : TryConvertTo<uint>(data[key], out x));
+        }
+        else
+        {
+            return ContainsKey(key) && data[key] is T;
+        }
+    }
+
     public void Update(byte key, object value)
     {
+        if(value is Component)
+        {
+            Debug.LogError("Cannot use components in unit params: use the GameObject is belongs to, and the GetComponent later. Has not been added to params.");
+            return;
+        }
         if(value is GameObject)
         {
             // Game objects that have a network ID have network identities are serialized differently.
@@ -68,7 +86,30 @@ public class UnitOptionParams
 
         object obj = data[key];
 
-        if(obj is T)
+        if(typeof(T) == typeof(GameObject))
+        {
+            uint id = Get<uint>(key);
+            if (id == default(uint))
+            {
+                Debug.LogWarning("ID is invalid, or the object at key is not a GameObject, returning default.");
+                return defaultValue;
+            }
+
+            var o = ClientScene.FindLocalObject(new NetworkInstanceId(id));
+            T t;
+            bool worked = TryConvertTo<T>(o, out t);
+            if (worked)
+            {
+                return t;
+            }
+            else
+            {
+                Debug.LogError("Failed to cast game object to generic param (T). Why? T should be GameObject or a sublcass of it. Returning default.");
+                return defaultValue;
+            }
+        }
+
+        if (obj is T)
         {
             return (T)obj;
         }
@@ -105,26 +146,6 @@ public class UnitOptionParams
         }
     }
 
-    public GameObject GetGameObject(byte key)
-    {
-        if (!ContainsKey(key))
-        {
-            Debug.LogWarning("Params does not contain the key {0}, returning null.".Form(key));
-            return null;
-        }
-
-        uint id = Get<uint>(key);
-        if(id == default(uint))
-        {
-            Debug.LogWarning("ID is invalid, returning null.");
-            return null;
-        }
-
-        var obj = ClientScene.FindLocalObject(new NetworkInstanceId(id));
-
-        return obj;
-    }
-
     private static JsonSerializerSettings settings;
     public static JsonSerializerSettings Settings
     {
@@ -158,8 +179,16 @@ public class UnitOptionParams
 
         try
         {
-            var deserialized = JsonConvert.DeserializeObject<UnitOptionParams>(json, Settings);
-            return deserialized;
+            try
+            {
+                var deserialized = JsonConvert.DeserializeObject<UnitOptionParams>(json, Settings);
+                return deserialized;
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                return null;
+            }
         }
         catch
         {

@@ -8,7 +8,7 @@ public class UnitOptionExecution : NetworkBehaviour
     public Player Player;
 
     [Client]
-	public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams[] param = null)
+	public void RequestOptionExecutionUniqueParams(Unit[] units, UnitOption option, UnitOptionParams[] param)
     {
         if (isServer)
         {
@@ -42,12 +42,43 @@ public class UnitOptionExecution : NetworkBehaviour
             }
 
             // Send command request to the server.
-            CmdRequestExec(gos, option, jsons);
+            CmdRequestExecUniqueParams(gos, option, jsons);
+        }
+    }
+
+    [Client]
+    public void RequestOptionExecution(Unit[] units, UnitOption option, UnitOptionParams param)
+    {
+        if (isServer)
+        {
+            RequestOption_Server(units, option, param);
+        }
+        else
+        {
+            // Make game object array from unit array.
+            // Validate units at the same time.
+            GameObject[] gos = new GameObject[units.Length];
+            for (int i = 0; i < units.Length; i++)
+            {
+                var unit = units[i];
+                if (unit != null)
+                {
+                    if (unit.Faction == Player.Faction)
+                    {
+                        gos[i] = unit.gameObject;
+                    }
+                }
+            }
+
+            string json = param == null ? null : param.ToJson();
+
+            // Send command request to the server.
+            CmdRequestExec(gos, option, json);
         }
     }
 
     [Command]
-    private void CmdRequestExec(GameObject[] gos, UnitOption option, string[] param)
+    private void CmdRequestExecUniqueParams(GameObject[] gos, UnitOption option, string[] param)
     {
         if (gos == null || gos.Length == 0)
             return;
@@ -90,14 +121,61 @@ public class UnitOptionExecution : NetworkBehaviour
         RequestOption_Server(units, option, p);
     }
 
+    [Command]
+    private void CmdRequestExec(GameObject[] gos, UnitOption option, string param)
+    {
+        if (gos == null || gos.Length == 0)
+            return;
+
+        // Turn gameobjects into units.
+        // Validate units too.
+        Unit[] units = new Unit[gos.Length];
+        for (int i = 0; i < gos.Length; i++)
+        {
+            var go = gos[i];
+
+            if (go != null)
+            {
+                var unit = go.GetComponent<Unit>();
+                if (unit != null)
+                {
+                    if (unit.Faction == Player.Faction)
+                    {
+                        units[i] = unit;
+                    }
+                }
+            }
+        }
+
+        // Make the params object from the json. Works even if the json is null or blank.
+        // May return null, which is fine.
+        UnitOptionParams p = null;
+        if (param != null)
+        {
+            p = UnitOptionParams.TryDeserialize(param);
+        }
+
+        // Run the server version.
+        RequestOption_Server(units, option, p);
+    }
+
     [Server]
-    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams[] param = null)
+    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams[] param)
     {
         if (units == null || units.Length == 0)
             return;
 
         // No need for validation, server side and already done.
         Unit.ExecuteOptions(units, option, param);
+    }
 
+    [Server]
+    private void RequestOption_Server(Unit[] units, UnitOption option, UnitOptionParams param)
+    {
+        if (units == null || units.Length == 0)
+            return;
+
+        // No need for validation, server side and already done.
+        Unit.ExecuteOptions(units, option, param);
     }
 }

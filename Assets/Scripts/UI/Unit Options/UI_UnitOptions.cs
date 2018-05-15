@@ -11,6 +11,28 @@ public class UI_UnitOptions : MonoBehaviour
     public List<UI_UnitOptionItem> Spawned = new List<UI_UnitOptionItem>();
     public GameObject NoOptions;
 
+    public bool GatheringInput
+    {
+        get
+        {
+            return _gatheringInput;
+        }
+        private set
+        {
+            _gatheringInput = value;
+        }
+    }
+    [SerializeField]
+    [ReadOnly]
+    private bool _gatheringInput;
+    private int gathered;
+    private int workingIndex;
+    private int totalToGather;
+    private UnitOption option;
+
+    private List<UnitOptionInput> inputs;
+    private List<object> values = new List<object>();
+
     public void Awake()
     {
         Instance = this;
@@ -26,6 +48,47 @@ public class UI_UnitOptions : MonoBehaviour
         if (NoOptions.activeSelf && !Active)
             NoOptions.SetActive(false);
         Parent.gameObject.SetActive(Active);
+
+        if (GatheringInput)
+        {
+            if(workingIndex != gathered)
+            {
+                // We have gathered more input! Move on to the next or terminate.
+                if (gathered == totalToGather)
+                {
+                    // Done!
+                    GatheringInput = false;
+                    inputs = null;
+
+                    // Execute the option with collected params.
+                    UnitOptionParams param = new UnitOptionParams();
+                    for (byte i = 0; i < values.Count; i++)
+                    {
+                        param.Update(i, values[i]);
+                    }
+                    var array = Unit.CurrentlySelected.ToArray();
+                    Player.Local.UnitOptionExecution.RequestOptionExecution(array, option, param);
+
+                    values.Clear();
+                }
+                else
+                {
+                    // Move on to the next!
+                    workingIndex++;
+                    var current = inputs[workingIndex];
+                    RunInputCollection(current);
+                }
+            }
+        }
+    }
+
+    private void RunInputCollection(UnitOptionInput input)
+    {
+        input.GetInput((obj) =>
+        {
+            values.Add(obj);
+            gathered++;
+        });
     }
 
     public void SpawnOptions(Dictionary<UnitOption, int> options)
@@ -73,22 +136,32 @@ public class UI_UnitOptions : MonoBehaviour
     {
         if (item == null)
             return;
+        if (GatheringInput)
+        {
+            Debug.LogWarning("Cannot select a new option while already gathering information for the last one. Gathered {0}/{1}".Form(gathered, totalToGather));
+            return;
+        }
 
         if(Player.Local != null)
         {
-            var array = Unit.CurrentlySelected.ToArray();
-            UnitOptionParams[] param = new UnitOptionParams[array.Length];
-            Vector2 pos = Random.insideUnitCircle * 20f;
-            var p = new UnitOptionParams();
-            p.Update(0, true);
-            p.Update(1, array[0].gameObject);
-            p.Update(2, pos);
-            for (int i = 0; i < array.Length; i++)
+            var inputs = item.Option.GetInputs();
+            if(inputs != null && inputs.Count != 0)
             {
-                param[i] = p;
-            }
+                GatheringInput = true;
+                totalToGather = inputs.Count;
+                gathered = 0;
+                workingIndex = 0;
+                option = item.Option;
 
-            Player.Local.UnitOptionExecution.RequestOptionExecution(array, item.Option, param);
+                var first = inputs[0];
+                RunInputCollection(first);
+            }
+            else
+            {
+                // Possibly get unit generated params?
+                var array = Unit.CurrentlySelected.ToArray();
+                Player.Local.UnitOptionExecution.RequestOptionExecution(array, item.Option, null);
+            }
         }
     }
 

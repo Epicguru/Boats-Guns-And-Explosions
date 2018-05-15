@@ -9,6 +9,8 @@ public class UI_PosOrUnitSelect : MonoBehaviour
     [Header("Controls")]
     [ReadOnly]
     public bool Active;
+    public bool AllowPositions;
+    public bool AllowUnits;
     public Color PosSelectorColour;
     public Color UnitSelectorColour;
 
@@ -16,11 +18,12 @@ public class UI_PosOrUnitSelect : MonoBehaviour
     public GameObject All;
     public UI_PosSelect PosSelector;
     public UI_UnitSelect UnitSelector;
+    public Text Title;
 
     private bool overUnit = false;
     private SelectionOutput output;
 
-    public void GetSelection(SelectionOutput t)
+    public void GetSelection(SelectionOutput t, bool allowPositions, bool allowUnits)
     {
         if (Active)
         {
@@ -32,7 +35,14 @@ public class UI_PosOrUnitSelect : MonoBehaviour
             Debug.LogError("The selection output parameter was null.");
             return;
         }
+        if(!allowPositions && !allowUnits)
+        {
+            Debug.LogError("You must allow either positions or units, or both, to run this selection query. Ignored.");
+            return;
+        }
         this.output = t;
+        this.AllowPositions = allowPositions;
+        this.AllowUnits = allowUnits;
         Active = true;
     }
 
@@ -69,20 +79,44 @@ public class UI_PosOrUnitSelect : MonoBehaviour
         }
         else
         {
+            Title.text = "Select a " + (AllowUnits ? "unit" : "") + (AllowPositions && AllowUnits ? " or a " : "") + (AllowPositions ? "position" : "");
             All.SetActive(true);
 
             // Get unit under mouse, if any...
-            Unit u = Unit.GetUnder(InputManager.MousePos);
-            overUnit = u != null;
+            overUnit = false;
+            Unit u = null;
+            if (AllowUnits)
+            {
+                u = Unit.GetUnder(InputManager.MousePos);
+                overUnit = u != null;
+            }
 
-            UnitSelector.gameObject.SetActive(overUnit);
-            PosSelector.gameObject.SetActive(!overUnit);
+            UnitSelector.gameObject.SetActive(overUnit && AllowUnits);
+            PosSelector.gameObject.SetActive(!overUnit && AllowPositions);
             PosSelector.Colour = PosSelectorColour;
             UnitSelector.Colour = UnitSelectorColour;
 
             if (overUnit)
             {
                 UnitSelector.WorldPos = u.transform.position;
+            }
+
+            if (InputManager.IsDown("Select"))
+            {
+                // Something has been selected!
+                bool isUnit = overUnit && AllowUnits;
+                Unit unit = null;
+                if (isUnit)
+                {
+                    unit = u;
+                }
+                Vector2 position = Vector2.zero;
+                if (!isUnit)
+                {
+                    position = InputManager.MousePos;
+                }
+
+                Finish(isUnit, unit, position);
             }
         }        
     }
