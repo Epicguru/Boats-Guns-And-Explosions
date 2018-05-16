@@ -10,6 +10,9 @@ public class UI_UnitOptions : MonoBehaviour
     public RectTransform OptionsBounds;
     public List<UI_UnitOptionItem> Spawned = new List<UI_UnitOptionItem>();
     public GameObject NoOptions;
+    public CanvasGroup Group;
+    public float OpenTime = 0.5f;
+    public AnimationCurve OpenCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     public bool GatheringInput
     {
@@ -29,6 +32,7 @@ public class UI_UnitOptions : MonoBehaviour
     private int workingIndex;
     private int totalToGather;
     private UnitOption option;
+    private float openState;
 
     private List<UnitOptionInput> inputs;
     private List<object> values = new List<object>();
@@ -48,6 +52,10 @@ public class UI_UnitOptions : MonoBehaviour
         if (NoOptions.activeSelf && !Active)
             NoOptions.SetActive(false);
         Parent.gameObject.SetActive(Active);
+
+        openState = Mathf.Clamp01(openState + (1f / OpenTime) * (Active ? 1f : -1f) * Time.unscaledDeltaTime);
+        float p = OpenCurve.Evaluate(openState);
+        Group.alpha = p;
 
         if (GatheringInput)
         {

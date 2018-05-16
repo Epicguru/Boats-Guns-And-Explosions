@@ -167,8 +167,6 @@ public class ShipNavigation : NetworkBehaviour
         {
             options.Add(UnitOption.SHIP_START_ENGINE);
         }
-
-        options.Add(UnitOption.CANNON_FIRE_AT);
     }    
 
     [Server]
@@ -191,29 +189,6 @@ public class ShipNavigation : NetworkBehaviour
             if (!Active)
             {
                 Activate();
-            }
-        }
-
-        if(option.Option == UnitOption.CANNON_FIRE_AT)
-        {
-            // 0: Unit / Position
-            bool isUnit = option.Params.IsOfType<GameObject>(0);
-            if (isUnit)
-            {
-                Debug.Log("Is unit!");
-                var go = option.Params.Get<GameObject>(0);
-                if(go != null)
-                {
-                    Unit u = go.GetComponent<Unit>();
-
-                    Debug.Log("Here is the unit: " + u);
-                }
-            }
-            else
-            {
-                Debug.Log("Is position!");
-                var pos = option.Params.Get<Vector2>(0);
-                Debug.Log("Here is the pos: " + pos);
             }
         }
     }

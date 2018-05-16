@@ -20,6 +20,31 @@ public class Cannon : NetworkBehaviour
     }
     private Attachment _attachment;
 
+    public bool IsFiring
+    {
+        get
+        {
+            return _isFiring;
+        }
+        set
+        {
+            if (!isServer)
+            {
+                Debug.LogError("Cannot set firing flag when not on server!");
+                return;
+            }
+            if(_isFiring != value)
+            {
+                _isFiring = value;
+            }
+        }
+    }
+    [Header("Shooting")]
+    [SerializeField]
+    [ReadOnly]
+    [SyncVar]
+    private bool _isFiring;
+
     [Header("Turning")]
     public float TargetAngle = 0f;
     public float MaxRotationSpeed = 360f;
@@ -32,11 +57,19 @@ public class Cannon : NetworkBehaviour
     public AudioSource Source;
     public AudioClip[] Clips;
 
+    [Header("Animation")]
+    public Animator Anim;
+    public string FireBool = "Fire";
+
     private void Start()
     {
         if(Source == null)
         {
             Source = GetComponentInChildren<AudioSource>();
+        }
+        if(Anim == null)
+        {
+            Anim = GetComponentInChildren<Animator>();
         }
     }
 
@@ -45,6 +78,12 @@ public class Cannon : NetworkBehaviour
         if (isServer)
         {
             RotateToTarget();
+        }
+        // On both client and server: Cause firing animation.
+        // On server this actually fires projectiles.
+        if(Anim != null)
+        {
+            Anim.SetBool(FireBool, IsFiring);
         }
     }
 

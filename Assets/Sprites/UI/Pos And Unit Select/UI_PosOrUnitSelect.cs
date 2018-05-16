@@ -163,7 +163,7 @@ public class UI_PosOrUnitSelect : MonoBehaviour
             else if(AllowPositions)
             {
                 str.Append("Position: ");
-                str.Append(InputManager.MousePos.ToString("#.#"));
+                str.Append(InputManager.MousePos.ToString("F1"));
             }
 
             SubTitle.text = str.ToString();
