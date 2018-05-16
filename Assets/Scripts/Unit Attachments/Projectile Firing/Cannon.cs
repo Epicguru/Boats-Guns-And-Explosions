@@ -36,6 +36,10 @@ public class Cannon : NetworkBehaviour
             if(_isFiring != value)
             {
                 _isFiring = value;
+                if (value)
+                {
+                    Active = true;
+                }
             }
         }
     }
@@ -46,6 +50,7 @@ public class Cannon : NetworkBehaviour
     private bool _isFiring;
 
     [Header("Turning")]
+    public bool Active;
     public float TargetAngle = 0f;
     public float MaxRotationSpeed = 360f;
 
@@ -117,40 +122,77 @@ public class Cannon : NetworkBehaviour
     [Server]
     private void RotateToTarget()
     {
-        var angles = transform.eulerAngles;
-        float rot = angles.z;
-
-        float movement = Mathf.DeltaAngle(rot, TargetAngle);
-
-        if (movement == 0f)
+        if (Active)
         {
-            // No reason to move the cannon if we are already at the target angle.
-            return;
-        }
+            var angles = transform.eulerAngles;
+            float rot = angles.z;
 
-        float change = 0f;
-        if(movement > 0f)
-        {
-            // The target angle is 'above' our current angle, move upwards.
-            change = Time.deltaTime * MaxRotationSpeed;
-            if(change > movement)
+            float movement = Mathf.DeltaAngle(rot, TargetAngle);
+
+            if (movement == 0f)
             {
-                change = movement;
+                // No reason to move the cannon if we are already at the target angle.
+                return;
             }
+
+            float change = 0f;
+            if (movement > 0f)
+            {
+                // The target angle is 'above' our current angle, move upwards.
+                change = Time.deltaTime * MaxRotationSpeed;
+                if (change > movement)
+                {
+                    change = movement;
+                }
+            }
+            else
+            {
+                // The target angle is 'below' our current angle, move downwards.
+                change = Time.deltaTime * MaxRotationSpeed * -1f;
+                if (change < movement)
+                {
+                    change = movement;
+                }
+            }
+
+            rot += change;
+            angles.z = rot;
+            transform.eulerAngles = angles;
         }
         else
         {
-            // The target angle is 'below' our current angle, move downwards.
-            change = Time.deltaTime * MaxRotationSpeed * -1f;
-            if (change < movement)
+            var angles = transform.localEulerAngles;
+            float z = angles.z;
+            float movement = Mathf.DeltaAngle(z, 0f);
+            if(movement == 0f)
             {
-                change = movement;
+                return;
             }
-        }
 
-        rot += change;
-        angles.z = rot;
-        transform.eulerAngles = angles;
+            float change = 0f;
+            if (movement > 0f)
+            {
+                // The target angle is 'above' our current angle, move upwards.
+                change = Time.deltaTime * MaxRotationSpeed;
+                if (change > movement)
+                {
+                    change = movement;
+                }
+            }
+            else
+            {
+                // The target angle is 'below' our current angle, move downwards.
+                change = Time.deltaTime * MaxRotationSpeed * -1f;
+                if (change < movement)
+                {
+                    change = movement;
+                }
+            }
+
+            z += change;
+            angles.z = z;
+            transform.localEulerAngles = angles;
+        }
     }
 
     public void FireFromAnim(AnimationEvent e)

@@ -37,6 +37,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 013477701afcf4a468ca9ca1e697f8a1, type: 3}
   - {fileID: 21300000, guid: c63a2ad2aab639745883810541a1f20b, type: 3}
   - {fileID: 21300000, guid: c88c1bff632eefb46bfedc1687c83c8f, type: 3}
+  - {fileID: 21300000, guid: d73256d7b8b17c846a68f189cebcb034, type: 3}
   - {fileID: 21300000, guid: acaaebf5bcfa90e48b37fdc3cb72aa0a, type: 3}
   - {fileID: 21300000, guid: 990352997758dbb49afac5b8655ff404, type: 3}
   - {fileID: 21300000, guid: 105b70a6d57f5b8409b71566cc7f3302, type: 3}
@@ -53,6 +54,7 @@ SpriteAtlas:
   - Start Engine
   - Fire At
   - Cut Engine
+  - Cease Fire
   - Unit Target
   - Cross
   - Arrow

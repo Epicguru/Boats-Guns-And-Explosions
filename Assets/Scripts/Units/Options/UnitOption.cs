@@ -6,7 +6,8 @@ public enum UnitOption : byte
 {
     SHIP_STOP_ENGINE,
     SHIP_START_ENGINE,
-    CANNON_FIRE_AT
+    WS_FIRE_AT,
+    WS_CEASE_FIRE
 }
 
 public static class UnitOptionUtils

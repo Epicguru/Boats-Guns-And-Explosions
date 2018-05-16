@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(ShipNavigation))]
 [RequireComponent(typeof(ShipDamage))]
 [RequireComponent(typeof(ShipEffects))]
-[RequireComponent(typeof(WeaponSystem))]
+[RequireComponent(typeof(ShipWeaponSystem))]
 public class Ship : Vehicle
 {
     [Range(0f, 1f)]
@@ -79,18 +79,18 @@ public class Ship : Vehicle
     }
     private ShipEffects _effects;
 
-    public WeaponSystem WeaponSystem
+    public ShipWeaponSystem WeaponSystem
     {
         get
         {
             if(_weaponSystem == null)
             {
-                _weaponSystem = GetComponent<WeaponSystem>();
+                _weaponSystem = GetComponent<ShipWeaponSystem>();
             }
             return _weaponSystem;
         }
     }
-    private WeaponSystem _weaponSystem;
+    private ShipWeaponSystem _weaponSystem;
 
     private SpriteRenderer[] Renderers;
 

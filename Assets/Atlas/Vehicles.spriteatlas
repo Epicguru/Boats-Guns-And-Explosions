@@ -34,23 +34,35 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 9d908951f21d64a41ba514ffc1f48ebf, type: 3}
+  - {fileID: 21300000, guid: 86a223ec272190c49abd5f9a6e24a25b, type: 3}
   - {fileID: 21300000, guid: cb5fed197ab78e1408ab3067db8e153c, type: 3}
+  - {fileID: 21300000, guid: cc1395276a47fdf4291c2e0ecd5ae0bc, type: 3}
   - {fileID: 21300000, guid: 4e8fadfd132050345b4a485f942851cb, type: 3}
+  - {fileID: 21300000, guid: 130d0a44edb662c4b828e54fd654d9d4, type: 3}
   - {fileID: 21300000, guid: d9a60b9fceff2ef49827b93bdea5996f, type: 3}
+  - {fileID: 21300000, guid: 474ee6a2f4dfed944b3ead928d02328d, type: 3}
   - {fileID: 21300000, guid: 87b0fb30fd2b06b419bf61a1b1e1f6c9, type: 3}
   - {fileID: 21300000, guid: 1de31da1b2df9084c966762f584f7b55, type: 3}
   - {fileID: 21300000, guid: d729bb24ca650114685a882b08c5bfc6, type: 3}
   - {fileID: 21300000, guid: eb3631b3a3681fe49af87db909f75d84, type: 3}
+  - {fileID: 21300000, guid: 7ca2caa91b56a8c49a9cd86751c0c0e6, type: 3}
   - {fileID: 21300000, guid: 036366aa50a79b34eb2961aae5dee854, type: 3}
   - {fileID: 21300000, guid: 7a6f55fe104ade44e814a30d1a94d97d, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Coast Crawler Hull
+  - Coast Crawler Details
   - Hull
+  - Coast Crawler Control
   - Control
+  - Coast Crawler Storage
   - Smoke
+  - Coast Crawler Gun Mount
   - Pivot Mount
   - Auto Cannon Base
   - Auto Cannon Details
   - Auto Cannon Barrel
+  - Coast Crawler Boxes
   - Bubble
   - Spark
   m_Tag: Vehicles

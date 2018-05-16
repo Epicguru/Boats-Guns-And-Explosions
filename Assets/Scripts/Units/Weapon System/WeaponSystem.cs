@@ -27,7 +27,7 @@ public class WeaponSystem : NetworkBehaviour
         {
             return _targetUnit;
         }
-        private set
+        protected set
         {
             _targetUnit = value;
         }
@@ -46,10 +46,15 @@ public class WeaponSystem : NetworkBehaviour
         }
     }
 
+    public float MaxFiringAngleOffset = 20f;
+
     private List<AttachmentSocket> Sockets = new List<AttachmentSocket>();
 
     public virtual void Update()
     {
+        if (!isServer)
+            return;
+
         // Gather valid sockets.
         Sockets.Clear();
         foreach (var pair in Attachments.Sockets)
@@ -70,25 +75,31 @@ public class WeaponSystem : NetworkBehaviour
                 float angle;
                 if (IsTargetingUnit)
                 {
-                    angle = (a.transform.position - TargetUnit.transform.position).ToAngle();
+                    angle = (TargetUnit.transform.position - a.transform.position).ToAngle();
                 }
                 else
                 {
-                    angle = ((Vector2)a.transform.position - TargetPosition).ToAngle();
+                    angle = (TargetPosition - (Vector2)a.transform.position).ToAngle();
                 }
 
                 // Is a cannon?
                 var cannon = a.GetComponent<Cannon>();
                 if (cannon != null)
                 {
-                    cannon.IsFiring = Firing;
+                    float current = cannon.transform.eulerAngles.z;
+                    float diff = Mathf.Abs(Mathf.DeltaAngle(current, angle));
+                    Debug.Log(diff);
+                    bool inAngleRange = diff <= Mathf.Abs(MaxFiringAngleOffset);
+                    cannon.IsFiring = Firing && inAngleRange;
                     if (Firing)
                     {
                         cannon.TargetAngle = angle;
+                        cannon.Active = true;
                     }
                     else
                     {
                         cannon.TargetAngle = 0f;
+                        cannon.Active = false;
                     }
                 }
             }

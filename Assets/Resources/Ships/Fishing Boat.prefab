@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 114100569095086676}
   - component: {fileID: 114811593578297542}
   - component: {fileID: 114869950380923236}
+  - component: {fileID: 114697208845528778}
   - component: {fileID: 114716204712993114}
   - component: {fileID: 50542637490617000}
   - component: {fileID: 114320426897918620}
@@ -844,6 +845,20 @@ MonoBehaviour:
   BaseMass: 5
   GeneralSize: 0
   MaxWaterOntake: 100
+--- !u!114 &114697208845528778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560373461334954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1341f2d3732004cab6738e751297cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Firing: 0
+  _targetUnit: {fileID: 0}
+  TargetPosition: {x: 0, y: 0}
 --- !u!114 &114716204712993114
 MonoBehaviour:
   m_ObjectHideFlags: 1
