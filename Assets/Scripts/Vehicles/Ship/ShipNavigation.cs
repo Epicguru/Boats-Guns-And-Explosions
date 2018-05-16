@@ -103,7 +103,7 @@ public class ShipNavigation : NetworkBehaviour
                     // TargetCross.DrawAt(TargetPos);
 
                     // And a line from the ship to the cross.
-                    CameraLines.DrawLine(transform.position, TargetPos);
+                    CameraLines.DrawLine(transform.position, TargetPos, Color.green);
                 }
             }
         }

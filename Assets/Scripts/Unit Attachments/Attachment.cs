@@ -142,7 +142,8 @@ public class Attachment : NetworkBehaviour
 
 public enum AttachmentType : byte
 {
-    AUTO_CANNON
+    AUTO_CANNON,
+    ADS
 }
 
 public enum AttachmentSize : byte

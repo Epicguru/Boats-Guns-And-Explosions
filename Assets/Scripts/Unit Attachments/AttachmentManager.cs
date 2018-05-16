@@ -32,7 +32,7 @@ public class AttachmentManager : NetworkBehaviour
         {
             for (byte i = 0; i < Sockets.Count; i++)
             {
-                Attach(i, (byte)AttachmentType.AUTO_CANNON);
+                Attach(i, (byte)Random.Range(0, 2));
             }
         }
     }

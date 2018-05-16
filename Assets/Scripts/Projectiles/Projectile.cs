@@ -91,10 +91,12 @@ public class Projectile : NetworkBehaviour
         UpdateSpeedCutoff();
     }
 
-    public void Disable()
+    public void Disable(Vector2 endPoint)
     {
         if (disabled)
             return;
+
+        transform.position = endPoint;
 
         // Can't destroy on client because it will cause a desync. Just hide the renderer.
         StartCoroutine(DecreaseAlpha());
@@ -136,7 +138,7 @@ public class Projectile : NetworkBehaviour
 
         if(speed <= Data.MinSpeed)
         {
-            Disable();
+            Disable(transform.position);
         }
     }
 
@@ -146,7 +148,7 @@ public class Projectile : NetworkBehaviour
 
         if(dst > Data.MaxRange)
         {
-            Disable();
+            Disable(transform.position);
         }
     }
 
@@ -162,14 +164,15 @@ public class Projectile : NetworkBehaviour
         Vector2 newPos = pos + ((Vector2)transform.right * speed * Time.deltaTime);
 
         // Update collision!
-        Vector2 endPos;
-        UpdateCollisionDetection(pos, newPos, out endPos);
+        UpdateCollisionDetection(pos, newPos);
 
-        // Move to the new position!
-        transform.position = endPos;
+        if (!disabled)
+        {
+            transform.position = newPos;
+        }
     }
 
-    public virtual void UpdateCollisionDetection(Vector2 pos, Vector2 newPos, out Vector2 endPos)
+    public virtual void UpdateCollisionDetection(Vector2 pos, Vector2 newPos)
     {
         // The projectile can deal damage and also penetrate through ships' components.
         // If a collider is a trigger, it is ignored.
@@ -189,6 +192,9 @@ public class Projectile : NetworkBehaviour
 
         for (int i = 0; i < hits; i++)
         {
+            if (disabled)
+                break;
+
             var hit = Hits[i];
 
             // If we have already managed hits with that collider, stop here.
@@ -200,6 +206,18 @@ public class Projectile : NetworkBehaviour
             if (hit.collider.isTrigger)
             {
                 // Is a trigger collider, ignore it.
+                // Unless it has a projectile effector script!
+                var e = hit.collider.GetComponent<ProjectileEffector>();
+
+                if (e != null)
+                {
+                    // Indicate that we have hit this collider, to avoid further processing.
+                    HitColliders.Add(hit.collider);
+
+                    // Allow this projectile to be processed. Do not count this as a hit or penetration.
+                    e.ProjectileHit(this, hit);
+                }
+
                 continue;
             }
 
@@ -239,10 +257,8 @@ public class Projectile : NetworkBehaviour
                 if(currentPenetrationCount > Data.Penetration)
                 {
                     // Stop here, because this projectile cannot penetrate any more and should be destroyed.
-                    endPos = hit.point;
-
                     // Now we want to destroy or hide this projectile.
-                    Disable();
+                    Disable(hit.point);
                 
                     break;
                 }
@@ -253,8 +269,6 @@ public class Projectile : NetworkBehaviour
                 continue;
             }
         }
-
-        endPos = newPos;
     }
     
     public void ProcessHit(RaycastHit2D hit, int penetration, DamageModel model)

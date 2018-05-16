@@ -88,7 +88,6 @@ public class WeaponSystem : NetworkBehaviour
                 {
                     float current = cannon.transform.eulerAngles.z;
                     float diff = Mathf.Abs(Mathf.DeltaAngle(current, angle));
-                    Debug.Log(diff);
                     bool inAngleRange = diff <= Mathf.Abs(MaxFiringAngleOffset);
                     cannon.IsFiring = Firing && inAngleRange;
                     if (Firing)
