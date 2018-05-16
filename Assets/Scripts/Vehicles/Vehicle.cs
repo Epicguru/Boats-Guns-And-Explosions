@@ -67,6 +67,7 @@ public abstract class Vehicle : NetworkBehaviour
     public virtual void ApplyPhysicsSettings()
     {
         Rigidbody.useAutoMass = false;
+        Rigidbody.gravityScale = 0f;
         if(BaseMass <= 0)
         {
             Debug.LogError("This '{0}' has a mass of {1}, invalid mass! Must be greater than 0. Using mass of 0.1".Form(name, BaseMass));

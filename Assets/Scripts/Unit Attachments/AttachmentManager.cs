@@ -30,7 +30,10 @@ public class AttachmentManager : NetworkBehaviour
     {
         if (isServer)
         {
-            Attach(0, (byte)AttachmentType.AUTO_CANNON);
+            for (byte i = 0; i < Sockets.Count; i++)
+            {
+                Attach(i, (byte)AttachmentType.AUTO_CANNON);
+            }
         }
     }
 
