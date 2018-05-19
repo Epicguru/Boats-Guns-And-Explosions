@@ -18,6 +18,9 @@ public class ActiveDefenceSystem : NetworkBehaviour
     }
     private Attachment _attachment;
 
+    public CircleCollider2D Collider;
+    public Transform Field;
+
     public float Range = 5f;
     public Transform Top;
 
@@ -100,6 +103,10 @@ public class ActiveDefenceSystem : NetworkBehaviour
                 i--;
             }
         }
+
+        Collider.radius = Range;
+        float x = (Range / 3f);
+        Field.transform.localScale = new Vector3(x, x, 1f);
     }
 
     public void OnDrawGizmos()

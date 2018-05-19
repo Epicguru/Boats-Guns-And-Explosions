@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1620593477929844}
   m_IsPrefabParent: 1
+--- !u!1 &1259215270688264
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4361129017665934}
+  m_Layer: 0
+  m_Name: Scale
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1350972785080660
 GameObject:
   m_ObjectHideFlags: 1
@@ -111,19 +126,33 @@ Transform:
   m_Father: {fileID: 4548456660030630}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4361129017665934
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259215270688264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4548456660030630}
+  m_Father: {fileID: 4553543375225044}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4548456660030630
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1740716066870390}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 4327541118743122}
-  m_Father: {fileID: 4553543375225044}
-  m_RootOrder: 1
+  m_Father: {fileID: 4361129017665934}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4553543375225044
 Transform:
@@ -136,7 +165,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4922294348288130}
-  - {fileID: 4548456660030630}
+  - {fileID: 4361129017665934}
   m_Father: {fileID: 4939470402436318}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -271,11 +300,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebfdb023e70e6248a7a1ff6017e1065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 58734027196128242}
+  Field: {fileID: 4361129017665934}
   Range: 3
   Top: {fileID: 4922294348288130}
   LineTime: 0.5
-  Start: {r: 1, g: 0, b: 0, a: 1}
-  End: {r: 1, g: 1, b: 0, a: 0}
+  Start: {r: 1, g: 0, b: 0.8009267, a: 1}
+  End: {r: 0.20064259, g: 0, b: 1, a: 0}
 --- !u!114 &114760752964823986
 MonoBehaviour:
   m_ObjectHideFlags: 1

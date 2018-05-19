@@ -188,6 +188,9 @@ public abstract class Unit : NetworkBehaviour
         {
             var hit = hits[i];
 
+            if (hit.collider.isTrigger)
+                continue;
+
             var unit = hit.transform.GetComponentInParent<Unit>();
             if (unit != null)
             {
