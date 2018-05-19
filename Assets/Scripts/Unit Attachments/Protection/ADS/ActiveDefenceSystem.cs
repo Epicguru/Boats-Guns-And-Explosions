@@ -70,7 +70,13 @@ public class ActiveDefenceSystem : NetworkBehaviour
         }
 
         pr.Disable(hit.point);
+
+        // Play the shoot down effect, and spawn a shot down particle effect.
         PlayShootdownAnim(hit.point);
+
+        var particle = EffectPool.Instance.GetFromPool(TempEffects.DESTROYED_SPARKS);
+        particle.transform.position = hit.point;
+        particle.transform.eulerAngles = pr.transform.eulerAngles;
     }
 
     public void Update()

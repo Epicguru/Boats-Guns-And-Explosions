@@ -9,6 +9,7 @@ public class EffectPool : MonoBehaviour
 
     public TempEffect Sparks;
     public TempEffect Explosion;
+    public TempEffect DestroyedSparks;
 
     public void Awake()
     {
@@ -28,6 +29,8 @@ public class EffectPool : MonoBehaviour
                 return Instantiate(Sparks);
             case TempEffects.EXPLOSION:
                 return Instantiate(Explosion);
+            case TempEffects.DESTROYED_SPARKS:
+                return Instantiate(DestroyedSparks);
             default:
                 Debug.LogError("No prefab set up for enum type '{0}'".Form(effect));
                 return null;
@@ -95,5 +98,6 @@ public enum TempEffects : byte
 {
     NONE,
     SPARKS,
-    EXPLOSION
+    EXPLOSION,
+    DESTROYED_SPARKS
 }
