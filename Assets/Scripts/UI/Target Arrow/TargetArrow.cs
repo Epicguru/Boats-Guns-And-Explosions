@@ -17,7 +17,7 @@ public class TargetArrow : MonoBehaviour
         Anim.SetTrigger("Remove");
     }
 
-    private void FromAnimRemove()
+    public void FromAnimRemove()
     {
         // Remove from world, return to pool.
         if (ReturnToPool)

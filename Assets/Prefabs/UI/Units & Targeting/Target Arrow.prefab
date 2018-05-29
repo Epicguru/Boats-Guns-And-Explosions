@@ -19,6 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4937926846956814}
+  - component: {fileID: 114299572379907848}
+  - component: {fileID: 114734518482277980}
   m_Layer: 0
   m_Name: Target Arrow
   m_TagString: Untagged
@@ -36,7 +38,7 @@ GameObject:
   - component: {fileID: 4248031248027246}
   - component: {fileID: 212763736350614254}
   - component: {fileID: 95147345586795344}
-  - component: {fileID: 114730109224394222}
+  - component: {fileID: 114697433669764744}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -89,12 +91,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114730109224394222
+--- !u!114 &114299572379907848
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1917901066099626}
+  m_GameObject: {fileID: 1161451965708776}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a44a6aa21610c446b8fde2d374bd5d1, type: 3}
@@ -102,6 +104,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Anim: {fileID: 95147345586795344}
   Movement: {fileID: 4937926846956814}
+  ReturnToPool: 1
+--- !u!114 &114697433669764744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1917901066099626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a1b378610f0af4e836c96aa368d314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UponEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114299572379907848}
+        m_MethodName: FromAnimRemove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: AnimCallback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114734518482277980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1161451965708776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b691b6dac6785684696e3f594c1a027d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WorldPositionStays: 1
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDespawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!212 &212763736350614254
 SpriteRenderer:
   m_ObjectHideFlags: 1

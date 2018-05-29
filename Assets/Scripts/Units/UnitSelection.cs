@@ -15,6 +15,7 @@ public class UnitSelection : NetworkBehaviour
     public Color SelectionColour = Color.white;
 
     public bool ServerCanViewAll = false;
+    public PoolableObject SelectionBoundsPrefab;
 
     private Vector2 start;
     private SpriteRenderer sel;
@@ -87,7 +88,7 @@ public class UnitSelection : NetworkBehaviour
         {
             if (sel == null)
             {
-                sel = SelectionBoundsPool.Instance.GetFromPool().Renderer;
+                sel = Pool.Get(SelectionBoundsPrefab).GetComponent<SelectionBounds>().Renderer;
             }
 
             if (sel != null)
@@ -103,7 +104,7 @@ public class UnitSelection : NetworkBehaviour
             selecting = false;
             if (sel != null)
             {
-                SelectionBoundsPool.Instance.ReturnToPool(sel.GetComponent<SelectionBounds>());
+                Pool.Return(sel.GetComponent<PoolableObject>());
                 sel = null;
             }
 

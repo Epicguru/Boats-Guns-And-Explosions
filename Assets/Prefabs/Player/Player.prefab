@@ -117,6 +117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 114027691420932164}
   ActiveTime: 0.5
+  TargetArrowPrefab: {fileID: 114734518482277980, guid: 952df00aa25103d4cafdd0c5c6fa4aa9,
+    type: 2}
 --- !u!114 &114542370583702834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -131,3 +133,6 @@ MonoBehaviour:
   Player: {fileID: 114027691420932164}
   CanSelect: 1
   SelectionColour: {r: 1, g: 1, b: 1, a: 1}
+  ServerCanViewAll: 0
+  SelectionBoundsPrefab: {fileID: 114051606889811320, guid: 5fd05ba4f4b5f134ab92815f3c8a8741,
+    type: 2}

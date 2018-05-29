@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitColliders: []
+  Trail: {fileID: 96637710752278222}
   DataID: 0
   Faction: 0
   StartPos: {x: 0, y: 0}

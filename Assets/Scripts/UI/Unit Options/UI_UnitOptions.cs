@@ -14,6 +14,8 @@ public class UI_UnitOptions : MonoBehaviour
     public float OpenTime = 0.5f;
     public AnimationCurve OpenCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    public PoolableObject Prefab;
+
     public bool GatheringInput
     {
         get
@@ -118,7 +120,7 @@ public class UI_UnitOptions : MonoBehaviour
                 if (pair.Value <= 0)
                     continue;
 
-                var spawned = UnitOptionItemPool.Instance.GetFromPool();
+                var spawned = Pool.Get(Prefab).GetComponent<UI_UnitOptionItem>();
 
                 // Set option data to be shown in UI.
                 spawned.Option = pair.Key;
@@ -179,7 +181,7 @@ public class UI_UnitOptions : MonoBehaviour
     {
         foreach (var item in Spawned)
         {
-            UnitOptionItemPool.Instance.ReturnToPool(item);
+            Pool.Return(item.PoolableObject);
         }
         Spawned.Clear();
     }

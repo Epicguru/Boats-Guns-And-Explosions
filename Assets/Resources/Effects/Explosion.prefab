@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4566927377887022}
   - component: {fileID: 114583499129590980}
+  - component: {fileID: 114783189847484556}
   - component: {fileID: 198087479747871516}
   - component: {fileID: 199042153580095174}
   m_Layer: 0
@@ -84,11 +85,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ddbd8db81529e4ab8063129578a6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  ID: 2
   Duration: 0.5
   Particles: {fileID: 198087479747871516}
   Clip: {fileID: 8300000, guid: 19965be78b67ac3409eb132418bab419, type: 3}
   Volume: 1
+--- !u!114 &114783189847484556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1943873301860682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b691b6dac6785684696e3f594c1a027d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114583499129590980}
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDespawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!198 &198087479747871516
 ParticleSystem:
   m_ObjectHideFlags: 1

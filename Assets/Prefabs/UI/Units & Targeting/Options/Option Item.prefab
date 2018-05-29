@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 224184175454470856}
   - component: {fileID: 222937409086238866}
   - component: {fileID: 114744046313836704}
+  - component: {fileID: 114178620340968944}
   m_Layer: 0
   m_Name: Option Item
   m_TagString: Untagged
@@ -131,6 +132,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114178620340968944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1800692550373246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b691b6dac6785684696e3f594c1a027d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WorldPositionStays: 0
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDespawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114179979191966032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +280,7 @@ MonoBehaviour:
   TitleText: {fileID: 114935478041729430}
   CountText: {fileID: 114831962126109814}
   Options: {fileID: 0}
+  PoolableObject: {fileID: 114178620340968944}
 --- !u!114 &114822805681916190
 MonoBehaviour:
   m_ObjectHideFlags: 1

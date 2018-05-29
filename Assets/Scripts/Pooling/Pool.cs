@@ -128,6 +128,21 @@ public class Pool : MonoBehaviour
         }
     }
 
+    public static GameObject Get(PoolableObject prefab)
+    {
+        return Get(prefab, Vector3.zero, Quaternion.identity, null);
+    }
+
+    public static GameObject Get(PoolableObject prefab, Vector3 position)
+    {
+        return Get(prefab, position, Quaternion.identity, null);
+    }
+
+    public static GameObject Get(PoolableObject prefab, Vector3 position, Quaternion rotation)
+    {
+        return Get(prefab, position, rotation, null);
+    }
+
     public static GameObject Get(PoolableObject prefab, Vector3 position, Quaternion rotation, Transform parent)
     {
         if(prefab == null)
@@ -180,7 +195,7 @@ public class Pool : MonoBehaviour
 
         int id = instance.PrefabID;
         instance.gameObject.SetActive(false);
-        instance.transform.parent = GetGroup(id).transform;
+        instance.transform.SetParent(GetGroup(id).transform, !instance.IsUI);
 
         Ensure(id);
         Instance.pool[id].Enqueue(instance);

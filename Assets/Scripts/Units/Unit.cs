@@ -121,7 +121,7 @@ public abstract class Unit : NetworkBehaviour
             if (selBounds == null)
             {
                 // Create selection bounds...
-                var sel = SelectionBoundsPool.Instance.GetFromPool();
+                var sel = Pool.Get(Spawnables.Instance.UnitSelectionBounds).GetComponent<SelectionBounds>();
                 selBounds = sel.Renderer;
             }
 
@@ -137,7 +137,7 @@ public abstract class Unit : NetworkBehaviour
         {
             if (selBounds != null)
             {
-                SelectionBoundsPool.Instance.ReturnToPool(selBounds.GetComponent<SelectionBounds>());
+                Pool.Return(selBounds.GetComponent<PoolableObject>());
                 selBounds = null;
             }
         }

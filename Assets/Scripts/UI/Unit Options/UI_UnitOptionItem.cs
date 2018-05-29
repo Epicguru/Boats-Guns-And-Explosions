@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(PoolableObject))]
 public class UI_UnitOptionItem : MonoBehaviour
 {
     [Header("Data")]
@@ -15,6 +16,7 @@ public class UI_UnitOptionItem : MonoBehaviour
     public Text TitleText;
     public Text CountText;
     public UI_UnitOptions Options;
+    public PoolableObject PoolableObject;
 
     public void UpdateVisuals()
     {

@@ -392,8 +392,8 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0.5
-    functionName: FromAnimRemove
-    data: 
+    functionName: Event
+    data: Removed
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

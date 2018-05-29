@@ -4,7 +4,8 @@ public class Spawnables : MonoBehaviour
 {
     public static Spawnables Instance;
 
-    public Projectile Projectile;
+    public PoolableObject UnitSelectionBounds;
+    public Projectile BaseProjectile;
 
     public void Awake()
     {

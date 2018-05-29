@@ -9,6 +9,7 @@ public class UnitMovement : NetworkBehaviour
 
     public Player Player;
     public float ActiveTime = 0.5f;
+    public PoolableObject TargetArrowPrefab;
 
     private TargetArrow arrow;
     private float timer;
@@ -24,7 +25,7 @@ public class UnitMovement : NetworkBehaviour
         {
             if(arrow == null)
             {
-                arrow = TargetArrowPool.Instance.GetFromPool();
+                arrow = Pool.Get(TargetArrowPrefab).GetComponent<TargetArrow>();
                 arrow.ReturnToPool = false;
             }
             arrow.PlaceAt(InputManager.MousePos);

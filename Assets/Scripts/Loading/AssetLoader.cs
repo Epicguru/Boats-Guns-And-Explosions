@@ -55,8 +55,9 @@ public class AssetLoader : MonoBehaviour
 
             List<KeyValuePair<string, Run>> actions = new List<KeyValuePair<string, Run>>();
             actions.Add(new KeyValuePair<string, Run>("Loading Projectiles...", () => { ProjectileData.LoadProjectiles(); }));
-            actions.Add(new KeyValuePair<string, Run>("Registering Projectiles...", () => { Projectile.NetRegister(); }));
+            actions.Add(new KeyValuePair<string, Run>("Loading Effects...", () => { TempEffect.LoadAll(); }));
             actions.Add(new KeyValuePair<string, Run>("Loading Attachments...", () => { Attachment.Load(); }));
+            actions.Add(new KeyValuePair<string, Run>("Registering Projectiles...", () => { Projectile.NetRegister(); }));
             actions.Add(new KeyValuePair<string, Run>("Registering Attachments...", () => { Attachment.NetRegister(); }));
 
             int total = actions.Count;
@@ -94,6 +95,8 @@ public class AssetLoader : MonoBehaviour
         {
             // Projectiles...
             ProjectileData.Unload();
+            TempEffect.UnloadAll();
+            Attachment.Unload();
 
             // Resources cleanup...
             Resources.UnloadUnusedAssets();

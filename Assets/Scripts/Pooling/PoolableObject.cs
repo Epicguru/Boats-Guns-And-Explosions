@@ -7,6 +7,9 @@ public class PoolableObject : MonoBehaviour
 {
     public int PrefabID { get; private set; }
 
+    [Tooltip("Is this a UI prefab?")]
+    public bool IsUI = false;
+
     public UnityEvent OnSpawn = new UnityEvent();
     public UnityEvent OnDespawn = new UnityEvent();
 
@@ -15,7 +18,7 @@ public class PoolableObject : MonoBehaviour
         gameObject.SetActive(true);
         transform.position = position;
         transform.rotation = rotation;
-        transform.parent = parent;
+        transform.SetParent(parent, !IsUI);
 
         if(OnSpawn != null)
         {

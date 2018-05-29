@@ -293,7 +293,8 @@ public class Projectile : NetworkBehaviour
                 if(hitEffect != TempEffects.NONE)
                 {
                     // Spawn hit effect.
-                    var effect = EffectPool.Instance.GetFromPool(hitEffect);
+                    var prefab = TempEffect.GetPrefab(hitEffect).PoolableObject;
+                    var effect = Pool.Get(prefab);
                     if(effect != null)
                     {
                         effect.transform.position = hit.point;
@@ -379,7 +380,7 @@ public class Projectile : NetworkBehaviour
         }
 
         // Create new instance...
-        var prefab = Spawnables.Instance.Projectile;
+        var prefab = Spawnables.Instance.BaseProjectile;
         var instance = Instantiate(prefab);
 
         // Set position, angle, data, spawn pos, faction...
