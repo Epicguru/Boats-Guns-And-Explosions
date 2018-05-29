@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
 
-public class TargetArrow : MonoBehaviour, IPoolable
+public class TargetArrow : MonoBehaviour
 {
     public Animator Anim;
     public Transform Movement;
     public bool ReturnToPool = true;
-
-    public void Begin(Transform pool)
-    {
-        Movement.transform.SetParent(pool);
-        Movement.gameObject.SetActive(true);
-    }
 
     public void PlaceAt(Vector2 position)
     {
@@ -28,13 +22,7 @@ public class TargetArrow : MonoBehaviour, IPoolable
         // Remove from world, return to pool.
         if (ReturnToPool)
         {
-            TargetArrowPool.Instance.ReturnToPool(this);
+            Pool.Return(GetComponent<PoolableObject>());
         }
-    }
-
-    public void End(Transform pool)
-    {
-        Movement.gameObject.SetActive(false);
-        Movement.transform.SetParent(pool);
     }
 }

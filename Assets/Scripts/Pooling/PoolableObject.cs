@@ -12,6 +12,7 @@ public class PoolableObject : MonoBehaviour
 
     public virtual void Spawn(Vector3 position, Quaternion rotation, Transform parent)
     {
+        gameObject.SetActive(true);
         transform.position = position;
         transform.rotation = rotation;
         transform.parent = parent;

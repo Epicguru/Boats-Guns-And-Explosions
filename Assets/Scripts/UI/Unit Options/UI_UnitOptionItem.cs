@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_UnitOptionItem : MonoBehaviour, IPoolable
+public class UI_UnitOptionItem : MonoBehaviour
 {
     [Header("Data")]
     public UnitOption Option;
@@ -26,16 +26,5 @@ public class UI_UnitOptionItem : MonoBehaviour, IPoolable
     public void Clicked()
     {
         Options.Selected(this);
-    }
-
-    public void Begin(Transform pool)
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void End(Transform pool)
-    {
-        transform.SetParent(pool);
-        gameObject.SetActive(false);
     }
 }

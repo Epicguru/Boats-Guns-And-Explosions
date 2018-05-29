@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TempEffect : MonoBehaviour, IPoolable
+public class TempEffect : MonoBehaviour
 {
     // Describes a temporary one-shot style particle effect that can be easily instanciated through a pooling system.
     public TempEffects ID;
@@ -16,17 +16,10 @@ public class TempEffect : MonoBehaviour, IPoolable
     private float timer = 0f;
     private bool playAudio;
 
-    public void Begin(Transform pool)
+    public void Spawn()
     {
-        gameObject.SetActive(true);
-        transform.SetParent(pool);
         playAudio = true;
         Play();
-    }
-
-    public void End(Transform pool)
-    {
-        gameObject.SetActive(false);
     }
 
     public void Play()
@@ -57,7 +50,7 @@ public class TempEffect : MonoBehaviour, IPoolable
             Particles.Stop(true);
 
             // Return to pool.
-            EffectPool.Instance.ReturnToPool(this);
+            Pool.Return(GetComponent<PoolableObject>());
         }
     }
 }
