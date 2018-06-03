@@ -66,6 +66,9 @@ public class Cannon : NetworkBehaviour
     public Animator Anim;
     public string FireBool = "Fire";
 
+    [Header("References")]
+    public PoolableObject Shockwave;
+
     private void Start()
     {
         if(Source == null)
@@ -209,6 +212,16 @@ public class Cannon : NetworkBehaviour
 
         // Play shot audio, on server and clients...
         PlayShotSound();
+
+        // Spawn shockwave effect...
+        if (!(index < 0 || index >= ProjectileSpawnPoints.Length))
+        {
+            var spawnPoint = ProjectileSpawnPoints[index];
+            var forward = spawnPoint.right * 0.1f;
+            var point = spawnPoint.position + forward;
+
+            Pool.Get(Shockwave, point);
+        }
 
         // Only do the real firing on the server.
         if (isServer)

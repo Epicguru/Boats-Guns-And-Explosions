@@ -17,6 +17,9 @@ public class TempEffect : MonoBehaviour
     [Range(0f, 1f)]
     public float Volume = 0.5f;
 
+    [Header("Animation")]
+    public Animator Anim;
+
     public PoolableObject PoolableObject
     {
         get
@@ -37,15 +40,24 @@ public class TempEffect : MonoBehaviour
     {
         playAudio = true;
         Play();
+
+        if (Anim != null)
+        {
+            Anim.StopPlayback();
+            Anim.StartPlayback();
+        }
     }
 
     public void Play()
     {
-        if (Particles.isPlaying)
+        if (Particles != null)
         {
-            Particles.Stop(true);
+            if (Particles.isPlaying)
+            {
+                Particles.Stop(true);
+            }
+            Particles.Play(true);
         }
-        Particles.Play(true);
 
         timer = 0f;
     }
@@ -64,7 +76,8 @@ public class TempEffect : MonoBehaviour
 
         if(timer >= Duration)
         {
-            Particles.Stop(true);
+            if(Particles != null)
+                Particles.Stop(true);
 
             // Return to pool.
             Pool.Return(GetComponent<PoolableObject>());
@@ -124,5 +137,6 @@ public enum TempEffects : byte
     NONE,
     SPARKS,
     EXPLOSION,
-    DESTROYED_SPARKS
+    DESTROYED_SPARKS,
+    WARP_EFFECT
 }

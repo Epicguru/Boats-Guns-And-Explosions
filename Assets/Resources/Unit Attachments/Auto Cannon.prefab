@@ -546,6 +546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b93a66414a9a8f4f8ced53a0ff957ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFiring: 0
+  Active: 0
   TargetAngle: 0
   MaxRotationSpeed: 90
   ProjectileType: 0
@@ -555,6 +557,10 @@ MonoBehaviour:
   Source: {fileID: 82195610425758482}
   Clips:
   - {fileID: 8300000, guid: 85126871f485c144cbd102e742264d0c, type: 3}
+  Anim: {fileID: 95793330823241790}
+  FireBool: Fire
+  Shockwave: {fileID: 114003756882304720, guid: b3bc4a7d67c8c67429cda62fa6b59bd8,
+    type: 2}
 --- !u!114 &114669469306262100
 MonoBehaviour:
   m_ObjectHideFlags: 1
